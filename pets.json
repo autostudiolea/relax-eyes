@@ -1,0 +1,324 @@
+[
+  {
+    "id": "tutu",
+    "label": "图图",
+    "skeleton": "/assets/tutu/tutu.skel",
+    "atlas": "/assets/tutu/tutu.atlas",
+    "initialAnimation": "Relax",
+    "initialLoop": true,
+    "fitScale": 0.68,
+    "focusPrefix": "F_",
+    "baseAnimations": ["Relax", "Sit", "Sleep", "Move", "Interact"],
+    "animationAliases": {
+      "Relax": "Relax",
+      "Idle": "Relax",
+      "Interact": "Interact",
+      "Move": "Move",
+      "Sit": "Sit",
+      "Sleep": "Sleep",
+      "Special": "Interact",
+      "Start": "Relax"
+    }
+  },
+  {
+    "id": "xiahuolin",
+    "label": "夏活林",
+    "skeleton": "/assets/xiahuolin/xiahuolin.skel",
+    "atlas": "/assets/xiahuolin/xiahuolin.atlas",
+    "initialAnimation": "Relax",
+    "initialLoop": true,
+    "fitScale": 0.68,
+    "focusPrefix": "",
+    "animationAliases": {
+      "Relax": "Relax",
+      "Idle": "Idle",
+      "Interact": "Interact",
+      "Move": "Move",
+      "Sit": "Sit",
+      "Sleep": "Sleep",
+      "Special": "Special",
+      "Start": "Relax"
+    }
+  },
+  {
+    "id": "yao",
+    "label": "瑶",
+    "skeleton": "/assets/yao/yao.skel",
+    "atlas": "/assets/yao/yao.atlas",
+    "initialAnimation": "Relax",
+    "initialLoop": true,
+    "fitScale": 0.68,
+    "focusPrefix": "",
+    "animationAliases": {
+      "Relax": "Relax",
+      "Idle": "Idle",
+      "Interact": "Interact",
+      "Move": "Move",
+      "Sit": "Sit",
+      "Sleep": "Sleep",
+      "Special": "Special",
+      "Start": "Relax"
+    }
+  },
+  {
+    "id": "kongxian",
+    "label": "空弦",
+    "skeleton": "/assets/kongxian/kongxian.skel",
+    "atlas": "/assets/kongxian/kongxian.atlas",
+    "initialAnimation": "Relax",
+    "initialLoop": true,
+    "fitScale": 0.68,
+    "focusPrefix": "",
+    "animationAliases": {
+      "Relax": "Relax",
+      "Idle": "Idle",
+      "Interact": "Interact",
+      "Move": "Move",
+      "Sit": "Sit",
+      "Sleep": "Sleep",
+      "Special": "Special",
+      "Start": "Relax"
+    }
+  },
+  {
+    "id": "mowang",
+    "label": "魔王",
+    "skeleton": "/assets/mowang/mowang.skel",
+    "atlas": "/assets/mowang/mowang.atlas",
+    "initialAnimation": "Relax",
+    "initialLoop": true,
+    "fitScale": 0.68,
+    "focusPrefix": "",
+    "animationAliases": {
+      "Relax": "Relax",
+      "Idle": "Idle",
+      "Interact": "Interact",
+      "Move": "Move",
+      "Sit": "Sit",
+      "Sleep": "Sleep",
+      "Special": "Special",
+      "Start": "Relax"
+    }
+  },
+  {
+    "id": "spchuxue",
+    "label": "SP初雪",
+    "skeleton": "/assets/spchuxue/spchuxue.skel",
+    "atlas": "/assets/spchuxue/spchuxue.atlas",
+    "initialAnimation": "Relax",
+    "initialLoop": true,
+    "fitScale": 0.68,
+    "focusPrefix": "",
+    "animationAliases": {
+      "Relax": "Relax",
+      "Idle": "Idle",
+      "Interact": "Interact",
+      "Move": "Move",
+      "Sit": "Sit",
+      "Sleep": "Sleep",
+      "Special": "Special",
+      "Start": "Relax"
+    }
+  },
+  {
+    "id": "splagou",
+    "label": "SP拉狗",
+    "skeleton": "/assets/splagou/splagou.skel",
+    "atlas": "/assets/splagou/splagou.atlas",
+    "initialAnimation": "Relax",
+    "initialLoop": true,
+    "fitScale": 0.68,
+    "focusPrefix": "",
+    "animationAliases": {
+      "Relax": "Relax",
+      "Idle": "Idle",
+      "Interact": "Interact",
+      "Move": "Move",
+      "Sit": "Sit",
+      "Sleep": "Sleep",
+      "Special": "Special",
+      "Start": "Relax"
+    }
+  },
+  {
+    "id": "spyang",
+    "label": "SP羊",
+    "skeleton": "/assets/spyang/spyang.skel",
+    "atlas": "/assets/spyang/spyang.atlas",
+    "initialAnimation": "Relax",
+    "initialLoop": true,
+    "fitScale": 0.68,
+    "focusPrefix": "",
+    "animationAliases": {
+      "Relax": "Relax",
+      "Idle": "Idle",
+      "Interact": "Interact",
+      "Move": "Move",
+      "Sit": "Sit",
+      "Sleep": "Sleep",
+      "Special": "Special",
+      "Start": "Relax"
+    }
+  },
+  {
+    "id": "fengchuan",
+    "label": "丰川祥子",
+    "skeleton": "/assets/fengchuan/fengchuan.skel",
+    "atlas": "/assets/fengchuan/fengchuan.atlas",
+    "initialAnimation": "Relax",
+    "initialLoop": true,
+    "fitScale": 0.68,
+    "focusPrefix": "F_",
+    "animationAliases": {
+      "Relax": "Relax",
+      "Idle": "Relax",
+      "Interact": "Interact",
+      "Move": "Move",
+      "Sit": "Sit",
+      "Sleep": "Sleep",
+      "Special": "Special",
+      "Start": "Relax"
+    }
+  },
+  {
+    "id": "xi",
+    "label": "夕",
+    "skeleton": "/assets/xi/xi.skel",
+    "atlas": "/assets/xi/xi.atlas",
+    "initialAnimation": "Relax",
+    "initialLoop": true,
+    "fitScale": 0.68,
+    "focusPrefix": "",
+    "animationAliases": {
+      "Relax": "Relax",
+      "Idle": "Idle",
+      "Interact": "Interact",
+      "Move": "Move",
+      "Sit": "Sit",
+      "Sleep": "Sleep",
+      "Special": "Special",
+      "Start": "Relax"
+    }
+  },
+  {
+    "id": "hongdi",
+    "label": "红蒂",
+    "skeleton": "/assets/hongdi/hongdi.skel",
+    "atlas": "/assets/hongdi/hongdi.atlas",
+    "initialAnimation": "Relax",
+    "initialLoop": true,
+    "fitScale": 0.68,
+    "focusPrefix": "",
+    "animationAliases": {
+      "Relax": "Relax",
+      "Idle": "Idle",
+      "Interact": "Interact",
+      "Move": "Move",
+      "Sit": "Sit",
+      "Sleep": "Sleep",
+      "Special": "Special",
+      "Start": "Relax"
+    }
+  },
+  {
+    "id": "pepe",
+    "label": "佩佩",
+    "skeleton": "/assets/pepe/pepe.skel",
+    "atlas": "/assets/pepe/pepe.atlas",
+    "initialAnimation": "Relax",
+    "initialLoop": true,
+    "fitScale": 0.68,
+    "focusPrefix": "",
+    "animationAliases": {
+      "Relax": "Relax",
+      "Idle": "Idle",
+      "Interact": "Interact",
+      "Move": "Move",
+      "Sit": "Sit",
+      "Sleep": "Sleep",
+      "Special": "Special",
+      "Start": "Relax"
+    }
+  },
+  {
+    "id": "malu",
+    "label": "玛露",
+    "skeleton": "/assets/malu/malu.skel",
+    "atlas": "/assets/malu/malu.atlas",
+    "initialAnimation": "Relax",
+    "initialLoop": true,
+    "fitScale": 0.68,
+    "focusPrefix": "F_",
+    "baseAnimations": ["Relax", "Sit", "Sleep", "Move", "Interact"],
+    "animationAliases": {
+      "Relax": "Relax",
+      "Idle": "Relax",
+      "Interact": "Interact",
+      "Move": "Move",
+      "Sit": "Sit",
+      "Sleep": "Sleep",
+      "Special": "Interact",
+      "Start": "Relax"
+    }
+  },
+  {
+    "id": "weishen",
+    "label": "维神",
+    "skeleton": "/assets/weishen/weishen.skel",
+    "atlas": "/assets/weishen/weishen.atlas",
+    "initialAnimation": "Relax",
+    "initialLoop": true,
+    "fitScale": 0.68,
+    "focusPrefix": "F_",
+    "animationAliases": {
+      "Relax": "Relax",
+      "Idle": "Relax",
+      "Interact": "Interact",
+      "Move": "Move",
+      "Sit": "Sit",
+      "Sleep": "Sleep",
+      "Special": "Special",
+      "Start": "Relax"
+    }
+  },
+  {
+    "id": "xinneng",
+    "label": "新能",
+    "skeleton": "/assets/xinneng/xinneng.skel",
+    "atlas": "/assets/xinneng/xinneng.atlas",
+    "initialAnimation": "Relax",
+    "initialLoop": true,
+    "fitScale": 0.68,
+    "focusPrefix": "",
+    "animationAliases": {
+      "Relax": "Relax",
+      "Idle": "Idle",
+      "Interact": "Interact",
+      "Move": "Move",
+      "Sit": "Sit",
+      "Sleep": "Sleep",
+      "Special": "Special",
+      "Start": "Relax"
+    }
+  },
+  {
+    "id": "xiaomabaolilin",
+    "label": "小马宝莉林",
+    "skeleton": "/assets/xiaomabaolilin/xiaomabaolilin.skel",
+    "atlas": "/assets/xiaomabaolilin/xiaomabaolilin.atlas",
+    "initialAnimation": "Relax",
+    "initialLoop": true,
+    "fitScale": 0.68,
+    "focusPrefix": "",
+    "animationAliases": {
+      "Relax": "Relax",
+      "Idle": "Idle",
+      "Interact": "Interact",
+      "Move": "Move",
+      "Sit": "Sit",
+      "Sleep": "Sleep",
+      "Special": "Special",
+      "Start": "Relax"
+    }
+  }
+]

@@ -1,0 +1,65 @@
+{
+  "name": "relax-eyes-desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A local Spine desktop pet with a 20-minute eye-relaxation reminder.",
+  "main": "main.cjs",
+  "scripts": {
+    "start": "electron . --no-sandbox",
+    "start:debug": "electron . --no-sandbox --debug-timer",
+    "dist:portable": "electron-builder --win portable"
+  },
+  "devDependencies": {
+    "electron": "42.0.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "local.relaxeyes.desktop",
+    "productName": "Relax Eyes Desktop",
+    "directories": {
+      "output": "dist",
+      "buildResources": "."
+    },
+    "compression": "maximum",
+    "electronDist": "node_modules/electron/dist",
+    "electronLanguages": [
+      "en-US",
+      "zh-CN"
+    ],
+    "files": [
+      "assets/**/*",
+      "vendor/**/*",
+      "index.html",
+      "size.html",
+      "size.js",
+      "reminder.html",
+      "reminder.css",
+      "reminder.js",
+      "main.cjs",
+      "preload.cjs",
+      "renderer.js",
+      "styles.css",
+      "pets.json",
+      "interactions.json",
+      "state.json",
+      "tray-icon.png",
+      "relax-eyes.ico",
+      "package.json"
+    ],
+    "win": {
+      "icon": "relax-eyes.ico",
+      "signAndEditExecutable": false,
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "portable": {
+      "artifactName": "Relax-Eyes-Portable-${version}.exe"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self';"
+    />
+    <title>Relax Eyes</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main id="pet-stage" aria-label="桌面宠物">
+      <canvas id="pet-canvas"></canvas>
+      <div id="loading" class="status-panel">正在加载宠物</div>
+      <div id="error" class="status-panel error-panel" hidden></div>
+      <div id="reminder" class="reminder-bubble" hidden>
+        <strong>休息一下</strong>
+        <span>看向远处 20 秒</span>
+      </div>
+    </main>
+    <script src="vendor/spine-webgl.js"></script>
+    <script src="renderer.js"></script>
+  </body>
+</html>

@@ -1,0 +1,291 @@
+[
+  {
+    "id": "greet",
+    "label": "01 热情打招呼",
+    "steps": [
+      { "name": "Interact", "speed": 1.0 },
+      { "name": "Relax", "speed": 0.92, "delay": 0.12 }
+    ]
+  },
+  {
+    "id": "enthusiastic-greet",
+    "label": "02 连续挥手",
+    "steps": [
+      { "name": "Interact", "speed": 1.08, "repeat": 2, "repeatDelay": 0.08 },
+      { "name": "Relax", "speed": 0.9 }
+    ]
+  },
+  {
+    "id": "gentle-greet",
+    "label": "03 轻声问候",
+    "steps": [
+      { "name": "Interact", "speed": 0.72 },
+      { "name": "Relax", "speed": 0.78, "delay": 0.25 }
+    ]
+  },
+  {
+    "id": "sit-nod",
+    "label": "04 坐下点头",
+    "steps": [
+      { "name": "Sit", "speed": 0.9 },
+      { "name": "Interact", "speed": 1.0, "delay": 0.1 },
+      { "name": "Relax", "speed": 0.9 }
+    ]
+  },
+  {
+    "id": "sit-wave",
+    "label": "05 坐着回应",
+    "steps": [
+      { "name": "Sit", "speed": 0.92 },
+      { "name": "Interact", "speed": 1.06, "delay": 0.15 },
+      { "name": "Sit", "speed": 0.9, "delay": 0.08 },
+      { "name": "Relax", "speed": 0.9 }
+    ]
+  },
+  {
+    "id": "wake-up",
+    "label": "06 睡醒起身",
+    "steps": [
+      { "name": "Sleep", "speed": 0.76 },
+      { "name": "Special", "speed": 0.86, "delay": 0.08 },
+      { "name": "Sit", "speed": 0.94, "delay": 0.18 },
+      { "name": "Relax", "speed": 1.0 }
+    ]
+  },
+  {
+    "id": "wake-and-greet",
+    "label": "07 睡醒问候",
+    "steps": [
+      { "name": "Sleep", "speed": 0.76 },
+      { "name": "Relax", "speed": 1.0, "delay": 0.12 },
+      { "name": "Special", "speed": 0.9, "delay": 0.08 },
+      { "name": "Interact", "speed": 1.0, "delay": 0.1 },
+      { "name": "Relax", "speed": 0.92 }
+    ]
+  },
+  {
+    "id": "nap",
+    "label": "08 小憩一下",
+    "steps": [
+      { "name": "Sit", "speed": 0.9 },
+      { "name": "Sleep", "speed": 0.74, "delay": 0.12 },
+      { "name": "Relax", "speed": 0.82 }
+    ]
+  },
+  {
+    "id": "stretch",
+    "label": "09 睡醒舒展",
+    "steps": [
+      { "name": "Sleep", "speed": 0.74 },
+      { "name": "Relax", "speed": 1.08, "delay": 0.16 },
+      { "name": "Special", "speed": 0.94, "delay": 0.08 },
+      { "name": "Move", "speed": 1.0 },
+      { "name": "Relax", "speed": 0.94 }
+    ]
+  },
+  {
+    "id": "short-walk",
+    "label": "10 走两步",
+    "steps": [
+      { "name": "Move", "speed": 1.06, "repeat": 2, "repeatDelay": 0.06 },
+      { "name": "Relax", "speed": 0.92 }
+    ]
+  },
+  {
+    "id": "walk-greet",
+    "label": "11 走近问候",
+    "steps": [
+      { "name": "Move", "speed": 1.1 },
+      { "name": "Interact", "speed": 1.08, "delay": 0.1 },
+      { "name": "Relax", "speed": 0.92 }
+    ]
+  },
+  {
+    "id": "leave-return",
+    "label": "12 离开又回来",
+    "steps": [
+      { "name": "Interact", "speed": 1.0 },
+      { "name": "Move", "speed": 1.08, "repeat": 2, "repeatDelay": 0.08 },
+      { "name": "Interact", "speed": 0.98, "delay": 0.12 },
+      { "name": "Relax", "speed": 0.9 }
+    ]
+  },
+  {
+    "id": "patrol",
+    "label": "13 小巡逻",
+    "steps": [
+      { "name": "Move", "speed": 0.96, "repeat": 3, "repeatDelay": 0.1 },
+      { "name": "Sit", "speed": 0.9, "delay": 0.12 },
+      { "name": "Relax", "speed": 0.9 }
+    ]
+  },
+  {
+    "id": "slow-patrol",
+    "label": "14 慢慢散步",
+    "steps": [
+      { "name": "Move", "speed": 0.72, "repeat": 3, "repeatDelay": 0.16 },
+      { "name": "Relax", "speed": 0.76 }
+    ]
+  },
+  {
+    "id": "playful",
+    "label": "15 活泼回应",
+    "steps": [
+      { "name": "Interact", "speed": 1.1 },
+      { "name": "Move", "speed": 1.1, "delay": 0.06 },
+      { "name": "Special", "speed": 1.04, "delay": 0.08 },
+      { "name": "Interact", "speed": 1.04, "delay": 0.08 },
+      { "name": "Relax", "speed": 0.92 }
+    ]
+  },
+  {
+    "id": "shy",
+    "label": "16 害羞回应",
+    "steps": [
+      { "name": "Sit", "speed": 0.82 },
+      { "name": "Relax", "speed": 0.72, "delay": 0.2 },
+      { "name": "Interact", "speed": 0.84, "delay": 0.16 },
+      { "name": "Relax", "speed": 0.9 }
+    ]
+  },
+  {
+    "id": "sleepy-response",
+    "label": "17 困倦回应",
+    "steps": [
+      { "name": "Sleep", "speed": 0.75 },
+      { "name": "Interact", "speed": 0.8, "delay": 0.25 },
+      { "name": "Sleep", "speed": 0.7, "delay": 0.08 },
+      { "name": "Relax", "speed": 0.82 }
+    ]
+  },
+  {
+    "id": "companion",
+    "label": "18 安静陪伴",
+    "steps": [
+      { "name": "Relax", "speed": 0.7 },
+      { "name": "Sit", "speed": 0.78, "delay": 0.14 },
+      { "name": "Special", "speed": 0.68, "delay": 0.12 },
+      { "name": "Sleep", "speed": 0.68, "delay": 0.16 },
+      { "name": "Relax", "speed": 0.78 }
+    ]
+  },
+  {
+    "id": "bounce-back",
+    "label": "19 精神回归",
+    "steps": [
+      { "name": "Sleep", "speed": 0.8 },
+      { "name": "Move", "speed": 1.16, "delay": 0.08 },
+      { "name": "Interact", "speed": 1.12, "delay": 0.06 },
+      { "name": "Relax", "speed": 1.0 }
+    ]
+  },
+  {
+    "id": "daily-routine",
+    "label": "20 日常作息",
+    "steps": [
+      { "name": "Sleep", "speed": 0.78 },
+      { "name": "Sit", "speed": 0.9, "delay": 0.1 },
+      { "name": "Move", "speed": 1.0, "delay": 0.08 },
+      { "name": "Interact", "speed": 1.0, "delay": 0.08 },
+      { "name": "Special", "speed": 0.92, "delay": 0.1 },
+      { "name": "Sit", "speed": 0.88, "delay": 0.1 },
+      { "name": "Relax", "speed": 0.9 }
+    ]
+  },
+  {
+    "id": "peek-around",
+    "label": "21 探头看看",
+    "steps": [
+      { "name": "Relax", "speed": 0.8 },
+      { "name": "Move", "speed": 0.9, "delay": 0.18 },
+      { "name": "Relax", "speed": 0.82, "delay": 0.12 },
+      { "name": "Special", "speed": 0.92, "delay": 0.1 },
+      { "name": "Interact", "speed": 0.92, "delay": 0.15 },
+      { "name": "Relax", "speed": 0.9 }
+    ]
+  },
+  {
+    "id": "restless",
+    "label": "22 坐立不安",
+    "steps": [
+      { "name": "Sit", "speed": 0.9 },
+      { "name": "Move", "speed": 1.14, "delay": 0.1 },
+      { "name": "Sit", "speed": 0.9, "delay": 0.08 },
+      { "name": "Move", "speed": 1.05, "delay": 0.1 },
+      { "name": "Relax", "speed": 0.9 }
+    ]
+  },
+  {
+    "id": "settle-down",
+    "label": "23 散步后安静",
+    "steps": [
+      { "name": "Move", "speed": 0.9 },
+      { "name": "Sit", "speed": 0.82, "delay": 0.1 },
+      { "name": "Sleep", "speed": 0.72, "delay": 0.14 },
+      { "name": "Relax", "speed": 0.8 }
+    ]
+  },
+  {
+    "id": "check-in",
+    "label": "24 回头确认",
+    "steps": [
+      { "name": "Interact", "speed": 0.96 },
+      { "name": "Relax", "speed": 0.86, "delay": 0.12 },
+      { "name": "Interact", "speed": 0.96, "delay": 0.12 },
+      { "name": "Relax", "speed": 0.9 }
+    ]
+  },
+  {
+    "id": "tiny-response",
+    "label": "25 小小回应",
+    "steps": [
+      { "name": "Interact", "speed": 0.9 },
+      { "name": "Sit", "speed": 0.86, "delay": 0.16 },
+      { "name": "Relax", "speed": 0.9 }
+    ]
+  },
+  {
+    "id": "grand-routine",
+    "label": "26 完整一套",
+    "steps": [
+      { "name": "Move", "speed": 1.08 },
+      { "name": "Sit", "speed": 0.9, "delay": 0.08 },
+      { "name": "Sleep", "speed": 0.72, "delay": 0.12 },
+      { "name": "Relax", "speed": 0.9, "delay": 0.12 },
+      { "name": "Interact", "speed": 1.0, "delay": 0.1 },
+      { "name": "Special", "speed": 0.94, "delay": 0.1 },
+      { "name": "Relax", "speed": 0.9 }
+    ]
+  },
+  {
+    "id": "follow-me",
+    "label": "27 跟我来",
+    "steps": [
+      { "name": "Move", "speed": 1.2 },
+      { "name": "Interact", "speed": 1.1, "delay": 0.08 },
+      { "name": "Move", "speed": 1.1, "delay": 0.08 },
+      { "name": "Relax", "speed": 0.9 }
+    ]
+  },
+  {
+    "id": "sit-and-observe",
+    "label": "28 坐下观察",
+    "steps": [
+      { "name": "Sit", "speed": 0.8 },
+      { "name": "Relax", "speed": 0.7, "delay": 0.18 },
+      { "name": "Move", "speed": 0.9, "delay": 0.16 },
+      { "name": "Sit", "speed": 0.85, "delay": 0.1 },
+      { "name": "Relax", "speed": 0.88 }
+    ]
+  },
+  {
+    "id": "special-show",
+    "label": "29 特别展示",
+    "steps": [
+      { "name": "Start", "speed": 0.92 },
+      { "name": "Special", "speed": 0.86, "delay": 0.16 },
+      { "name": "Interact", "speed": 1.0, "delay": 0.12 },
+      { "name": "Relax", "speed": 0.86 }
+    ]
+  }
+]

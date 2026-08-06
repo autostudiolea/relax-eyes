@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Build output and packaged applications
+dist/
+*.exe
+*.zip
+
+# Runtime data
+data/
+session-data/
+user-data/
+state.json
+
+# Local dependency and builder caches
+.npm-cache/
+.electron-cache/
+.electron-builder-cache/
+.builder-cache/
+.build-preserve/
+.portable-preserve/
+dist-next/
+test-artifacts/
+
+# Logs and local tooling files
+*.log
+.DS_Store
+Thumbs.db

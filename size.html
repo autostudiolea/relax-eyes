@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';"
+    />
+    <title>宠物设置</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+        background: #17191f;
+        color: #f2f4f7;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 17px 20px 18px;
+        background: #17191f;
+      }
+
+      section,
+      .field {
+        display: grid;
+        gap: 7px;
+      }
+
+      section {
+        margin-bottom: 15px;
+      }
+
+      label {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      output {
+        color: #aeb8c7;
+        font-variant-numeric: tabular-nums;
+        font-size: 12px;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        border: 1px solid #3a414f;
+        border-radius: 5px;
+        background: #20242c;
+        color: #f2f4f7;
+        font: inherit;
+        outline: none;
+      }
+
+      input:focus,
+      textarea:focus {
+        border-color: #86a8ff;
+      }
+
+      input[type="range"] {
+        border: 0;
+        margin: 8px 0 0;
+        accent-color: #86a8ff;
+        cursor: pointer;
+      }
+
+      input[type="number"],
+      input[type="text"] {
+        min-height: 30px;
+        padding: 5px 8px;
+      }
+
+      .field-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 13px;
+      }
+
+      .field {
+        align-content: start;
+        color: #c7ceda;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      textarea {
+        min-height: 52px;
+        padding: 7px 8px;
+        resize: none;
+        line-height: 1.35;
+      }
+
+      .wide {
+        display: grid;
+        justify-content: stretch;
+        align-items: start;
+        gap: 6px;
+        margin-bottom: 11px;
+        color: #c7ceda;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <label for="size-range">
+        <span>宠物大小</span>
+        <output id="size-value">35%</output>
+      </label>
+      <input id="size-range" type="range" min="15" max="100" step="1" value="35" />
+    </section>
+
+    <div class="field-grid">
+      <label class="field" for="interval-minutes">
+        <span>提醒间隔（分钟）</span>
+        <input id="interval-minutes" type="number" min="1" max="120" step="1" value="20" />
+      </label>
+      <label class="field" for="rest-seconds">
+        <span>休息时长（秒）</span>
+        <input id="rest-seconds" type="number" min="5" max="600" step="1" value="20" />
+      </label>
+    </div>
+
+    <label class="wide" for="reminder-title">
+      <span>提醒标题</span>
+      <input id="reminder-title" type="text" maxlength="80" value="该放松一下眼睛了" />
+    </label>
+
+    <label class="wide" for="reminder-body">
+      <span>提醒内容</span>
+      <textarea id="reminder-body" maxlength="240">看向远处 {seconds} 秒，或者点击宠物确认已经休息。</textarea>
+    </label>
+
+    <script src="/size.js"></script>
+  </body>
+</html>

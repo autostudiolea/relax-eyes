@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self';"
+    />
+    <title>Reminder</title>
+    <link rel="stylesheet" href="reminder.css" />
+  </head>
+  <body>
+    <main class="reminder-card" aria-live="assertive">
+      <div class="reminder-mark" aria-hidden="true">!</div>
+      <section class="reminder-copy">
+        <div id="reminder-kicker" class="reminder-kicker">Eye break</div>
+        <h1 id="reminder-title">Reminder</h1>
+        <p id="reminder-body">Look into the distance for a moment.</p>
+      </section>
+      <div class="reminder-footer">
+        <span id="reminder-rest">Rest for 20 seconds</span>
+        <button id="reminder-confirm" type="button">
+          <span aria-hidden="true">&#10003;</span>
+          <span id="reminder-confirm-label">Continue</span>
+        </button>
+      </div>
+    </main>
+    <script src="reminder.js"></script>
+  </body>
+</html>
