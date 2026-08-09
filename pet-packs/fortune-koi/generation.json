@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "source": "role",
+  "input": [
+    "../role/fortune-koi/pet.json",
+    "../role/fortune-koi/spritesheet.webp"
+  ],
+  "output": {
+    "source": "/assets/fortune-koi/pet.json",
+    "spritesheet": "/assets/fortune-koi/spritesheet.webp"
+  },
+  "version": "1.0.0"
+}

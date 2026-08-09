@@ -69,6 +69,17 @@
         "run": true,
         "sleep": true,
         "reminder": true
+      },
+      "preview": {
+        "static": "/assets/tutu/tutu.png",
+        "actions": {}
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
       }
     },
     {
@@ -131,6 +142,17 @@
         "run": true,
         "sleep": true,
         "reminder": true
+      },
+      "preview": {
+        "static": "/assets/xiahuolin/xiahuolin.png",
+        "actions": {}
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
       }
     },
     {
@@ -193,6 +215,17 @@
         "run": true,
         "sleep": true,
         "reminder": true
+      },
+      "preview": {
+        "static": "/assets/yao/yao.png",
+        "actions": {}
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
       }
     },
     {
@@ -255,6 +288,17 @@
         "run": true,
         "sleep": true,
         "reminder": true
+      },
+      "preview": {
+        "static": "/assets/kongxian/kongxian.png",
+        "actions": {}
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
       }
     },
     {
@@ -317,6 +361,17 @@
         "run": true,
         "sleep": true,
         "reminder": true
+      },
+      "preview": {
+        "static": "/assets/mowang/mowang.png",
+        "actions": {}
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
       }
     },
     {
@@ -379,6 +434,17 @@
         "run": true,
         "sleep": true,
         "reminder": true
+      },
+      "preview": {
+        "static": "/assets/spchuxue/spchuxue.png",
+        "actions": {}
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
       }
     },
     {
@@ -441,6 +507,17 @@
         "run": true,
         "sleep": true,
         "reminder": true
+      },
+      "preview": {
+        "static": "/assets/splagou/splagou.png",
+        "actions": {}
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
       }
     },
     {
@@ -503,6 +580,17 @@
         "run": true,
         "sleep": true,
         "reminder": true
+      },
+      "preview": {
+        "static": "/assets/spyang/spyang.png",
+        "actions": {}
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
       }
     },
     {
@@ -566,6 +654,17 @@
         "run": true,
         "sleep": true,
         "reminder": true
+      },
+      "preview": {
+        "static": "/assets/fengchuan/fengchuan.png",
+        "actions": {}
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
       }
     },
     {
@@ -628,6 +727,17 @@
         "run": true,
         "sleep": true,
         "reminder": true
+      },
+      "preview": {
+        "static": "/assets/xi/xi.png",
+        "actions": {}
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
       }
     },
     {
@@ -690,6 +800,17 @@
         "run": true,
         "sleep": true,
         "reminder": true
+      },
+      "preview": {
+        "static": "/assets/hongdi/hongdi.png",
+        "actions": {}
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
       }
     },
     {
@@ -752,6 +873,17 @@
         "run": true,
         "sleep": true,
         "reminder": true
+      },
+      "preview": {
+        "static": "/assets/pepe/pepe.png",
+        "actions": {}
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
       }
     },
     {
@@ -821,6 +953,17 @@
         "run": true,
         "sleep": true,
         "reminder": true
+      },
+      "preview": {
+        "static": "/assets/malu/malu.png",
+        "actions": {}
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
       }
     },
     {
@@ -884,6 +1027,17 @@
         "run": true,
         "sleep": true,
         "reminder": true
+      },
+      "preview": {
+        "static": "/assets/weishen/weishen.png",
+        "actions": {}
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
       }
     },
     {
@@ -946,6 +1100,17 @@
         "run": true,
         "sleep": true,
         "reminder": true
+      },
+      "preview": {
+        "static": "/assets/xinneng/xinneng.png",
+        "actions": {}
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
       }
     },
     {
@@ -998,6 +1163,4567 @@
           "Start": "Relax"
         },
         "cooldownMs": 1800,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      },
+      "preview": {
+        "static": "/assets/xiaomabaolilin/xiaomabaolilin.png",
+        "actions": {}
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "doraemon",
+      "name": "Doraemon",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/doraemon",
+        "source": "/assets/doraemon/pet.json",
+        "spritesheet": "/assets/doraemon/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/doraemon/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "doro",
+      "name": "Doro",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/doro",
+        "source": "/assets/doro/pet.json",
+        "spritesheet": "/assets/doro/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/doro/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "doubao-human",
+      "name": "Doubao Human",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/doubao-human",
+        "source": "/assets/doubao-human/pet.json",
+        "spritesheet": "/assets/doubao-human/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/doubao-human/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "endminguga",
+      "name": "GUGUGAGA",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/endminguga",
+        "source": "/assets/endminguga/pet.json",
+        "spritesheet": "/assets/endminguga/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/endminguga/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "fortune-koi",
+      "name": "Fortune Koi",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/fortune-koi",
+        "source": "/assets/fortune-koi/pet.json",
+        "spritesheet": "/assets/fortune-koi/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/fortune-koi/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "ggbond",
+      "name": "猪猪侠",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/ggbond",
+        "source": "/assets/ggbond/pet.json",
+        "spritesheet": "/assets/ggbond/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/ggbond/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "hutao",
+      "name": "胡桃",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/hutao",
+        "source": "/assets/hutao/pet.json",
+        "spritesheet": "/assets/hutao/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/hutao/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "ikun",
+      "name": "IKUN",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/ikun",
+        "source": "/assets/ikun/pet.json",
+        "spritesheet": "/assets/ikun/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/ikun/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "ikunchick",
+      "name": "ikunchick",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/ikunchick",
+        "source": "/assets/ikunchick/pet.json",
+        "spritesheet": "/assets/ikunchick/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/ikunchick/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "jiahao",
+      "name": "Jiahao",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/jiahao",
+        "source": "/assets/jiahao/pet.json",
+        "spritesheet": "/assets/jiahao/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/jiahao/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "kimlet-hover-clap",
+      "name": "Kimlet Hover Clap",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/kimlet-hover-clap",
+        "source": "/assets/kimlet-hover-clap/pet.json",
+        "spritesheet": "/assets/kimlet-hover-clap/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/kimlet-hover-clap/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "krabsy",
+      "name": "Krabsy",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/krabsy",
+        "source": "/assets/krabsy/pet.json",
+        "spritesheet": "/assets/krabsy/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/krabsy/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "leo-ultraman",
+      "name": "雷欧奥特曼",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/leo-ultraman",
+        "source": "/assets/leo-ultraman/pet.json",
+        "spritesheet": "/assets/leo-ultraman/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/leo-ultraman/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "liangzi",
+      "name": "Liangzi",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/liangzi",
+        "source": "/assets/liangzi/pet.json",
+        "spritesheet": "/assets/liangzi/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/liangzi/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "mambo",
+      "name": "Mambo",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/mambo",
+        "source": "/assets/mambo/pet.json",
+        "spritesheet": "/assets/mambo/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/mambo/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "nailong",
+      "name": "Nailong",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/nailong",
+        "source": "/assets/nailong/pet.json",
+        "spritesheet": "/assets/nailong/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/nailong/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "nezukocoder",
+      "name": "NezukoCoder",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/nezukocoder",
+        "source": "/assets/nezukocoder/pet.json",
+        "spritesheet": "/assets/nezukocoder/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/nezukocoder/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "niu-niu",
+      "name": "牛牛",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/niu-niu",
+        "source": "/assets/niu-niu/pet.json",
+        "spritesheet": "/assets/niu-niu/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/niu-niu/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "stlulu",
+      "name": "lulu",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/stlulu",
+        "source": "/assets/stlulu/pet.json",
+        "spritesheet": "/assets/stlulu/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/stlulu/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "strike-freedom",
+      "name": "Strike Freedom Gundam",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/strike-freedom",
+        "source": "/assets/strike-freedom/pet.json",
+        "spritesheet": "/assets/strike-freedom/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/strike-freedom/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "tanjiro-kamado-balanced",
+      "name": "Tanjiro",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/tanjiro-kamado-balanced",
+        "source": "/assets/tanjiro-kamado-balanced/pet.json",
+        "spritesheet": "/assets/tanjiro-kamado-balanced/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/tanjiro-kamado-balanced/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "tiga",
+      "name": "Tiga",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/tiga",
+        "source": "/assets/tiga/pet.json",
+        "spritesheet": "/assets/tiga/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/tiga/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "trumpet",
+      "name": "Trumpet",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/trumpet",
+        "source": "/assets/trumpet/pet.json",
+        "spritesheet": "/assets/trumpet/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/trumpet/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "usagi",
+      "name": "Usagi",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/usagi",
+        "source": "/assets/usagi/pet.json",
+        "spritesheet": "/assets/usagi/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/usagi/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "maltese",
+      "name": "Maltese",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/maltese",
+        "source": "/assets/maltese/pet.json",
+        "spritesheet": "/assets/maltese/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/maltese/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "xiaoba",
+      "name": "小八",
+      "engine": "codex-webp",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/xiaoba",
+        "source": "/assets/xiaoba/pet.json",
+        "spritesheet": "/assets/xiaoba/spritesheet.webp"
+      },
+      "atlas": {
+        "format": "codex-fixed-grid",
+        "width": 1536,
+        "height": 1872,
+        "columns": 8,
+        "rows": 9,
+        "cellWidth": 192,
+        "cellHeight": 208,
+        "states": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "visibleColumns": {
+          "idle": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running-right": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "running-left": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waving": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "jumping": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "failed": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "waiting": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "running": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "review": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "opaque-pixels",
+        "padding": 0.02
+      },
+      "calibration": {
+        "offsetX": 0,
+        "offsetY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "hitPadding": 0
+      },
+      "preview": {
+        "static": "/assets/xiaoba/spritesheet.webp",
+        "actions": {}
+      },
+      "actions": {
+        "initial": "idle",
+        "raw": [
+          "idle",
+          "running-right",
+          "running-left",
+          "waving",
+          "jumping",
+          "failed",
+          "waiting",
+          "running",
+          "review"
+        ],
+        "aliases": {
+          "Relax": "idle",
+          "Idle": "idle",
+          "Move": "running-right",
+          "Interact": "waving",
+          "Special": "jumping",
+          "Start": "idle"
+        },
+        "cooldownMs": 1200,
         "interruptible": true
       },
       "capabilities": {

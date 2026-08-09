@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "source": "role",
+  "input": [
+    "../role/stlulu/pet.json",
+    "../role/stlulu/spritesheet.webp"
+  ],
+  "output": {
+    "source": "/assets/stlulu/pet.json",
+    "spritesheet": "/assets/stlulu/spritesheet.webp"
+  },
+  "version": "1.0.0"
+}

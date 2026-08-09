@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "source": "role",
+  "input": [
+    "../role/endminguga/pet.json",
+    "../role/endminguga/spritesheet.webp"
+  ],
+  "output": {
+    "source": "/assets/endminguga/pet.json",
+    "spritesheet": "/assets/endminguga/spritesheet.webp"
+  },
+  "version": "1.0.0"
+}

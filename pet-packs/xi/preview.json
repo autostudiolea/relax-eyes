@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "xi",
+  "name": "夕",
+  "version": "1.0.0",
+  "engine": "spine",
+  "static": "/assets/xi/xi.png",
+  "actions": {}
+}

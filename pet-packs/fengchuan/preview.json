@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "fengchuan",
+  "name": "丰川祥子",
+  "version": "1.0.0",
+  "engine": "spine",
+  "static": "/assets/fengchuan/fengchuan.png",
+  "actions": {}
+}

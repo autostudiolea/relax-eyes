@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "source": "role",
+  "input": [
+    "../role/strike-freedom/pet.json",
+    "../role/strike-freedom/spritesheet.webp"
+  ],
+  "output": {
+    "source": "/assets/strike-freedom/pet.json",
+    "spritesheet": "/assets/strike-freedom/spritesheet.webp"
+  },
+  "version": "1.0.0"
+}

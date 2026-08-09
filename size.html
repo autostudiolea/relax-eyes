@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;"
     />
     <title>宠物设置</title>
     <style>
@@ -21,19 +21,44 @@
       }
 
       body {
+        min-height: 100%;
         margin: 0;
-        padding: 17px 20px 18px;
+        padding: 16px 20px 24px;
+        overflow-y: auto;
         background: #17191f;
       }
 
-      section,
-      .field {
-        display: grid;
-        gap: 7px;
+      h1 {
+        margin: 0 0 14px;
+        color: #f7f8fb;
+        font-size: 18px;
+        line-height: 1.2;
       }
 
-      section {
-        margin-bottom: 15px;
+      h2 {
+        margin: 0 0 11px;
+        color: #dce2ed;
+        font-size: 13px;
+        line-height: 1.2;
+      }
+
+      .settings-section,
+      .tab-panel {
+        margin: 0 0 17px;
+        padding-top: 13px;
+        border-top: 1px solid #303642;
+      }
+
+      .global-section {
+        padding-top: 0;
+        border-top: 0;
+      }
+
+      .field,
+      .wide,
+      .range-field {
+        display: grid;
+        gap: 7px;
       }
 
       label {
@@ -52,7 +77,8 @@
       }
 
       input,
-      textarea {
+      textarea,
+      select {
         width: 100%;
         border: 1px solid #3a414f;
         border-radius: 5px;
@@ -63,7 +89,8 @@
       }
 
       input:focus,
-      textarea:focus {
+      textarea:focus,
+      select:focus {
         border-color: #86a8ff;
       }
 
@@ -75,9 +102,39 @@
       }
 
       input[type="number"],
-      input[type="text"] {
+      input[type="text"],
+      input[type="time"],
+      select {
         min-height: 30px;
         padding: 5px 8px;
+      }
+
+      input[type="color"] {
+        width: 48px;
+        height: 30px;
+        padding: 2px;
+        cursor: pointer;
+      }
+
+      input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        margin: 0;
+        accent-color: #86a8ff;
+      }
+
+      .toggle {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 9px;
+        margin: 0 0 12px;
+        color: #e3e7ee;
+        font-size: 13px;
+      }
+
+      .toggle span {
+        flex: 1;
       }
 
       .field-grid {
@@ -97,12 +154,11 @@
       textarea {
         min-height: 52px;
         padding: 7px 8px;
-        resize: none;
+        resize: vertical;
         line-height: 1.35;
       }
 
       .wide {
-        display: grid;
         justify-content: stretch;
         align-items: start;
         gap: 6px;
@@ -110,10 +166,262 @@
         color: #c7ceda;
         font-size: 12px;
       }
+
+      .range-field {
+        margin-bottom: 15px;
+      }
+
+      .color-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px 12px;
+      }
+
+      .color-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: 32px;
+        color: #c7ceda;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .pet-visibility-note {
+        margin: -2px 0 11px;
+        color: #9da9bc;
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .pet-visibility-list {
+        display: grid;
+        gap: 14px;
+      }
+
+      .pet-group {
+        display: grid;
+        gap: 7px;
+      }
+
+      .pet-group-title {
+        margin: 0;
+        color: #dce2ed;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+
+      .pet-group-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .pet-card {
+        display: grid;
+        grid-template-columns: 52px minmax(0, 1fr) 16px;
+        align-items: center;
+        gap: 8px;
+        min-height: 68px;
+        padding: 7px;
+        border: 1px solid #303642;
+        border-radius: 6px;
+        background: #20242c;
+        color: #dce2ed;
+        cursor: pointer;
+      }
+
+      .pet-card:hover,
+      .pet-card.selected {
+        border-color: #6f8fd8;
+        background: #252c39;
+      }
+
+      .pet-card:has(input:disabled) {
+        cursor: default;
+      }
+
+      .pet-preview {
+        display: block;
+        width: 52px;
+        height: 52px;
+        border: 1px solid #3a414f;
+        border-radius: 4px;
+        background: #17191f;
+        object-fit: contain;
+      }
+
+      .pet-card-copy {
+        display: grid;
+        min-width: 0;
+        gap: 3px;
+      }
+
+      .pet-card-name,
+      .pet-card-id {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .pet-card-name {
+        color: #f2f4f7;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .pet-card-id {
+        color: #8d99ab;
+        font-size: 10px;
+        font-weight: 400;
+      }
+
+      .pet-card-current {
+        color: #86a8ff;
+        font-size: 10px;
+      }
+
+      .pet-card input[type="checkbox"] {
+        justify-self: end;
+      }
+
+      .pet-visibility-status {
+        min-height: 17px;
+        margin: 9px 0 0;
+        color: #9da9bc;
+        font-size: 11px;
+      }
+
+      .tab-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 4px;
+        margin: 2px 0 0;
+        padding: 4px;
+        border: 1px solid #303642;
+        border-radius: 6px;
+        background: #1e222a;
+      }
+
+      .tab {
+        min-height: 32px;
+        padding: 5px 7px;
+        border: 0;
+        border-radius: 4px;
+        background: transparent;
+        color: #aeb8c7;
+        cursor: pointer;
+        font: inherit;
+        font-size: 12px;
+      }
+
+      .tab:hover,
+      .tab[aria-selected="true"] {
+        background: #30394a;
+        color: #f3f6fb;
+      }
+
+      .tab-panel[hidden] {
+        display: none;
+      }
+
+      .actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 9px;
+        margin-top: 3px;
+      }
+
+      .save-status {
+        flex: 1;
+        min-width: 0;
+        color: #9da9bc;
+        font-size: 12px;
+      }
+
+      button.action-button {
+        min-height: 31px;
+        padding: 5px 12px;
+        border: 1px solid #4a5568;
+        border-radius: 5px;
+        background: #252c38;
+        color: #e9edf5;
+        cursor: pointer;
+        font: inherit;
+        font-size: 12px;
+      }
+
+      button.action-button:hover {
+        border-color: #86a8ff;
+        background: #2d3747;
+      }
+
+      button.action-button.primary {
+        border-color: #7397ed;
+        background: #36558e;
+      }
+
+      button.action-button.primary:hover {
+        border-color: #a4bbff;
+        background: #4267aa;
+      }
+
+      button.action-button:disabled {
+        cursor: default;
+        opacity: 0.55;
+      }
+
+      .confirm-backdrop {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        padding: 16px;
+        background: rgba(7, 9, 13, 0.72);
+        z-index: 10;
+      }
+
+      .confirm-backdrop[hidden] {
+        display: none;
+      }
+
+      .confirm-dialog {
+        width: min(360px, 100%);
+        padding: 18px;
+        border: 1px solid #4a5568;
+        border-radius: 7px;
+        background: #20242c;
+        box-shadow: 0 14px 36px rgba(0, 0, 0, 0.42);
+      }
+
+      .confirm-dialog h2 {
+        margin-bottom: 8px;
+        color: #f7f8fb;
+      }
+
+      .confirm-dialog p {
+        margin: 0;
+        color: #bfc8d7;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      .confirm-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 9px;
+        margin-top: 17px;
+      }
     </style>
   </head>
   <body>
-    <section>
+    <h1>宠物设置</h1>
+
+    <section class="settings-section global-section">
+      <h2>显示</h2>
       <label for="size-range">
         <span>宠物大小</span>
         <output id="size-value">35%</output>
@@ -121,27 +429,162 @@
       <input id="size-range" type="range" min="15" max="100" step="1" value="35" />
     </section>
 
-    <div class="field-grid">
-      <label class="field" for="interval-minutes">
-        <span>提醒间隔（分钟）</span>
-        <input id="interval-minutes" type="number" min="1" max="120" step="1" value="20" />
+    <nav class="tab-list" role="tablist" aria-label="宠物设置分类">
+      <button class="tab" type="button" role="tab" aria-selected="true" aria-controls="panel-reminder" data-tab="reminder">提醒设置</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" aria-controls="panel-weekly" data-tab="weekly">周报设置</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" aria-controls="panel-codex" data-tab="codex">Codex 提示设置</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" aria-controls="panel-pets" data-tab="pets">角色显示</button>
+    </nav>
+
+    <section id="panel-reminder" class="tab-panel" role="tabpanel" data-panel="reminder">
+      <h2>提醒设置</h2>
+      <label class="toggle" for="eye-break-enabled">
+        <input id="eye-break-enabled" type="checkbox" checked />
+        <span>休息提醒</span>
       </label>
-      <label class="field" for="rest-seconds">
-        <span>休息时长（秒）</span>
-        <input id="rest-seconds" type="number" min="5" max="600" step="1" value="20" />
+
+      <div class="field-grid">
+        <label class="field" for="interval-minutes">
+          <span>提醒间隔（分钟）</span>
+          <input id="interval-minutes" type="number" min="1" max="120" step="1" value="20" />
+        </label>
+        <label class="field" for="rest-seconds">
+          <span>休息时长（秒）</span>
+          <input id="rest-seconds" type="number" min="5" max="600" step="1" value="20" />
+        </label>
+      </div>
+
+      <label class="wide" for="reminder-title">
+        <span>提醒标题</span>
+        <input id="reminder-title" type="text" maxlength="80" value="该放松一下眼睛了" />
       </label>
+
+      <label class="wide" for="reminder-body">
+        <span>提醒内容</span>
+        <textarea id="reminder-body" maxlength="240">看向远处 {seconds} 秒，或者点击宠物确认已经休息。</textarea>
+      </label>
+
+      <div class="color-row">
+        <span>休息提醒配色</span>
+        <input id="reminder-accent" type="color" value="#ff9c60" aria-label="休息提醒配色" />
+      </div>
+    </section>
+
+    <section id="panel-weekly" class="tab-panel" role="tabpanel" data-panel="weekly" hidden>
+      <h2>周报设置</h2>
+      <label class="toggle" for="weekly-report-enabled">
+        <input id="weekly-report-enabled" type="checkbox" checked />
+        <span>周报提醒</span>
+      </label>
+
+      <div class="field-grid">
+        <label class="field" for="weekly-report-weekday">
+          <span>提醒日期</span>
+          <select id="weekly-report-weekday">
+            <option value="1">周一</option>
+            <option value="2">周二</option>
+            <option value="3">周三</option>
+            <option value="4">周四</option>
+            <option value="5" selected>周五</option>
+            <option value="6">周六</option>
+            <option value="7">周日</option>
+          </select>
+        </label>
+        <label class="field" for="weekly-report-time">
+          <span>提醒时间</span>
+          <input id="weekly-report-time" type="time" value="15:00" />
+        </label>
+      </div>
+
+      <label class="wide" for="weekly-report-title">
+        <span>提醒标题</span>
+        <input id="weekly-report-title" type="text" maxlength="80" value="该写周报了" />
+      </label>
+
+      <label class="wide" for="weekly-report-body">
+        <span>提醒内容</span>
+        <textarea id="weekly-report-body" maxlength="240">花几分钟回顾本周完成的工作和下周计划。</textarea>
+      </label>
+
+      <div class="color-row">
+        <span>周报提醒配色</span>
+        <input id="weekly-report-accent" type="color" value="#e5484d" aria-label="周报提醒配色" />
+      </div>
+    </section>
+
+    <section id="panel-codex" class="tab-panel" role="tabpanel" data-panel="codex" hidden>
+      <h2>Codex 提示设置</h2>
+      <label class="toggle" for="codex-enabled">
+        <input id="codex-enabled" type="checkbox" checked />
+        <span>Codex 状态提示</span>
+      </label>
+
+      <div class="range-field">
+        <label for="sound-volume">
+          <span>通知提示音量</span>
+          <output id="sound-volume-value">65%</output>
+        </label>
+        <input id="sound-volume" type="range" min="0" max="100" step="1" value="65" />
+      </div>
+
+      <div class="range-field">
+        <label for="codex-bubble-scale">
+          <span>Codex 气泡大小</span>
+          <output id="codex-bubble-scale-value">100%</output>
+        </label>
+        <input id="codex-bubble-scale" type="range" min="70" max="140" step="1" value="100" />
+      </div>
+
+      <div class="color-grid">
+        <div class="color-row">
+          <span>完成提示</span>
+          <input id="codex-completed-accent" type="color" value="#45d483" aria-label="Codex 完成提示配色" />
+        </div>
+        <div class="color-row">
+          <span>等待确认</span>
+          <input id="codex-waiting-accent" type="color" value="#ffd166" aria-label="Codex 等待确认配色" />
+        </div>
+        <div class="color-row">
+          <span>失败提示</span>
+          <input id="codex-failed-accent" type="color" value="#ff6b6b" aria-label="Codex 失败提示配色" />
+        </div>
+        <div class="color-row">
+          <span>开始提示</span>
+          <input id="codex-started-accent" type="color" value="#71b7ff" aria-label="Codex 开始提示配色" />
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-pets" class="tab-panel" role="tabpanel" data-panel="pets" hidden>
+      <h2>角色显示</h2>
+      <p class="pet-visibility-note">勾选后才会出现在右键菜单的切换宠物列表中。当前正在使用的角色必须保留。</p>
+      <div id="pet-visibility-list" class="pet-visibility-list" aria-live="polite"></div>
+      <p id="pet-visibility-status" class="pet-visibility-status" role="status" aria-live="polite"></p>
+    </section>
+
+    <div class="actions">
+      <span class="save-status" id="save-status" role="status" aria-live="polite">已保存</span>
+      <button class="action-button" id="reset-settings" type="button">恢复默认</button>
+      <button class="action-button primary" id="save-settings" type="button" disabled>保存</button>
+      <button class="action-button" id="close-settings" type="button">关闭</button>
     </div>
 
-    <label class="wide" for="reminder-title">
-      <span>提醒标题</span>
-      <input id="reminder-title" type="text" maxlength="80" value="该放松一下眼睛了" />
-    </label>
+    <div id="unsaved-dialog" class="confirm-backdrop" role="presentation" hidden>
+      <div class="confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="unsaved-title">
+        <h2 id="unsaved-title">当前有未保存设置</h2>
+        <p>是否直接退出？未保存的修改将丢失。</p>
+        <div class="confirm-actions">
+          <button class="action-button" id="continue-editing" type="button">继续编辑</button>
+          <button class="action-button primary" id="discard-settings" type="button">直接退出</button>
+        </div>
+      </div>
+    </div>
 
-    <label class="wide" for="reminder-body">
-      <span>提醒内容</span>
-      <textarea id="reminder-body" maxlength="240">看向远处 {seconds} 秒，或者点击宠物确认已经休息。</textarea>
-    </label>
-
+    <script src="vendor/spine-webgl.js"></script>
+    <script src="pet-catalog.js"></script>
+    <script src="codex-pet-format.js"></script>
+    <script src="spine-pet-adapter.js"></script>
+    <script src="codex-pet-adapter.js"></script>
     <script src="tauri-bridge.js"></script>
     <script src="size.js"></script>
   </body>

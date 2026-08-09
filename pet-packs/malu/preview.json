@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "malu",
+  "name": "玛露",
+  "version": "1.0.0",
+  "engine": "spine",
+  "static": "/assets/malu/malu.png",
+  "actions": {
+    "Relax": null,
+    "Sit": null,
+    "Sleep": null,
+    "Move": null,
+    "Interact": null
+  }
+}

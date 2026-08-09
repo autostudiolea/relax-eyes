@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "source": "role",
+  "input": [
+    "../role/tiga/pet.json",
+    "../role/tiga/spritesheet.webp"
+  ],
+  "output": {
+    "source": "/assets/tiga/pet.json",
+    "spritesheet": "/assets/tiga/spritesheet.webp"
+  },
+  "version": "1.0.0"
+}

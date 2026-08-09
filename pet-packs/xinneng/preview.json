@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "xinneng",
+  "name": "新能",
+  "version": "1.0.0",
+  "engine": "spine",
+  "static": "/assets/xinneng/xinneng.png",
+  "actions": {}
+}

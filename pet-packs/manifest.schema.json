@@ -21,7 +21,7 @@
       "pattern": "^[a-z0-9][a-z0-9_-]*$"
     },
     "name": { "type": "string", "minLength": 1 },
-    "engine": { "enum": ["spine", "image"] },
+    "engine": { "enum": ["spine", "image", "sprite", "codex-webp"] },
     "version": {
       "type": "string",
       "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
@@ -41,6 +41,56 @@
         "frames": {
           "type": "array",
           "items": { "type": "string" }
+        },
+        "spritesheet": { "type": "string" },
+        "metadata": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "atlas": {
+      "type": "object",
+      "required": ["format", "width", "height", "columns", "rows", "cellWidth", "cellHeight", "states"],
+      "properties": {
+        "format": { "const": "codex-fixed-grid" },
+        "width": { "type": "integer", "const": 1536 },
+        "height": { "type": "integer", "const": 1872 },
+        "columns": { "type": "integer", "const": 8 },
+        "rows": { "type": "integer", "const": 9 },
+        "cellWidth": { "type": "integer", "const": 192 },
+        "cellHeight": { "type": "integer", "const": 208 },
+        "states": {
+          "type": "array",
+          "const": ["idle", "running-right", "running-left", "waving", "jumping", "failed", "waiting", "running", "review"],
+          "items": { "type": "string" }
+        },
+        "visibleColumns": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": { "type": "integer", "minimum": 0, "maximum": 7 }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "calibration": {
+      "type": "object",
+      "properties": {
+        "offsetX": { "type": "number" },
+        "offsetY": { "type": "number" },
+        "scaleX": { "type": "number", "exclusiveMinimum": 0 },
+        "scaleY": { "type": "number", "exclusiveMinimum": 0 },
+        "hitPadding": { "type": "number", "minimum": 0, "maximum": 0.45 }
+      },
+      "additionalProperties": false
+    },
+    "preview": {
+      "type": "object",
+      "properties": {
+        "static": { "type": "string" },
+        "actions": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
         }
       },
       "additionalProperties": false

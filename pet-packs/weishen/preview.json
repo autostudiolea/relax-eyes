@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "weishen",
+  "name": "维神",
+  "version": "1.0.0",
+  "engine": "spine",
+  "static": "/assets/weishen/weishen.png",
+  "actions": {}
+}

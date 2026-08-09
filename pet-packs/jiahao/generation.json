@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "source": "role",
+  "input": [
+    "../role/jiahao/pet.json",
+    "../role/jiahao/spritesheet.webp"
+  ],
+  "output": {
+    "source": "/assets/jiahao/pet.json",
+    "spritesheet": "/assets/jiahao/spritesheet.webp"
+  },
+  "version": "1.0.0"
+}

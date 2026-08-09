@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "source": "role",
+  "input": [
+    "../role/doraemon/pet.json",
+    "../role/doraemon/spritesheet.webp"
+  ],
+  "output": {
+    "source": "/assets/doraemon/pet.json",
+    "spritesheet": "/assets/doraemon/spritesheet.webp"
+  },
+  "version": "1.0.0"
+}

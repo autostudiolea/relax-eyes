@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "xiaomabaolilin",
+  "name": "小马宝莉林",
+  "version": "1.0.0",
+  "engine": "spine",
+  "static": "/assets/xiaomabaolilin/xiaomabaolilin.png",
+  "actions": {}
+}

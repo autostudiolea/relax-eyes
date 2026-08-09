@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "source": "role",
+  "input": [
+    "../role/usagi/pet.json",
+    "../role/usagi/spritesheet.webp"
+  ],
+  "output": {
+    "source": "/assets/usagi/pet.json",
+    "spritesheet": "/assets/usagi/spritesheet.webp"
+  },
+  "version": "1.0.0"
+}

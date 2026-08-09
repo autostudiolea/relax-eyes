@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "yao",
+  "name": "瑶",
+  "version": "1.0.0",
+  "engine": "spine",
+  "static": "/assets/yao/yao.png",
+  "actions": {}
+}

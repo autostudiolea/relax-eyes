@@ -3,7 +3,7 @@ const path = require("node:path");
 
 const projectRoot = path.resolve(__dirname, "..");
 const localCargoHome = path.join(projectRoot, ".cargo-home");
-const localCargoTarget = path.join(projectRoot, "src-tauri", "target");
+const localCargoTarget = path.join(projectRoot, "src-tauri", "target", "portable-build");
 const args = process.argv.slice(2);
 
 const result = childProcess.spawnSync("cargo-tauri", args, {

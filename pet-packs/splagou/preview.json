@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "splagou",
+  "name": "SP拉狗",
+  "version": "1.0.0",
+  "engine": "spine",
+  "static": "/assets/splagou/splagou.png",
+  "actions": {}
+}

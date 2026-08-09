@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "spchuxue",
+  "name": "SP初雪",
+  "version": "1.0.0",
+  "engine": "spine",
+  "static": "/assets/spchuxue/spchuxue.png",
+  "actions": {}
+}

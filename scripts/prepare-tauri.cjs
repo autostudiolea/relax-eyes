@@ -12,14 +12,17 @@ const files = [
   "styles.css",
   "renderer.js",
   "pet-catalog.js",
+  "codex-pet-format.js",
   "spine-pet-adapter.js",
+  "image-pet-adapter.js",
+  "sprite-pet-adapter.js",
+  "codex-pet-adapter.js",
   "tauri-bridge.js",
   "size.html",
   "size.js",
   "reminder.html",
   "reminder.css",
   "reminder.js",
-  "pets.json",
   "interactions.json",
 ];
 

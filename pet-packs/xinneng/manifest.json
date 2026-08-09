@@ -58,5 +58,16 @@
     "run": true,
     "sleep": true,
     "reminder": true
+  },
+  "preview": {
+    "static": "/assets/xinneng/xinneng.png",
+    "actions": {}
+  },
+  "calibration": {
+    "offsetX": 0,
+    "offsetY": 0,
+    "scaleX": 1,
+    "scaleY": 1,
+    "hitPadding": 0
   }
 }

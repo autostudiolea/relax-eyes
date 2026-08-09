@@ -1,0 +1,175 @@
+{
+  "$schema": "../manifest.schema.json",
+  "schemaVersion": 1,
+  "id": "doubao-human",
+  "name": "Doubao Human",
+  "engine": "codex-webp",
+  "version": "1.0.0",
+  "assets": {
+    "sourceRoot": "assets/doubao-human",
+    "source": "/assets/doubao-human/pet.json",
+    "spritesheet": "/assets/doubao-human/spritesheet.webp"
+  },
+  "atlas": {
+    "format": "codex-fixed-grid",
+    "width": 1536,
+    "height": 1872,
+    "columns": 8,
+    "rows": 9,
+    "cellWidth": 192,
+    "cellHeight": 208,
+    "states": [
+      "idle",
+      "running-right",
+      "running-left",
+      "waving",
+      "jumping",
+      "failed",
+      "waiting",
+      "running",
+      "review"
+    ],
+    "visibleColumns": {
+      "idle": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "running-right": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "running-left": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "waving": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "jumping": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "failed": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "waiting": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "running": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "review": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    }
+  },
+  "standard": {
+    "referenceModel": "tutu",
+    "width": 360,
+    "height": 360,
+    "fitScale": 0.68,
+    "anchor": {
+      "x": 0.5,
+      "y": 1
+    },
+    "baseline": 0.92,
+    "safeMargin": {
+      "left": 0.02,
+      "top": 0.02,
+      "right": 0.02,
+      "bottom": 0.02
+    }
+  },
+  "hit": {
+    "mode": "opaque-pixels",
+    "padding": 0.02
+  },
+  "calibration": {
+    "offsetX": 0,
+    "offsetY": 0,
+    "scaleX": 1,
+    "scaleY": 1,
+    "hitPadding": 0
+  },
+  "preview": {
+    "static": "/assets/doubao-human/spritesheet.webp",
+    "actions": {}
+  },
+  "actions": {
+    "initial": "idle",
+    "raw": [
+      "idle",
+      "running-right",
+      "running-left",
+      "waving",
+      "jumping",
+      "failed",
+      "waiting",
+      "running",
+      "review"
+    ],
+    "aliases": {
+      "Relax": "idle",
+      "Idle": "idle",
+      "Move": "running-right",
+      "Interact": "waving",
+      "Special": "jumping",
+      "Start": "idle"
+    },
+    "cooldownMs": 1200,
+    "interruptible": true
+  },
+  "capabilities": {
+    "idle": true,
+    "click": true,
+    "hover": true,
+    "drag": true,
+    "run": true,
+    "sleep": true,
+    "reminder": true
+  }
+}

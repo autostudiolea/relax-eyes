@@ -12,7 +12,9 @@
   </head>
   <body>
     <main id="pet-stage" aria-label="桌面宠物">
+      <canvas id="image-canvas" aria-hidden="true" hidden></canvas>
       <canvas id="pet-canvas"></canvas>
+      <div id="pet-effects" aria-hidden="true"></div>
       <div id="loading" class="status-panel">正在加载宠物</div>
       <div id="error" class="status-panel error-panel" hidden></div>
       <div id="reminder" class="reminder-bubble" hidden>
@@ -22,7 +24,11 @@
     </main>
     <script src="vendor/spine-webgl.js"></script>
     <script src="pet-catalog.js"></script>
+    <script src="codex-pet-format.js"></script>
     <script src="spine-pet-adapter.js"></script>
+    <script src="image-pet-adapter.js"></script>
+    <script src="sprite-pet-adapter.js"></script>
+    <script src="codex-pet-adapter.js"></script>
     <script src="tauri-bridge.js"></script>
     <script src="renderer.js"></script>
   </body>

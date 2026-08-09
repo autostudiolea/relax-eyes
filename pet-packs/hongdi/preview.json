@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "hongdi",
+  "name": "红蒂",
+  "version": "1.0.0",
+  "engine": "spine",
+  "static": "/assets/hongdi/hongdi.png",
+  "actions": {}
+}

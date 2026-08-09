@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "source": "role",
+  "input": [
+    "../role/kimlet-hover-clap/pet.json",
+    "../role/kimlet-hover-clap/spritesheet.webp"
+  ],
+  "output": {
+    "source": "/assets/kimlet-hover-clap/pet.json",
+    "spritesheet": "/assets/kimlet-hover-clap/spritesheet.webp"
+  },
+  "version": "1.0.0"
+}

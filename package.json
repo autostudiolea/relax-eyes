@@ -3,72 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "description": "A local Spine desktop pet with a 20-minute eye-relaxation reminder.",
-  "main": "main.cjs",
   "scripts": {
-    "start": "electron . --no-sandbox",
-    "start:debug": "electron . --no-sandbox --debug-timer",
-    "dist:portable": "electron-builder --win portable",
     "pet-packs:generate": "node scripts/generate-pet-packs.cjs",
     "pet-packs:validate": "node scripts/validate-pet-packs.cjs",
+    "pet-packs:previews": "node scripts/generate-pet-previews.cjs",
+    "pet-packs:update": "node scripts/update-pet-pack.cjs",
+    "pet-packs:import-codex": "node scripts/import-codex-role-packs.cjs",
     "tauri:prepare": "node scripts/prepare-tauri.cjs",
     "tauri:dev": "node scripts/run-tauri.cjs dev",
     "tauri:build": "node scripts/run-tauri.cjs build --no-bundle",
-    "tauri:portable": "node scripts/run-tauri.cjs build --no-bundle && node scripts/package-tauri.cjs"
+    "tauri:portable": "node scripts/run-tauri.cjs build --no-bundle && node scripts/package-tauri.cjs",
+    "codex:send": "node scripts/send-codex-event.cjs",
+    "test:codex-hook": "node scripts/test-codex-pet-hook.cjs"
   },
-  "devDependencies": {
-    "electron": "42.0.0",
-    "electron-builder": "^26.0.12"
-  },
-  "build": {
-    "appId": "local.relaxeyes.desktop",
-    "productName": "Relax Eyes Desktop",
-    "directories": {
-      "output": "dist",
-      "buildResources": "."
-    },
-    "compression": "maximum",
-    "electronDist": "node_modules/electron/dist",
-    "electronLanguages": [
-      "en-US",
-      "zh-CN"
-    ],
-    "files": [
-      "assets/**/*",
-      "vendor/**/*",
-      "index.html",
-      "size.html",
-      "size.js",
-      "reminder.html",
-      "reminder.css",
-      "reminder.js",
-      "main.cjs",
-      "preload.cjs",
-      "renderer.js",
-      "pet-catalog.js",
-      "spine-pet-adapter.js",
-      "styles.css",
-      "pets.json",
-      "pet-packs/**/*",
-      "interactions.json",
-      "state.json",
-      "tray-icon.png",
-      "relax-eyes.ico",
-      "package.json"
-    ],
-    "win": {
-      "icon": "relax-eyes.ico",
-      "signAndEditExecutable": false,
-      "target": [
-        {
-          "target": "portable",
-          "arch": [
-            "x64"
-          ]
-        }
-      ]
-    },
-    "portable": {
-      "artifactName": "Relax-Eyes-Portable-${version}.exe"
-    }
-  }
+  "devDependencies": {}
 }

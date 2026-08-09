@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "source": "role",
+  "input": [
+    "../role/nezukocoder/pet.json",
+    "../role/nezukocoder/spritesheet.webp"
+  ],
+  "output": {
+    "source": "/assets/nezukocoder/pet.json",
+    "spritesheet": "/assets/nezukocoder/spritesheet.webp"
+  },
+  "version": "1.0.0"
+}

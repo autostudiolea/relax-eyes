@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "source": "role",
+  "input": [
+    "../role/ikunchick/pet.json",
+    "../role/ikunchick/spritesheet.webp"
+  ],
+  "output": {
+    "source": "/assets/ikunchick/pet.json",
+    "spritesheet": "/assets/ikunchick/spritesheet.webp"
+  },
+  "version": "1.0.0"
+}

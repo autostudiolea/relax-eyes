@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "source": "role",
+  "input": [
+    "../role/tanjiro-kamado-balanced/pet.json",
+    "../role/tanjiro-kamado-balanced/spritesheet.webp"
+  ],
+  "output": {
+    "source": "/assets/tanjiro-kamado-balanced/pet.json",
+    "spritesheet": "/assets/tanjiro-kamado-balanced/spritesheet.webp"
+  },
+  "version": "1.0.0"
+}

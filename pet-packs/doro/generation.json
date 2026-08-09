@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "source": "role",
+  "input": [
+    "../role/doro/pet.json",
+    "../role/doro/spritesheet.webp"
+  ],
+  "output": {
+    "source": "/assets/doro/pet.json",
+    "spritesheet": "/assets/doro/spritesheet.webp"
+  },
+  "version": "1.0.0"
+}

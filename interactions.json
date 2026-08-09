@@ -45,6 +45,8 @@
   {
     "id": "wake-up",
     "label": "06 睡醒起身",
+    "weight": 0.8,
+    "next": "stretch",
     "steps": [
       { "name": "Sleep", "speed": 0.76 },
       { "name": "Special", "speed": 0.86, "delay": 0.08 },
@@ -86,6 +88,8 @@
   {
     "id": "short-walk",
     "label": "10 走两步",
+    "weight": 1.1,
+    "next": "settle-down",
     "steps": [
       { "name": "Move", "speed": 1.06, "repeat": 2, "repeatDelay": 0.06 },
       { "name": "Relax", "speed": 0.92 }
@@ -161,6 +165,7 @@
   {
     "id": "companion",
     "label": "18 安静陪伴",
+    "weight": 0.65,
     "steps": [
       { "name": "Relax", "speed": 0.7 },
       { "name": "Sit", "speed": 0.78, "delay": 0.14 },
@@ -281,6 +286,7 @@
   {
     "id": "special-show",
     "label": "29 特别展示",
+    "weight": 0.45,
     "steps": [
       { "name": "Start", "speed": 0.92 },
       { "name": "Special", "speed": 0.86, "delay": 0.16 },

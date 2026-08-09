@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "mowang",
+  "name": "魔王",
+  "version": "1.0.0",
+  "engine": "spine",
+  "static": "/assets/mowang/mowang.png",
+  "actions": {}
+}

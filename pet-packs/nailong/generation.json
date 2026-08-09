@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "source": "role",
+  "input": [
+    "../role/nailong/pet.json",
+    "../role/nailong/spritesheet.webp"
+  ],
+  "output": {
+    "source": "/assets/nailong/pet.json",
+    "spritesheet": "/assets/nailong/spritesheet.webp"
+  },
+  "version": "1.0.0"
+}

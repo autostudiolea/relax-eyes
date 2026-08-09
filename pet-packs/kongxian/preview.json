@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "kongxian",
+  "name": "空弦",
+  "version": "1.0.0",
+  "engine": "spine",
+  "static": "/assets/kongxian/kongxian.png",
+  "actions": {}
+}

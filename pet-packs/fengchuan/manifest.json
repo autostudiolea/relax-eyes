@@ -59,5 +59,16 @@
     "run": true,
     "sleep": true,
     "reminder": true
+  },
+  "preview": {
+    "static": "/assets/fengchuan/fengchuan.png",
+    "actions": {}
+  },
+  "calibration": {
+    "offsetX": 0,
+    "offsetY": 0,
+    "scaleX": 1,
+    "scaleY": 1,
+    "hitPadding": 0
   }
 }

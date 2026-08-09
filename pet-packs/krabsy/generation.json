@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "source": "role",
+  "input": [
+    "../role/krabsy/pet.json",
+    "../role/krabsy/spritesheet.webp"
+  ],
+  "output": {
+    "source": "/assets/krabsy/pet.json",
+    "spritesheet": "/assets/krabsy/spritesheet.webp"
+  },
+  "version": "1.0.0"
+}

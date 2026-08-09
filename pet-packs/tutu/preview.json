@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "tutu",
+  "name": "图图",
+  "version": "1.0.0",
+  "engine": "spine",
+  "static": "/assets/tutu/tutu.png",
+  "actions": {
+    "Relax": null,
+    "Sit": null,
+    "Sleep": null,
+    "Move": null,
+    "Interact": null
+  }
+}

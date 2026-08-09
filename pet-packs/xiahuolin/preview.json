@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "xiahuolin",
+  "name": "夏活林",
+  "version": "1.0.0",
+  "engine": "spine",
+  "static": "/assets/xiahuolin/xiahuolin.png",
+  "actions": {}
+}

@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "source": "role",
+  "input": [
+    "../role/ggbond/pet.json",
+    "../role/ggbond/spritesheet.webp"
+  ],
+  "output": {
+    "source": "/assets/ggbond/pet.json",
+    "spritesheet": "/assets/ggbond/spritesheet.webp"
+  },
+  "version": "1.0.0"
+}

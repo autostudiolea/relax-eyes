@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "pepe",
+  "name": "佩佩",
+  "version": "1.0.0",
+  "engine": "spine",
+  "static": "/assets/pepe/pepe.png",
+  "actions": {}
+}

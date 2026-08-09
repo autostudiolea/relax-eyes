@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "spyang",
+  "name": "SP羊",
+  "version": "1.0.0",
+  "engine": "spine",
+  "static": "/assets/spyang/spyang.png",
+  "actions": {}
+}

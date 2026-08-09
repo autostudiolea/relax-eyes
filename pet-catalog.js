@@ -13,6 +13,12 @@
     return names;
   }
 
+  function normalizeAssetPath(value) {
+    const path = String(value || "").trim();
+    if (!path) return "";
+    return path.startsWith("/") ? path : `/${path}`;
+  }
+
   function normalizePack(pack) {
     if (!pack || typeof pack.id !== "string" || !pack.engine) return null;
     const assets = pack.assets || {};
@@ -21,12 +27,23 @@
     const actions = pack.actions || {};
     const focusPrefix = typeof hit.focusPrefix === "string" ? hit.focusPrefix.trim() : "";
     const skeleton = assets.skeleton || "";
+    const source = normalizeAssetPath(assets.source);
+    const frames = Array.isArray(assets.frames)
+      ? assets.frames.map(normalizeAssetPath).filter(Boolean)
+      : [];
+    const spritesheet = normalizeAssetPath(assets.spritesheet);
+    const metadata = normalizeAssetPath(assets.metadata);
     return {
       id: pack.id,
       label: pack.name || pack.id,
       engine: pack.engine,
+      version: pack.version || "0.1.0",
       skeleton,
       atlas: assets.atlas || "",
+      source,
+      frames,
+      spritesheet,
+      metadata,
       skeletonFormat: skeleton.toLowerCase().endsWith(".json") ? "json" : "binary",
       initialAnimation: actions.initial || "Relax",
       initialLoop: true,
@@ -39,26 +56,9 @@
       baseAnimations: normalizeActionNames(actions.raw),
       actions,
       capabilities: pack.capabilities || {},
+      preview: pack.preview || null,
+      calibration: pack.calibration || {},
       petPack: pack,
-    };
-  }
-
-  function normalizeLegacyPet(pet) {
-    if (!pet || typeof pet.id !== "string" || !pet.skeleton || !pet.atlas) return null;
-    return {
-      ...pet,
-      engine: "spine",
-      hitMode: pet.focusPrefix ? "focus-prefix" : "visible-bounds",
-      hitPadding: 0.02,
-      standard: {
-        referenceModel: "tutu",
-        width: 360,
-        height: 360,
-        fitScale: Number.isFinite(Number(pet.fitScale)) ? Number(pet.fitScale) : 0.68,
-        anchor: { x: 0.5, y: 1 },
-        baseline: 0.92,
-        safeMargin: { left: 0.02, top: 0.02, right: 0.02, bottom: 0.02 },
-      },
     };
   }
 
@@ -69,29 +69,22 @@
   }
 
   async function load() {
-    let catalogError = null;
-    try {
-      const catalog = await fetchJson("/pet-packs/catalog.json");
-      const pets = Array.isArray(catalog.packs)
-        ? catalog.packs.map(normalizePack).filter((pet) => pet?.engine === "spine" && pet.skeleton && pet.atlas)
-        : [];
-      if (pets.length) return { pets, source: "pet-packs", catalog };
-      catalogError = new Error("pet-packs/catalog.json has no usable Spine packs");
-    } catch (error) {
-      catalogError = error;
-    }
-
-    try {
-      const legacyPets = await fetchJson("/pets.json");
-      const pets = Array.isArray(legacyPets) ? legacyPets.map(normalizeLegacyPet).filter(Boolean) : [];
-      if (pets.length) return { pets, source: "pets.json", catalogError };
-    } catch (error) {
-      throw new Error(`pet catalog load failed: ${error.message}; ${catalogError?.message || "catalog unavailable"}`);
-    }
-    throw new Error(`pet catalog has no usable models: ${catalogError?.message || "unknown error"}`);
+    const catalog = await fetchJson("/pet-packs/catalog.json");
+    const pets = Array.isArray(catalog.packs)
+      ? catalog.packs.map(normalizePack).filter((pet) => {
+        if (!pet) return false;
+        if (pet.engine === "spine") return Boolean(pet.skeleton && pet.atlas);
+        if (pet.engine === "image") return Boolean(pet.source || pet.frames.length);
+        if (pet.engine === "sprite") return Boolean(pet.spritesheet && pet.metadata);
+        if (pet.engine === "codex-webp") return Boolean(pet.spritesheet);
+        return false;
+      })
+      : [];
+    if (!pets.length) throw new Error("pet-packs/catalog.json has no usable pet packs");
+    return { pets, source: "pet-packs", catalog };
   }
 
-  const api = Object.freeze({ load, normalizePack, normalizeLegacyPet });
+  const api = Object.freeze({ load, normalizePack });
   global.RelaxEyesPetCatalog = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof window !== "undefined" ? window : globalThis);

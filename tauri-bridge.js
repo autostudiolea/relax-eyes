@@ -18,7 +18,16 @@
     ]);
     const { Menu } = tauri.menu;
     const separator = { item: "Separator" };
-    const currentPet = pets.find((pet) => pet.id === state.model) || pets[0];
+    const visiblePetIds = Array.isArray(state.visiblePets) && state.visiblePets.length
+      ? new Set(state.visiblePets)
+      : null;
+    const visiblePets = visiblePetIds
+      ? pets.filter((pet) => visiblePetIds.has(pet.id))
+      : pets;
+    const currentPet = visiblePets.find((pet) => pet.id === state.model)
+      || pets.find((pet) => pet.id === state.model)
+      || visiblePets[0]
+      || pets[0];
     const actionNames = state.availableActions?.[state.model]?.length
       ? state.availableActions[state.model]
       : (currentPet?.baseAnimations || []);
@@ -31,26 +40,12 @@
     });
     const submenu = (text, items) => ({ text, items });
 
-    const modelItems = pets.map((pet) => item(
+    const modelItems = visiblePets.map((pet) => item(
       `model:${pet.id}`,
       pet.label,
       { command: "change_model", args: { modelId: pet.id } },
       { checked: state.model === pet.id },
     ));
-    const intervalItems = [20, 30, 45, 60].map((minutes) => item(
-      `interval:${minutes}`,
-      `${minutes} 分钟`,
-      { command: "set_reminder_settings", args: { settings: { intervalMinutes: minutes } } },
-      { checked: Math.round(Number(state.intervalMs) / 60000) === minutes },
-    ));
-    intervalItems.push(separator, item("interval:custom", "自定义...", { command: "open_size_panel" }));
-    const restItems = [20, 30, 60, 120].map((seconds) => item(
-      `rest:${seconds}`,
-      `${seconds} 秒`,
-      { command: "set_reminder_settings", args: { settings: { restSeconds: seconds } } },
-      { checked: Math.round(Number(state.restDurationMs) / 1000) === seconds },
-    ));
-    restItems.push(separator, item("rest:custom", "自定义...", { command: "open_size_panel" }));
     const sizeItems = [
       [15, "极小 15%"],
       [20, "超小 20%"],
@@ -73,20 +68,24 @@
         { command: "play_animation", args: { name } },
       ))
       : [{ text: "动作加载中...", enabled: false }];
+    const facingItems = [
+      ["right", "向右"],
+      ["left", "向左"],
+    ].map(([facing, text]) => item(
+      `facing:${facing}`,
+      text,
+      { command: "set_facing", args: { facing } },
+      { checked: state.facing === facing },
+    ));
 
     const menu = await Menu.new({
       items: [
         { text: currentPet?.label || "桌面宠物", enabled: false },
-        { text: state.phase === "due"
-          ? "休息提醒已到"
-          : state.paused
-            ? "提醒已暂停"
-            : `下次提醒：${formatRemaining(state.remainingMs)}`, enabled: false },
+        { text: formatStatusText(state), enabled: false },
         separator,
         submenu("切换宠物", modelItems),
-        submenu("提醒间隔", intervalItems),
-        submenu("休息时长", restItems),
-        item("reminder:edit", "编辑提醒文案...", { command: "open_size_panel" }),
+        submenu("宠物朝向", facingItems),
+        item("pet:settings", "宠物设置", { command: "open_size_panel" }),
         submenu("显示大小", sizeItems),
         submenu("动作", actionItems),
         item(
@@ -110,17 +109,31 @@
     return `${minutes}:${seconds}`;
   }
 
+  function formatStatusText(state) {
+    if (state.weeklyReportDueAt > 0) return "周报提醒已到";
+    if (state.phase === "due") return "休息提醒已到";
+    if (state.eyeBreakEnabled === false) return "休息提醒已关闭";
+    if (state.paused) return "提醒已暂停";
+    return `下次提醒：${formatRemaining(state.remainingMs)}`;
+  }
+
   window.relaxEyes = {
     getState: () => invoke("get_state"),
+    getPetCatalog: () => invoke("get_pet_catalog"),
+    getWindowPosition: () => invoke("get_window_position"),
     beginDrag: () => invoke("begin_drag"),
     moveWindow: (x, y) => invokeSafe("move_window_command", { x, y }),
     endDrag: (x, y) => invokeSafe("end_drag", { x, y }),
     cancelDrag: () => invokeSafe("cancel_drag"),
     petClick: () => invokeSafe("pet_click"),
+    ackCodexEvent: (eventId) => invokeSafe("ack_codex_event", { eventId }),
     openContextMenu,
     openSizePanel: () => invokeSafe("open_size_panel"),
+    closeSizePanel: () => invokeSafe("close_size_panel"),
+    setFacing: (facing) => invokeSafe("set_facing", { facing }),
     setDisplayScale: (value) => invokeSafe("set_display_scale", { value }),
     setReminderSettings: (settings) => invokeSafe("set_reminder_settings", { settings }),
+    setVisiblePets: (visiblePets) => invokeSafe("set_visible_pets", { visiblePets }),
     setContentInsets: (insets) => invokeSafe("set_content_insets", { insets }),
     setIgnoreMouseEvents: (ignored) => invokeSafe("set_ignore_mouse", { ignored }),
     confirmReminder: () => invokeSafe("confirm_reminder"),
@@ -135,6 +148,13 @@
     onEvent: (callback) => {
       let unlisten;
       listen("relax-eyes:event", (event) => callback(event.payload)).then((stop) => {
+        unlisten = stop;
+      });
+      return () => unlisten?.();
+    },
+    onSettingsCloseRequested: (callback) => {
+      let unlisten;
+      listen("relax-eyes:settings-close-requested", () => callback()).then((stop) => {
         unlisten = stop;
       });
       return () => unlisten?.();
