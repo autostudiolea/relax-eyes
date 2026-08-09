@@ -2,6 +2,7 @@ const { app, BrowserWindow, Menu, screen, Tray, nativeImage, ipcMain } = require
 const fs = require("node:fs");
 const path = require("node:path");
 const http = require("node:http");
+const petCatalogTools = require("./pet-catalog.js");
 
 const APP_ROOT = __dirname;
 const DATA_ROOT = process.env.PORTABLE_EXECUTABLE_DIR
@@ -9,6 +10,7 @@ const DATA_ROOT = process.env.PORTABLE_EXECUTABLE_DIR
   : APP_ROOT;
 const STATE_PATH = path.join(DATA_ROOT, "state.json");
 const PETS_PATH = path.join(APP_ROOT, "pets.json");
+const PET_PACK_CATALOG_PATH = path.join(APP_ROOT, "pet-packs", "catalog.json");
 const INTERACTIONS_PATH = path.join(APP_ROOT, "interactions.json");
 const BASE_WINDOW_SIZE = 360;
 const WINDOW_REFERENCE_SCALE = 0.68;
@@ -23,7 +25,6 @@ const MAX_REST_DURATION_MS = 10 * 60 * 1000;
 const DEFAULT_REST_DURATION_MS = 20 * 1000;
 const DEFAULT_REMINDER_TITLE = "该放松一下眼睛了";
 const DEFAULT_REMINDER_BODY = "看向远处 {seconds} 秒，或者点击宠物确认已经休息。";
-const ACTION_ORDER = Object.freeze(["Relax", "Interact", "Move", "Sit", "Sleep", "Special"]);
 const EDGE_SNAP_DISTANCE = 48;
 const MIN_WINDOW_SIZE = 80;
 const MAX_CONTENT_INSET = 0.45;
@@ -46,9 +47,20 @@ const availableActionsByModel = new Map();
 
 function loadPetCatalog() {
   try {
+    const catalog = JSON.parse(fs.readFileSync(PET_PACK_CATALOG_PATH, "utf8"));
+    const pets = Array.isArray(catalog.packs)
+      ? catalog.packs
+        .map(petCatalogTools.normalizePack)
+        .filter((pet) => pet?.engine === "spine" && pet.skeleton && pet.atlas)
+      : [];
+    if (pets.length) return pets;
+  } catch {
+    // Fall back to the legacy catalog below.
+  }
+  try {
     const pets = JSON.parse(fs.readFileSync(PETS_PATH, "utf8"));
     return Array.isArray(pets)
-      ? pets.filter((pet) => pet && typeof pet.id === "string" && pet.skeleton && pet.atlas)
+      ? pets.map(petCatalogTools.normalizeLegacyPet).filter(Boolean)
       : [];
   } catch {
     return [];
@@ -389,15 +401,17 @@ function showReminderWindow() {
 
 function normalizeActionNames(names) {
   if (!Array.isArray(names)) return [];
-  const available = new Set(names.filter((name) => typeof name === "string"));
-  return ACTION_ORDER.filter((name) => available.has(name));
+  const seen = new Set();
+  return names
+    .filter((name) => typeof name === "string")
+    .map((name) => name.trim())
+    .filter((name) => name && !seen.has(name) && seen.add(name));
 }
 
 function availableActionsForPet(pet) {
   const dynamic = normalizeActionNames(availableActionsByModel.get(pet?.id));
   if (dynamic.length) return dynamic;
-  const configured = normalizeActionNames(pet?.baseAnimations);
-  return configured.length ? configured : ACTION_ORDER;
+  return normalizeActionNames(pet?.baseAnimations);
 }
 
 function setAvailableModelActions(modelId, names) {
@@ -471,10 +485,12 @@ function menuTemplate() {
   ];
   const currentPet = petCatalog.find((pet) => pet.id === state.model);
   const baseAnimationNames = availableActionsForPet(currentPet);
-  const actionOptions = baseAnimationNames.map((name) => ({
-    label: name,
-    click: () => sendEvent("play-animation", { name }),
-  }));
+  const actionOptions = baseAnimationNames.length
+    ? baseAnimationNames.map((name) => ({
+      label: name,
+      click: () => sendEvent("play-animation", { name }),
+    }))
+    : [{ label: "动作加载中...", enabled: false }];
   const petOptions = petCatalog.map((pet) => ({
     label: pet.label,
     type: "radio",

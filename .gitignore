@@ -21,6 +21,12 @@ state.json
 .portable-preserve/
 dist-next/
 test-artifacts/
+web-dist/
+src-tauri/target/
+.cargo-home/
+.cargo-local-config.toml
+dist-tauri/
+Relax-Eyes-Tauri-Portable.zip
 
 # Logs and local tooling files
 *.log

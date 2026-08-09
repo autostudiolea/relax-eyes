@@ -1,0 +1,62 @@
+{
+  "$schema": "../manifest.schema.json",
+  "schemaVersion": 1,
+  "id": "xiahuolin",
+  "name": "夏活林",
+  "engine": "spine",
+  "version": "1.0.0",
+  "assets": {
+    "sourceRoot": "assets/xiahuolin",
+    "skeleton": "/assets/xiahuolin/xiahuolin.skel",
+    "atlas": "/assets/xiahuolin/xiahuolin.atlas",
+    "textures": [
+      "/assets/xiahuolin/xiahuolin.png"
+    ]
+  },
+  "standard": {
+    "referenceModel": "tutu",
+    "width": 360,
+    "height": 360,
+    "fitScale": 0.68,
+    "anchor": {
+      "x": 0.5,
+      "y": 1
+    },
+    "baseline": 0.92,
+    "safeMargin": {
+      "left": 0.02,
+      "top": 0.02,
+      "right": 0.02,
+      "bottom": 0.02
+    }
+  },
+  "hit": {
+    "mode": "visible-bounds",
+    "padding": 0.02
+  },
+  "actions": {
+    "initial": "Relax",
+    "raw": [],
+    "aliases": {
+      "Relax": "Relax",
+      "Idle": "Idle",
+      "Interact": "Interact",
+      "Move": "Move",
+      "Sit": "Sit",
+      "Sleep": "Sleep",
+      "Special": "Special",
+      "Start": "Relax"
+    },
+    "cooldownMs": 1800,
+    "interruptible": true
+  },
+  "capabilities": {
+    "idle": true,
+    "click": true,
+    "hover": true,
+    "drag": true,
+    "run": true,
+    "sleep": true,
+    "reminder": true
+  }
+}

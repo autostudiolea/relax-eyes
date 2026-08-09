@@ -1,0 +1,1014 @@
+{
+  "schemaVersion": 1,
+  "referenceModel": "tutu",
+  "packs": [
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "tutu",
+      "name": "图图",
+      "engine": "spine",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/tutu",
+        "skeleton": "/assets/tutu/tutu.skel",
+        "atlas": "/assets/tutu/tutu.atlas",
+        "textures": [
+          "/assets/tutu/tutu.png"
+        ]
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "focus-prefix",
+        "focusPrefix": "F_",
+        "padding": 0.02
+      },
+      "actions": {
+        "initial": "Relax",
+        "raw": [
+          "Relax",
+          "Sit",
+          "Sleep",
+          "Move",
+          "Interact"
+        ],
+        "aliases": {
+          "Relax": "Relax",
+          "Idle": "Relax",
+          "Interact": "Interact",
+          "Move": "Move",
+          "Sit": "Sit",
+          "Sleep": "Sleep",
+          "Special": "Interact",
+          "Start": "Relax"
+        },
+        "cooldownMs": 1800,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "xiahuolin",
+      "name": "夏活林",
+      "engine": "spine",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/xiahuolin",
+        "skeleton": "/assets/xiahuolin/xiahuolin.skel",
+        "atlas": "/assets/xiahuolin/xiahuolin.atlas",
+        "textures": [
+          "/assets/xiahuolin/xiahuolin.png"
+        ]
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "visible-bounds",
+        "padding": 0.02
+      },
+      "actions": {
+        "initial": "Relax",
+        "raw": [],
+        "aliases": {
+          "Relax": "Relax",
+          "Idle": "Idle",
+          "Interact": "Interact",
+          "Move": "Move",
+          "Sit": "Sit",
+          "Sleep": "Sleep",
+          "Special": "Special",
+          "Start": "Relax"
+        },
+        "cooldownMs": 1800,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "yao",
+      "name": "瑶",
+      "engine": "spine",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/yao",
+        "skeleton": "/assets/yao/yao.skel",
+        "atlas": "/assets/yao/yao.atlas",
+        "textures": [
+          "/assets/yao/yao.png"
+        ]
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "visible-bounds",
+        "padding": 0.02
+      },
+      "actions": {
+        "initial": "Relax",
+        "raw": [],
+        "aliases": {
+          "Relax": "Relax",
+          "Idle": "Idle",
+          "Interact": "Interact",
+          "Move": "Move",
+          "Sit": "Sit",
+          "Sleep": "Sleep",
+          "Special": "Special",
+          "Start": "Relax"
+        },
+        "cooldownMs": 1800,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "kongxian",
+      "name": "空弦",
+      "engine": "spine",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/kongxian",
+        "skeleton": "/assets/kongxian/kongxian.skel",
+        "atlas": "/assets/kongxian/kongxian.atlas",
+        "textures": [
+          "/assets/kongxian/kongxian.png"
+        ]
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "visible-bounds",
+        "padding": 0.02
+      },
+      "actions": {
+        "initial": "Relax",
+        "raw": [],
+        "aliases": {
+          "Relax": "Relax",
+          "Idle": "Idle",
+          "Interact": "Interact",
+          "Move": "Move",
+          "Sit": "Sit",
+          "Sleep": "Sleep",
+          "Special": "Special",
+          "Start": "Relax"
+        },
+        "cooldownMs": 1800,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "mowang",
+      "name": "魔王",
+      "engine": "spine",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/mowang",
+        "skeleton": "/assets/mowang/mowang.skel",
+        "atlas": "/assets/mowang/mowang.atlas",
+        "textures": [
+          "/assets/mowang/mowang.png"
+        ]
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "visible-bounds",
+        "padding": 0.02
+      },
+      "actions": {
+        "initial": "Relax",
+        "raw": [],
+        "aliases": {
+          "Relax": "Relax",
+          "Idle": "Idle",
+          "Interact": "Interact",
+          "Move": "Move",
+          "Sit": "Sit",
+          "Sleep": "Sleep",
+          "Special": "Special",
+          "Start": "Relax"
+        },
+        "cooldownMs": 1800,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "spchuxue",
+      "name": "SP初雪",
+      "engine": "spine",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/spchuxue",
+        "skeleton": "/assets/spchuxue/spchuxue.skel",
+        "atlas": "/assets/spchuxue/spchuxue.atlas",
+        "textures": [
+          "/assets/spchuxue/spchuxue.png"
+        ]
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "visible-bounds",
+        "padding": 0.02
+      },
+      "actions": {
+        "initial": "Relax",
+        "raw": [],
+        "aliases": {
+          "Relax": "Relax",
+          "Idle": "Idle",
+          "Interact": "Interact",
+          "Move": "Move",
+          "Sit": "Sit",
+          "Sleep": "Sleep",
+          "Special": "Special",
+          "Start": "Relax"
+        },
+        "cooldownMs": 1800,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "splagou",
+      "name": "SP拉狗",
+      "engine": "spine",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/splagou",
+        "skeleton": "/assets/splagou/splagou.skel",
+        "atlas": "/assets/splagou/splagou.atlas",
+        "textures": [
+          "/assets/splagou/splagou.png"
+        ]
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "visible-bounds",
+        "padding": 0.02
+      },
+      "actions": {
+        "initial": "Relax",
+        "raw": [],
+        "aliases": {
+          "Relax": "Relax",
+          "Idle": "Idle",
+          "Interact": "Interact",
+          "Move": "Move",
+          "Sit": "Sit",
+          "Sleep": "Sleep",
+          "Special": "Special",
+          "Start": "Relax"
+        },
+        "cooldownMs": 1800,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "spyang",
+      "name": "SP羊",
+      "engine": "spine",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/spyang",
+        "skeleton": "/assets/spyang/spyang.skel",
+        "atlas": "/assets/spyang/spyang.atlas",
+        "textures": [
+          "/assets/spyang/spyang.png"
+        ]
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "visible-bounds",
+        "padding": 0.02
+      },
+      "actions": {
+        "initial": "Relax",
+        "raw": [],
+        "aliases": {
+          "Relax": "Relax",
+          "Idle": "Idle",
+          "Interact": "Interact",
+          "Move": "Move",
+          "Sit": "Sit",
+          "Sleep": "Sleep",
+          "Special": "Special",
+          "Start": "Relax"
+        },
+        "cooldownMs": 1800,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "fengchuan",
+      "name": "丰川祥子",
+      "engine": "spine",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/fengchuan",
+        "skeleton": "/assets/fengchuan/fengchuan.skel",
+        "atlas": "/assets/fengchuan/fengchuan.atlas",
+        "textures": [
+          "/assets/fengchuan/fengchuan.png"
+        ]
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "focus-prefix",
+        "focusPrefix": "F_",
+        "padding": 0.02
+      },
+      "actions": {
+        "initial": "Relax",
+        "raw": [],
+        "aliases": {
+          "Relax": "Relax",
+          "Idle": "Relax",
+          "Interact": "Interact",
+          "Move": "Move",
+          "Sit": "Sit",
+          "Sleep": "Sleep",
+          "Special": "Special",
+          "Start": "Relax"
+        },
+        "cooldownMs": 1800,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "xi",
+      "name": "夕",
+      "engine": "spine",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/xi",
+        "skeleton": "/assets/xi/xi.skel",
+        "atlas": "/assets/xi/xi.atlas",
+        "textures": [
+          "/assets/xi/xi.png"
+        ]
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "visible-bounds",
+        "padding": 0.02
+      },
+      "actions": {
+        "initial": "Relax",
+        "raw": [],
+        "aliases": {
+          "Relax": "Relax",
+          "Idle": "Idle",
+          "Interact": "Interact",
+          "Move": "Move",
+          "Sit": "Sit",
+          "Sleep": "Sleep",
+          "Special": "Special",
+          "Start": "Relax"
+        },
+        "cooldownMs": 1800,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "hongdi",
+      "name": "红蒂",
+      "engine": "spine",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/hongdi",
+        "skeleton": "/assets/hongdi/hongdi.skel",
+        "atlas": "/assets/hongdi/hongdi.atlas",
+        "textures": [
+          "/assets/hongdi/hongdi.png"
+        ]
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "visible-bounds",
+        "padding": 0.02
+      },
+      "actions": {
+        "initial": "Relax",
+        "raw": [],
+        "aliases": {
+          "Relax": "Relax",
+          "Idle": "Idle",
+          "Interact": "Interact",
+          "Move": "Move",
+          "Sit": "Sit",
+          "Sleep": "Sleep",
+          "Special": "Special",
+          "Start": "Relax"
+        },
+        "cooldownMs": 1800,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "pepe",
+      "name": "佩佩",
+      "engine": "spine",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/pepe",
+        "skeleton": "/assets/pepe/pepe.skel",
+        "atlas": "/assets/pepe/pepe.atlas",
+        "textures": [
+          "/assets/pepe/pepe.png"
+        ]
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "visible-bounds",
+        "padding": 0.02
+      },
+      "actions": {
+        "initial": "Relax",
+        "raw": [],
+        "aliases": {
+          "Relax": "Relax",
+          "Idle": "Idle",
+          "Interact": "Interact",
+          "Move": "Move",
+          "Sit": "Sit",
+          "Sleep": "Sleep",
+          "Special": "Special",
+          "Start": "Relax"
+        },
+        "cooldownMs": 1800,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "malu",
+      "name": "玛露",
+      "engine": "spine",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/malu",
+        "skeleton": "/assets/malu/malu.skel",
+        "atlas": "/assets/malu/malu.atlas",
+        "textures": [
+          "/assets/malu/malu.png"
+        ]
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "focus-prefix",
+        "focusPrefix": "F_",
+        "padding": 0.02
+      },
+      "actions": {
+        "initial": "Relax",
+        "raw": [
+          "Relax",
+          "Sit",
+          "Sleep",
+          "Move",
+          "Interact"
+        ],
+        "aliases": {
+          "Relax": "Relax",
+          "Idle": "Relax",
+          "Interact": "Interact",
+          "Move": "Move",
+          "Sit": "Sit",
+          "Sleep": "Sleep",
+          "Special": "Interact",
+          "Start": "Relax"
+        },
+        "cooldownMs": 1800,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "weishen",
+      "name": "维神",
+      "engine": "spine",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/weishen",
+        "skeleton": "/assets/weishen/weishen.skel",
+        "atlas": "/assets/weishen/weishen.atlas",
+        "textures": [
+          "/assets/weishen/weishen.png"
+        ]
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "focus-prefix",
+        "focusPrefix": "F_",
+        "padding": 0.02
+      },
+      "actions": {
+        "initial": "Relax",
+        "raw": [],
+        "aliases": {
+          "Relax": "Relax",
+          "Idle": "Relax",
+          "Interact": "Interact",
+          "Move": "Move",
+          "Sit": "Sit",
+          "Sleep": "Sleep",
+          "Special": "Special",
+          "Start": "Relax"
+        },
+        "cooldownMs": 1800,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "xinneng",
+      "name": "新能",
+      "engine": "spine",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/xinneng",
+        "skeleton": "/assets/xinneng/xinneng.skel",
+        "atlas": "/assets/xinneng/xinneng.atlas",
+        "textures": [
+          "/assets/xinneng/xinneng.png"
+        ]
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "visible-bounds",
+        "padding": 0.02
+      },
+      "actions": {
+        "initial": "Relax",
+        "raw": [],
+        "aliases": {
+          "Relax": "Relax",
+          "Idle": "Idle",
+          "Interact": "Interact",
+          "Move": "Move",
+          "Sit": "Sit",
+          "Sleep": "Sleep",
+          "Special": "Special",
+          "Start": "Relax"
+        },
+        "cooldownMs": 1800,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    },
+    {
+      "$schema": "../manifest.schema.json",
+      "schemaVersion": 1,
+      "id": "xiaomabaolilin",
+      "name": "小马宝莉林",
+      "engine": "spine",
+      "version": "1.0.0",
+      "assets": {
+        "sourceRoot": "assets/xiaomabaolilin",
+        "skeleton": "/assets/xiaomabaolilin/xiaomabaolilin.skel",
+        "atlas": "/assets/xiaomabaolilin/xiaomabaolilin.atlas",
+        "textures": [
+          "/assets/xiaomabaolilin/xiaomabaolilin.png"
+        ]
+      },
+      "standard": {
+        "referenceModel": "tutu",
+        "width": 360,
+        "height": 360,
+        "fitScale": 0.68,
+        "anchor": {
+          "x": 0.5,
+          "y": 1
+        },
+        "baseline": 0.92,
+        "safeMargin": {
+          "left": 0.02,
+          "top": 0.02,
+          "right": 0.02,
+          "bottom": 0.02
+        }
+      },
+      "hit": {
+        "mode": "visible-bounds",
+        "padding": 0.02
+      },
+      "actions": {
+        "initial": "Relax",
+        "raw": [],
+        "aliases": {
+          "Relax": "Relax",
+          "Idle": "Idle",
+          "Interact": "Interact",
+          "Move": "Move",
+          "Sit": "Sit",
+          "Sleep": "Sleep",
+          "Special": "Special",
+          "Start": "Relax"
+        },
+        "cooldownMs": 1800,
+        "interruptible": true
+      },
+      "capabilities": {
+        "idle": true,
+        "click": true,
+        "hover": true,
+        "drag": true,
+        "run": true,
+        "sleep": true,
+        "reminder": true
+      }
+    }
+  ]
+}

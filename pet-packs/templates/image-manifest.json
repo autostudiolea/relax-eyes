@@ -1,0 +1,45 @@
+{
+  "$schema": "../manifest.schema.json",
+  "schemaVersion": 1,
+  "id": "my-image-pet",
+  "name": "我的图片宠物",
+  "engine": "image",
+  "version": "0.1.0",
+  "assets": {
+    "sourceRoot": "assets/my-image-pet",
+    "source": "assets/my-image-pet/original.png",
+    "frames": []
+  },
+  "standard": {
+    "referenceModel": "tutu",
+    "width": 360,
+    "height": 360,
+    "fitScale": 0.68,
+    "anchor": { "x": 0.5, "y": 1 },
+    "baseline": 0.92,
+    "safeMargin": { "left": 0.02, "top": 0.02, "right": 0.02, "bottom": 0.02 }
+  },
+  "hit": {
+    "mode": "opaque-pixels",
+    "padding": 0.02
+  },
+  "actions": {
+    "initial": "idle",
+    "raw": ["idle"],
+    "aliases": {
+      "Relax": "idle",
+      "Idle": "idle"
+    },
+    "cooldownMs": 1200,
+    "interruptible": true
+  },
+  "capabilities": {
+    "idle": true,
+    "click": true,
+    "hover": true,
+    "drag": true,
+    "run": true,
+    "sleep": true,
+    "reminder": true
+  }
+}

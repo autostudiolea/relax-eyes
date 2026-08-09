@@ -26,8 +26,8 @@ const EFFECT_TYPES = [
   "stretch", "squash", "float", "step", "lean", "tremble",
 ];
 
-// All pets share the visible frame calibrated from 图图's F_ attachments.
-const REFERENCE_MODEL_BOUNDS = Object.freeze({ width: 370, height: 418 });
+// All pets share the visible frame calibrated from tutu's F_ attachments.
+const REFERENCE_MODEL_BOUNDS = window.RelaxEyesSpinePetAdapter.REFERENCE_MODEL_BOUNDS;
 
 const canvas = document.getElementById("pet-canvas");
 const loading = document.getElementById("loading");
@@ -48,7 +48,6 @@ let animationFrame = 0;
 let pointer = null;
 let audioContext = null;
 let idleTimer = null;
-let lastIdleAnimation = "";
 let petCatalog = [];
 let interactionCatalog = [];
 let activeBehavior = null;
@@ -66,9 +65,7 @@ const IDLE_DELAY_MAX_MS = 12000;
 const REMINDER_RUN_DURATION_MS = 9000;
 const HOVER_COOLDOWN_MS = 1800;
 const DUE_CLICK_GRACE_MS = 220;
-const MAX_ENVELOPE_SAMPLES = 24;
 const MAX_CAMERA_MULTIPLIER = 1.7;
-const BASE_ACTION_NAMES = Object.freeze(["Relax", "Interact", "Move", "Sit", "Sleep", "Special"]);
 
 function showLoading(message) {
   loading.textContent = message;
@@ -105,182 +102,6 @@ function initializeRenderer() {
   skeletonRenderer = new spine.webgl.SkeletonRenderer(gl);
   mvp = new spine.webgl.Matrix4();
   gl.enable(gl.BLEND);
-}
-
-function collectBounds(skeleton, focusPrefix) {
-  if (focusPrefix) {
-    const vertices = [];
-    let minX = Number.POSITIVE_INFINITY;
-    let minY = Number.POSITIVE_INFINITY;
-    let maxX = Number.NEGATIVE_INFINITY;
-    let maxY = Number.NEGATIVE_INFINITY;
-    let matched = false;
-    for (const slot of skeleton.drawOrder) {
-      const attachment = slot.getAttachment();
-      const slotName = slot.data.name || "";
-      const attachmentName = attachment?.name || "";
-      if (!slotName.startsWith(focusPrefix) && !attachmentName.startsWith(focusPrefix)) continue;
-      if (attachment instanceof spine.RegionAttachment) {
-        vertices.length = 8;
-        attachment.computeWorldVertices(slot.bone, vertices, 0, 2);
-      } else if (attachment instanceof spine.MeshAttachment) {
-        vertices.length = attachment.worldVerticesLength;
-        attachment.computeWorldVertices(slot, 0, attachment.worldVerticesLength, vertices, 0, 2);
-      } else {
-        continue;
-      }
-      matched = true;
-      for (let index = 0; index < vertices.length; index += 2) {
-        minX = Math.min(minX, vertices[index]);
-        minY = Math.min(minY, vertices[index + 1]);
-        maxX = Math.max(maxX, vertices[index]);
-        maxY = Math.max(maxY, vertices[index + 1]);
-      }
-    }
-    if (matched && maxX > minX && maxY > minY) {
-      return {
-        offset: new spine.Vector2(minX, minY),
-        size: new spine.Vector2(maxX - minX, maxY - minY),
-      };
-    }
-  }
-  const offset = new spine.Vector2();
-  const size = new spine.Vector2();
-  skeleton.getBounds(offset, size, []);
-  if (!Number.isFinite(size.x) || !Number.isFinite(size.y) || size.x <= 0 || size.y <= 0) {
-    throw new Error("模型没有有效的可见边界");
-  }
-  return { offset, size };
-}
-
-function collectHitPolygons(skeleton, focusPrefix) {
-  const polygons = [];
-  for (const slot of skeleton.drawOrder) {
-    const attachment = slot.getAttachment();
-    const slotName = slot.data.name || "";
-    const attachmentName = attachment?.name || "";
-    if (focusPrefix && !slotName.startsWith(focusPrefix) && !attachmentName.startsWith(focusPrefix)) continue;
-    if (attachment instanceof spine.RegionAttachment) {
-      const vertices = new Array(8);
-      attachment.computeWorldVertices(slot.bone, vertices, 0, 2);
-      polygons.push({ vertices, indices: [0, 1, 2, 0, 2, 3] });
-    } else if (attachment instanceof spine.MeshAttachment) {
-      const vertices = new Array(attachment.worldVerticesLength);
-      attachment.computeWorldVertices(slot, 0, attachment.worldVerticesLength, vertices, 0, 2);
-      const indices = Array.from(attachment.triangles || []);
-      if (vertices.length >= 6 && indices.length >= 3) polygons.push({ vertices, indices });
-    }
-  }
-  return polygons;
-}
-
-function calculateBounds(skeleton, focusPrefix) {
-  skeleton.setToSetupPose();
-  skeleton.updateWorldTransform();
-  return collectBounds(skeleton, focusPrefix);
-}
-
-function mergeBounds(target, bounds) {
-  const minX = bounds.offset.x;
-  const minY = bounds.offset.y;
-  const maxX = minX + bounds.size.x;
-  const maxY = minY + bounds.size.y;
-  target.minX = Math.min(target.minX, minX);
-  target.minY = Math.min(target.minY, minY);
-  target.maxX = Math.max(target.maxX, maxX);
-  target.maxY = Math.max(target.maxY, maxY);
-}
-
-function boundsFromExtents(extents) {
-  if (!Number.isFinite(extents.minX) || !Number.isFinite(extents.maxX)
-    || extents.maxX <= extents.minX || extents.maxY <= extents.minY) {
-    throw new Error("模型没有有效的动画边界");
-  }
-  return {
-    offset: new spine.Vector2(extents.minX, extents.minY),
-    size: new spine.Vector2(extents.maxX - extents.minX, extents.maxY - extents.minY),
-  };
-}
-
-function calculateAnimationEnvelope(skeleton, focusPrefix, selectedAnimations = skeleton.data.animations) {
-  const extents = {
-    minX: Number.POSITIVE_INFINITY,
-    minY: Number.POSITIVE_INFINITY,
-    maxX: Number.NEGATIVE_INFINITY,
-    maxY: Number.NEGATIVE_INFINITY,
-  };
-  const animations = selectedAnimations || [];
-  for (const animation of animations) {
-    const duration = Math.max(0, Number(animation.duration) || 0);
-    const sampleCount = duration > 0
-      ? Math.min(MAX_ENVELOPE_SAMPLES, Math.max(2, Math.ceil(duration * 6)))
-      : 1;
-    for (let index = 0; index < sampleCount; index += 1) {
-      const time = sampleCount === 1 ? 0 : duration * index / (sampleCount - 1);
-      skeleton.setToSetupPose();
-      animation.apply(
-        skeleton,
-        0,
-        time,
-        false,
-        [],
-        1,
-        spine.MixBlend.setup,
-        spine.MixDirection.mixIn,
-      );
-      skeleton.updateWorldTransform();
-      mergeBounds(extents, collectBounds(skeleton, focusPrefix));
-    }
-  }
-  skeleton.setToSetupPose();
-  skeleton.updateWorldTransform();
-  return boundsFromExtents(extents);
-}
-
-function calculateTypicalAnimationBounds(skeleton, focusPrefix, animation) {
-  const duration = Math.max(0, Number(animation?.duration) || 0);
-  const sampleCount = duration > 0
-    ? Math.min(MAX_ENVELOPE_SAMPLES, Math.max(4, Math.ceil(duration * 6)))
-    : 1;
-  const samples = [];
-  for (let index = 0; index < sampleCount; index += 1) {
-    const time = sampleCount === 1 ? 0 : duration * index / (sampleCount - 1);
-    skeleton.setToSetupPose();
-    animation.apply(
-      skeleton,
-      0,
-      time,
-      false,
-      [],
-      1,
-      spine.MixBlend.setup,
-      spine.MixDirection.mixIn,
-    );
-    skeleton.updateWorldTransform();
-    samples.push(collectBounds(skeleton, focusPrefix));
-  }
-  skeleton.setToSetupPose();
-  skeleton.updateWorldTransform();
-  if (!samples.length) throw new Error("默认动作没有有效边界");
-  samples.sort((left, right) => {
-    const leftArea = left.size.x * left.size.y;
-    const rightArea = right.size.x * right.size.y;
-    return leftArea - rightArea;
-  });
-  return samples[Math.floor(samples.length * 0.55)];
-}
-
-function transformBounds(bounds, root, scale) {
-  const rootX = Number(root?.x) || 0;
-  const rootY = Number(root?.y) || 0;
-  const x1 = rootX + (bounds.offset.x - rootX) * scale;
-  const y1 = rootY + (bounds.offset.y - rootY) * scale;
-  const x2 = rootX + (bounds.offset.x + bounds.size.x - rootX) * scale;
-  const y2 = rootY + (bounds.offset.y + bounds.size.y - rootY) * scale;
-  return {
-    offset: new spine.Vector2(Math.min(x1, x2), Math.min(y1, y2)),
-    size: new spine.Vector2(Math.abs(x2 - x1), Math.abs(y2 - y1)),
-  };
 }
 
 function clampContentInset(value) {
@@ -356,28 +177,6 @@ function renderedPixelIsOpaque(event, rect) {
   }
 }
 
-function waitForAssets(assetManager) {
-  return new Promise((resolve, reject) => {
-    const startedAt = performance.now();
-    const poll = () => {
-      if (assetManager.hasErrors()) {
-        reject(new Error(Object.values(assetManager.getErrors()).join("\n")));
-        return;
-      }
-      if (assetManager.isLoadingComplete()) {
-        resolve();
-        return;
-      }
-      if (performance.now() - startedAt > 15000) {
-        reject(new Error("模型资源加载超时"));
-        return;
-      }
-      window.setTimeout(poll, 30);
-    };
-    poll();
-  });
-}
-
 async function loadInteractionCatalog() {
   const response = await fetch("/interactions.json", { cache: "no-store" });
   if (!response.ok) throw new Error(`互动动作目录加载失败: ${response.status}`);
@@ -387,25 +186,19 @@ async function loadInteractionCatalog() {
 }
 
 async function loadPetCatalog() {
-  const response = await fetch("/pets.json", { cache: "no-store" });
-  if (!response.ok) throw new Error(`宠物目录加载失败: ${response.status}`);
-  const pets = await response.json();
-  petCatalog = Array.isArray(pets)
-    ? pets.filter((pet) => pet && typeof pet.id === "string" && pet.skeleton && pet.atlas)
-    : [];
+  const catalog = await window.RelaxEyesPetCatalog.load();
+  petCatalog = catalog.pets;
   MODELS = Object.fromEntries(petCatalog.map((pet) => [pet.id, pet]));
   if (!MODELS.tutu) {
     petCatalog.unshift(FALLBACK_MODEL);
     MODELS.tutu = FALLBACK_MODEL;
   }
+  if (catalog.source !== "pet-packs") console.warn("Using legacy pets.json catalog:", catalog.catalogError);
   return petCatalog;
 }
 
 function resolveAnimationName(name) {
-  if (!currentModel || !name) return null;
-  const aliases = currentModel.definition?.animationAliases || {};
-  const candidates = [aliases[name], name].filter((candidate, index, list) => candidate && list.indexOf(candidate) === index);
-  return candidates.find((candidate) => currentModel.skeleton.data.findAnimation(candidate)) || null;
+  return currentModel?.adapter?.resolveAnimationName(name) || null;
 }
 
 function findAnimation(name, fallback = "Relax") {
@@ -416,17 +209,51 @@ function hasAnimation(name) {
   return Boolean(resolveAnimationName(name));
 }
 
-function availableAnimationNames(skeletonData, model) {
-  const aliases = model.animationAliases || {};
-  const actualNames = new Set();
+function buildIdleAnimationPool(model, rawAnimations, idleAnimationName) {
+  const configured = Array.isArray(model?.idleAnimations)
+    ? model.idleAnimations.filter((name) => rawAnimations.includes(name))
+    : [];
+  const pool = configured.length ? configured : rawAnimations.slice();
+  const nonIdle = pool.filter((name) => name !== idleAnimationName);
+  return nonIdle.length ? nonIdle : pool;
+}
+
+function chooseIdleAnimation(excluded = []) {
+  const pool = currentModel?.idleAnimations || [];
+  if (!pool.length) return null;
+  const recent = currentModel.recentIdleAnimations || [];
+  const excludedSet = new Set(excluded);
+  let choices = pool.filter((name) => !excludedSet.has(name) && !recent.includes(name));
+  if (!choices.length) choices = pool.filter((name) => !excludedSet.has(name));
+  if (!choices.length) choices = pool;
+  const selected = choices[Math.floor(Math.random() * choices.length)];
+  currentModel.recentIdleAnimations = [...recent.filter((name) => name !== selected), selected].slice(-3);
+  return selected;
+}
+
+function playIdleAnimationSequence() {
+  if (!currentModel) return;
   const names = [];
-  for (const name of BASE_ACTION_NAMES) {
-    const actualName = aliases[name] || name;
-    if (!skeletonData.findAnimation(actualName) || actualNames.has(actualName)) continue;
-    actualNames.add(actualName);
-    names.push(name);
+  const first = chooseIdleAnimation();
+  if (first) names.push(first);
+  if (names.length && currentModel.idleAnimations.length > 1 && Math.random() < 0.45) {
+    const second = chooseIdleAnimation(names);
+    if (second) names.push(second);
   }
-  return names;
+  if (names.length && currentModel.idleAnimations.length > 2 && Math.random() < 0.2) {
+    const third = chooseIdleAnimation(names);
+    if (third) names.push(third);
+  }
+  if (!names.length) {
+    playAnimation(currentModel.idleAnimationName || "Relax", true);
+    return;
+  }
+
+  clearBehavior();
+  currentModel.state.setAnimation(0, names[0], false);
+  for (const name of names.slice(1)) currentModel.state.addAnimation(0, name, false, 0.08);
+  const idle = currentModel.idleAnimationName || findAnimation("Relax", names[names.length - 1]);
+  if (idle) currentModel.state.addAnimation(0, idle, true, 0.05);
 }
 
 function removeBehaviorEffect() {
@@ -555,7 +382,7 @@ function playAnimation(name, loop = false) {
   if (!resolvedName) return;
   currentModel.state.setAnimation(0, resolvedName, loop);
   if (!loop) {
-    const idle = findAnimation("Relax", resolvedName);
+    const idle = currentModel.idleAnimationName || findAnimation("Relax", resolvedName);
     currentModel.state.addAnimation(0, idle, true, 0);
   }
   scheduleIdleActivity();
@@ -579,7 +406,7 @@ function playInteractionAction(actionId, withEffect = true) {
     entry = currentModel.state.addAnimation(0, step.name, false, step.delay);
     entry.timeScale = step.speed;
   }
-  const idle = findAnimation("Relax", steps[steps.length - 1].name);
+  const idle = currentModel.idleAnimationName || findAnimation("Relax", steps[steps.length - 1].name);
   if (idle) currentModel.state.addAnimation(0, idle, true, 0);
   activeBehavior = withEffect
     ? {
@@ -588,7 +415,6 @@ function playInteractionAction(actionId, withEffect = true) {
       endsAt: performance.now() + Math.max(900, estimateActionDuration(steps) * 1000),
     }
     : null;
-  lastIdleAnimation = action.id;
   scheduleIdleActivity();
 }
 
@@ -671,7 +497,7 @@ function scheduleIdleActivity(delay = randomIdleDelay()) {
 function isAnimationBusy() {
   if (activeBehavior && performance.now() < activeBehavior.endsAt) return true;
   const entry = currentModel?.state.getCurrent(0);
-  if (!entry?.animation || entry.animation.name === "Relax") return false;
+  if (!entry?.animation || entry.loop || entry.animation.name === currentModel?.idleAnimationName) return false;
   return !entry.isComplete();
 }
 
@@ -686,17 +512,7 @@ function runIdleActivity() {
     return;
   }
 
-  if (!interactionCatalog.length) {
-    scheduleIdleActivity(2500);
-    return;
-  }
-  let choices = interactionCatalog.filter((action) => action.id !== lastIdleAnimation);
-  if (choices.length === 0) choices = interactionCatalog;
-  if (choices.length > 0) {
-    const action = choices[Math.floor(Math.random() * choices.length)];
-    lastIdleAnimation = action.id;
-    playInteractionAction(action.id, false);
-  }
+  playIdleAnimationSequence();
   scheduleIdleActivity();
 }
 
@@ -707,60 +523,33 @@ async function loadModel(modelId, animationName) {
     idleTimer = null;
   }
   showLoading(`正在加载 ${model.label}`);
+  const previousModel = currentModel;
+  let adapter = null;
   try {
     removeReminderMotion();
     reminderMotion = null;
     clearBehavior();
     initializeRenderer();
-    if (currentModel?.assets) currentModel.assets.dispose();
-    const assetManager = new spine.webgl.AssetManager(gl);
-    const skeletonIsJson = model.skeletonFormat === "json" || model.skeleton.toLowerCase().endsWith(".json");
-    if (skeletonIsJson) assetManager.loadText(model.skeleton);
-    else assetManager.loadBinary(model.skeleton);
-    assetManager.loadTextureAtlas(model.atlas);
-    await waitForAssets(assetManager);
-
-    const atlas = assetManager.get(model.atlas);
-    const loader = new spine.AtlasAttachmentLoader(atlas);
-    let skeletonData;
-    if (skeletonIsJson) {
-      const skeletonJson = new spine.SkeletonJson(loader);
-      skeletonJson.scale = 1;
-      skeletonData = skeletonJson.readSkeletonData(assetManager.get(model.skeleton));
-    } else {
-      const skeletonBinary = new spine.SkeletonBinary(loader);
-      skeletonBinary.scale = 1;
-      skeletonData = skeletonBinary.readSkeletonData(assetManager.get(model.skeleton));
-    }
-    const skeleton = new spine.Skeleton(skeletonData);
-    const focusPrefix = model.focusPrefix || "F_";
-    const setupBounds = calculateBounds(skeleton, focusPrefix);
-    const initialAnimationName = model.animationAliases?.[model.initialAnimation] || model.initialAnimation;
-    const initialAnimation = skeletonData.findAnimation(initialAnimationName) || skeletonData.animations[0];
+    adapter = new window.RelaxEyesSpinePetAdapter(model, gl);
+    const loaded = await adapter.load();
+    const {
+      assetManager,
+      skeleton,
+      rawAnimations,
+      initialAnimationName,
+      bounds,
+      animationEnvelope,
+    } = loaded;
     const animationStateData = new spine.AnimationStateData(skeleton.data);
     animationStateData.defaultMix = 0.18;
     const animationState = new spine.AnimationState(animationStateData);
-    let bounds = setupBounds;
-    if (initialAnimation) {
-      try {
-        bounds = calculateTypicalAnimationBounds(skeleton, focusPrefix, initialAnimation);
-      } catch (error) {
-        console.warn(`无法计算 ${model.label} 的默认动作边界，使用设置姿态:`, error);
-      }
-    }
-    let animationEnvelope = bounds;
-    try {
-      animationEnvelope = calculateAnimationEnvelope(skeleton);
-    } catch (error) {
-      console.warn(`无法计算 ${model.label} 的完整动画边界，使用基础边界:`, error);
-    }
     const root = skeleton.bones[0];
     const uniformScale = Math.min(
       REFERENCE_MODEL_BOUNDS.width / bounds.size.x,
       REFERENCE_MODEL_BOUNDS.height / bounds.size.y,
     );
-    const cameraBounds = transformBounds(animationEnvelope, root, uniformScale);
-    const hitBounds = transformBounds(bounds, root, uniformScale);
+    const cameraBounds = adapter.transformBounds(animationEnvelope, root, uniformScale);
+    const hitBounds = adapter.transformBounds(bounds, root, uniformScale);
     const bodyCenter = {
       x: hitBounds.offset.x + hitBounds.size.x / 2,
       y: hitBounds.offset.y + hitBounds.size.y / 2,
@@ -779,12 +568,17 @@ async function loadModel(modelId, animationName) {
         Math.min(REFERENCE_MODEL_BOUNDS.height * MAX_CAMERA_MULTIPLIER, 2 * Math.max(bottomExtent, topExtent)),
       ),
     };
-    currentModel = {
+    const nextModel = {
       id: model.id,
       definition: model,
+      adapter,
       assets: assetManager,
       skeleton,
       state: animationState,
+      rawAnimations,
+      idleAnimationName: initialAnimationName || rawAnimations[0] || null,
+      idleAnimations: buildIdleAnimationPool(model, rawAnimations, initialAnimationName),
+      recentIdleAnimations: [],
       bounds,
       displayBounds: null,
       contentBounds: hitBounds,
@@ -804,15 +598,18 @@ async function loadModel(modelId, animationName) {
       },
       fitScale: Number.isFinite(Number(model.fitScale)) ? Number(model.fitScale) : 0.68,
     };
+    if (previousModel?.adapter) previousModel.adapter.dispose();
+    currentModel = nextModel;
     lastContentInsetsReport = null;
     appliedModelTransform = { x: 0, y: 0, scaleX: 1, scaleY: 1 };
-    window.relaxEyes.setAvailableAnimations(model.id, availableAnimationNames(skeletonData, model));
-    lastIdleAnimation = "";
-    playAnimation(animationName || model.initialAnimation, model.initialLoop);
+    window.relaxEyes.setAvailableAnimations(model.id, rawAnimations);
+    playAnimation(animationName || currentModel.idleAnimationName || model.initialAnimation, model.initialLoop);
     setMousePassthrough(true);
     hideLoading();
     errorPanel.hidden = true;
   } catch (error) {
+    if (adapter && adapter !== currentModel?.adapter) adapter.dispose();
+    if (currentModel === previousModel) scheduleIdleActivity(2500);
     showError(error);
     console.error(error);
   }
@@ -865,8 +662,8 @@ function renderFrame() {
     currentModel.displayBounds = { offset: displayOffset, size: displaySize };
   }
   try {
-    currentModel.hitBounds = collectBounds(currentModel.skeleton, currentModel.definition.focusPrefix || "F_");
-    currentModel.hitPolygons = collectHitPolygons(currentModel.skeleton, currentModel.definition.focusPrefix || "F_");
+    currentModel.hitBounds = currentModel.adapter.collectBounds(currentModel.skeleton);
+    currentModel.hitPolygons = currentModel.adapter.collectHitPolygons(currentModel.skeleton);
   } catch {
     currentModel.hitBounds = currentModel.displayBounds || currentModel.hitBounds;
     currentModel.hitPolygons = [];
@@ -995,8 +792,11 @@ async function beginPointer(event) {
     if (pointer === nextPointer) {
       nextPointer.originX = origin.x;
       nextPointer.originY = origin.y;
+    } else {
+      window.relaxEyes.cancelDrag?.();
     }
   } catch {
+    window.relaxEyes.cancelDrag?.();
     if (pointer === nextPointer) pointer = null;
   }
 }
@@ -1037,8 +837,9 @@ function endPointer(event) {
       window.relaxEyes.endDrag(finishedPointer.originX + dx, finishedPointer.originY + dy);
     }
     playAnimation("Relax", true);
-  } else if (!finishedPointer.dueClickConfirmed) {
-    window.relaxEyes.petClick();
+  } else {
+    if (!finishedPointer.dueClickConfirmed) window.relaxEyes.petClick();
+    window.relaxEyes.cancelDrag?.();
   }
   canvas.releasePointerCapture?.(event.pointerId);
   updateMousePassthrough(event);
@@ -1105,6 +906,7 @@ canvas.addEventListener("pointercancel", () => {
   if (pointer?.moved) playAnimation("Relax", true);
   pointer = null;
   hovered = false;
+  window.relaxEyes.cancelDrag?.();
   setMousePassthrough(true);
 });
 canvas.addEventListener("pointerenter", (event) => {

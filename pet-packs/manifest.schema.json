@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Relax Eyes Pet Pack Manifest",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "id",
+    "name",
+    "engine",
+    "version",
+    "assets",
+    "standard",
+    "hit",
+    "actions",
+    "capabilities"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "integer", "const": 1 },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "name": { "type": "string", "minLength": 1 },
+    "engine": { "enum": ["spine", "image"] },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "assets": {
+      "type": "object",
+      "required": ["sourceRoot"],
+      "properties": {
+        "sourceRoot": { "type": "string", "minLength": 1 },
+        "skeleton": { "type": "string" },
+        "atlas": { "type": "string" },
+        "textures": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "source": { "type": "string" },
+        "frames": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "standard": {
+      "type": "object",
+      "required": [
+        "referenceModel",
+        "width",
+        "height",
+        "fitScale",
+        "anchor",
+        "baseline",
+        "safeMargin"
+      ],
+      "properties": {
+        "referenceModel": { "type": "string" },
+        "width": { "type": "number", "exclusiveMinimum": 0 },
+        "height": { "type": "number", "exclusiveMinimum": 0 },
+        "fitScale": { "type": "number", "exclusiveMinimum": 0 },
+        "anchor": {
+          "type": "object",
+          "required": ["x", "y"],
+          "properties": {
+            "x": { "type": "number", "minimum": 0, "maximum": 1 },
+            "y": { "type": "number", "minimum": 0, "maximum": 1 }
+          },
+          "additionalProperties": false
+        },
+        "baseline": { "type": "number", "minimum": 0, "maximum": 1 },
+        "safeMargin": {
+          "type": "object",
+          "required": ["left", "top", "right", "bottom"],
+          "properties": {
+            "left": { "type": "number", "minimum": 0, "maximum": 1 },
+            "top": { "type": "number", "minimum": 0, "maximum": 1 },
+            "right": { "type": "number", "minimum": 0, "maximum": 1 },
+            "bottom": { "type": "number", "minimum": 0, "maximum": 1 }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "hit": {
+      "type": "object",
+      "required": ["mode", "padding"],
+      "properties": {
+        "mode": {
+          "enum": ["focus-prefix", "visible-bounds", "opaque-pixels"]
+        },
+        "focusPrefix": { "type": "string" },
+        "padding": { "type": "number", "minimum": 0, "maximum": 0.45 }
+      },
+      "additionalProperties": false
+    },
+    "actions": {
+      "type": "object",
+      "required": ["initial", "raw", "aliases"],
+      "properties": {
+        "initial": { "type": "string", "minLength": 1 },
+        "raw": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "aliases": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "cooldownMs": { "type": "integer", "minimum": 0 },
+        "interruptible": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "capabilities": {
+      "type": "object",
+      "required": [
+        "idle",
+        "click",
+        "hover",
+        "drag",
+        "run",
+        "sleep",
+        "reminder"
+      ],
+      "additionalProperties": { "type": "boolean" }
+    }
+  },
+  "additionalProperties": false
+}
