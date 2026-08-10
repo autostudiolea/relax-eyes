@@ -196,6 +196,14 @@
       return this.images[index];
     }
 
+    renderKey(entry) {
+      if (this.images.length <= 1) return "static";
+      const name = String(entry?.animation?.name || this.initialAnimationName || "idle").toLowerCase();
+      if (name === String(this.initialAnimationName || "idle").toLowerCase()
+        || /idle|relax|sleep|rest/.test(name)) return "idle:0";
+      return `${name}:${Math.floor((Number(entry?.time) || 0) * 3) % this.images.length}`;
+    }
+
     draw(context, width, height, viewport, bounds, root, entry) {
       context.clearRect(0, 0, width, height);
       const image = this.frameFor(entry);

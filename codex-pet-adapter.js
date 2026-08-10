@@ -79,7 +79,11 @@
       this.frames = [];
       this.frameMap = new Map();
       this.animations = {};
+      this.animationCache = new Map();
+      this.defaultAnimation = null;
       this.rawAnimations = [];
+      this.animationAliases = { ...(format?.aliases || {}), ...(this.model.animationAliases || {}) };
+      this.resolvedAnimationNames = new Map();
       this.initialAnimationName = null;
       this.bounds = null;
       this.frameScale = 1;
@@ -91,6 +95,8 @@
     }
 
     animationDuration(name) {
+      const compiled = this.animationCache.get(name);
+      if (compiled) return Math.max(0.2, compiled.totalDuration / 1000);
       const definition = this.animations[name];
       const frameCount = definition?.frames?.length || 0;
       const durations = Array.isArray(definition?.durations)
@@ -108,8 +114,11 @@
     }
 
     resolveAnimationName(name) {
-      const aliases = { ...(format?.aliases || {}), ...(this.model.animationAliases || {}) };
       const requested = String(name || "").trim();
+      if (this.resolvedAnimationNames.has(requested)) {
+        return this.resolvedAnimationNames.get(requested);
+      }
+      const aliases = this.animationAliases;
       const candidates = unique([
         aliases[requested],
         requested,
@@ -120,13 +129,15 @@
         this.initialAnimationName,
         "idle",
       ]);
-      return candidates
+      const resolved = candidates
         .map((candidate) => this.rawAnimations.find((animation) => (
           animation === candidate || animation.toLowerCase() === String(candidate).toLowerCase()
         )))
         .find(Boolean)
         || this.rawAnimations[0]
         || null;
+      this.resolvedAnimationNames.set(requested, resolved);
+      return resolved;
     }
 
     createSkeleton() {
@@ -163,7 +174,9 @@
         throw new Error(`Codex 图集必须是 ${format.width} x ${format.height}，当前为 ${width} x ${height}`);
       }
 
-      const visibleColumns = format.detectVisibleColumns(this.image);
+      const manifestColumns = this.model.petPack?.atlas?.visibleColumns
+        || (typeof this.model.atlas === "object" ? this.model.atlas.visibleColumns : null);
+      const visibleColumns = manifestColumns || format.detectVisibleColumns(this.image);
       const layout = format.buildFrames(visibleColumns);
       this.frames = layout.frames;
       this.frameMap = new Map(this.frames.map((frame) => [frame.id, frame]));
@@ -177,6 +190,16 @@
         : validNames;
       if (!this.rawAnimations.length) this.rawAnimations = validNames;
       if (!this.rawAnimations.length) throw new Error(`Codex 角色 ${this.model.id || "unknown"} 图集中没有可用动作`);
+
+      this.resolvedAnimationNames.clear();
+      this.animationCache = new Map(
+        Object.entries(this.animations)
+          .map(([name, definition]) => [name, this.compileAnimation(name, definition)])
+          .filter(([, compiled]) => compiled.sequence.length),
+      );
+      this.defaultAnimation = this.compileAnimation("idle", {
+        frames: this.frames.map((frame) => frame.id),
+      });
 
       const standard = this.model.standard || {};
       const maxWidth = Math.max(1, finite(standard.width, 360));
@@ -207,6 +230,29 @@
       };
     }
 
+    compileAnimation(name, definition) {
+      const sequence = (definition?.frames || [])
+        .map((id) => this.frameMap.get(id))
+        .filter(Boolean);
+      if (!sequence.length) return { sequence: [], durations: [], cumulative: [], totalDuration: 0 };
+      const fallbackDuration = 1000 / animationFps(definition, format.fps[name] || 6);
+      const durations = Array.isArray(definition?.durations) && definition.durations.length
+        ? definition.durations
+          .slice(0, sequence.length)
+          .map((duration) => Math.max(1, finite(duration, fallbackDuration)))
+        : Array.from({ length: sequence.length }, () => fallbackDuration);
+      while (durations.length < sequence.length) {
+        durations.push(durations[durations.length - 1] || fallbackDuration);
+      }
+      const cumulative = [];
+      let totalDuration = 0;
+      for (const duration of durations) {
+        totalDuration += duration;
+        cumulative.push(totalDuration);
+      }
+      return { sequence, durations, cumulative, totalDuration };
+    }
+
     createAnimationState() {
       return new CodexAnimationState(this);
     }
@@ -234,27 +280,22 @@
 
     frameFor(entry) {
       const animationName = this.resolveAnimationName(entry?.animation?.name || this.initialAnimationName || "idle");
-      const definition = this.animations[animationName];
-      const frames = definition?.frames?.map((id) => this.frameMap.get(id)).filter(Boolean) || [];
-      const sequence = frames.length ? frames : this.frames;
-      if (!sequence.length) return null;
-      const fallbackDuration = 1000 / animationFps(definition, format.fps[animationName] || 6);
-      const durations = Array.isArray(definition?.durations) && definition.durations.length
-        ? definition.durations.slice(0, sequence.length).map((duration) => Math.max(1, finite(duration, fallbackDuration)))
-        : Array.from({ length: sequence.length }, () => fallbackDuration);
-      const totalDuration = durations.reduce((total, duration) => total + duration, 0);
+      const compiled = this.animationCache.get(animationName) || this.defaultAnimation;
+      if (!compiled?.sequence.length || !compiled.totalDuration) return null;
       let elapsed = Math.max(0, Number(entry?.time) || 0) * 1000;
       if (entry?.loop) {
-        elapsed %= totalDuration;
+        elapsed %= compiled.totalDuration;
       } else {
-        elapsed = Math.min(elapsed, Math.max(0, totalDuration - 1));
+        elapsed = Math.min(elapsed, Math.max(0, compiled.totalDuration - 1));
       }
-      let cursor = 0;
-      for (let index = 0; index < sequence.length; index += 1) {
-        cursor += durations[index];
-        if (elapsed < cursor) return sequence[index];
+      for (let index = 0; index < compiled.sequence.length; index += 1) {
+        if (elapsed < compiled.cumulative[index]) return compiled.sequence[index];
       }
-      return sequence[sequence.length - 1] || this.frames[0];
+      return compiled.sequence[compiled.sequence.length - 1] || this.frames[0];
+    }
+
+    renderKey(entry) {
+      return this.frameFor(entry)?.id || "";
     }
 
     draw(context, width, height, viewport, bounds, root, entry) {

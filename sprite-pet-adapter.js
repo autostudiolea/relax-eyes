@@ -284,6 +284,10 @@
       return frames[Math.floor((Number(entry?.time) || 0) * fps) % frames.length] || this.frames[0];
     }
 
+    renderKey(entry) {
+      return this.frameFor(entry)?.id || "";
+    }
+
     draw(context, width, height, viewport, bounds, root, entry) {
       context.clearRect(0, 0, width, height);
       const frame = this.frameFor(entry);

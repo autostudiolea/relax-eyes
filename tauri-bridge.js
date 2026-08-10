@@ -90,9 +90,9 @@
         submenu("动作", actionItems),
         item(
           "timer:pause",
-          state.paused ? "恢复提醒" : "暂停提醒",
+          state.paused ? "恢复休息提醒（Codex、周报仍正常）" : "暂停休息提醒（不影响 Codex、周报）",
           { command: "toggle_pause" },
-          { enabled: state.phase !== "due" },
+          { enabled: state.phase !== "due" && state.eyeBreakEnabled !== false },
         ),
         item("timer:reset", "立即重置计时", { command: "reset_timer", args: { source: "menu" } }),
         separator,
@@ -113,7 +113,7 @@
     if (state.weeklyReportDueAt > 0) return "周报提醒已到";
     if (state.phase === "due") return "休息提醒已到";
     if (state.eyeBreakEnabled === false) return "休息提醒已关闭";
-    if (state.paused) return "提醒已暂停";
+    if (state.paused) return "休息提醒已暂停（Codex、周报仍正常）";
     return `下次提醒：${formatRemaining(state.remainingMs)}`;
   }
 

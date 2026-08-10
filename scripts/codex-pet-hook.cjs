@@ -53,6 +53,9 @@ function eventId(input, eventType) {
 }
 
 function baseEvent(input, eventType, status, title, summary, details = []) {
+  const sessionId = cleanText(input.session_id, "", 160);
+  const turnId = cleanText(input.turn_id, "", 160);
+  const agentId = cleanText(input.agent_id, "", 120);
   return {
     protocol: "codex-pet/v1",
     event_id: eventId(input, eventType),
@@ -64,6 +67,9 @@ function baseEvent(input, eventType, status, title, summary, details = []) {
     source: "codex-cli-hook",
     project: projectName(input),
     created_at: new Date().toISOString(),
+    ...(sessionId ? { session_id: sessionId } : {}),
+    ...(turnId ? { turn_id: turnId } : {}),
+    ...(agentId ? { agent_id: agentId } : {}),
   };
 }
 
@@ -110,6 +116,16 @@ const FAILURE_STATUS_VALUES = new Set([
   "connection_error",
   "server_error",
 ]);
+const TRANSIENT_STATUS_VALUES = new Set([
+  "upstream",
+  "upstream_error",
+  "network_error",
+  "connection_error",
+  "server_error",
+  "timeout",
+  "timed_out",
+  "timed-out",
+]);
 
 function failureText(value, depth = 0) {
   if (typeof value === "string") return cleanText(value, "", MAX_TEXT_LENGTH);
@@ -127,41 +143,9 @@ function isFailureStatus(value) {
   return FAILURE_STATUS_VALUES.has(status);
 }
 
-function isFailureText(value) {
-  const text = failureText(value);
-  if (!text) return false;
-  return [
-    /^\s*(?:error|fatal|failure|failed)\b/i,
-    /\b(?:upstream|api|network|connection|gateway|server|provider)\b.{0,60}\b(?:error|failure|failed|unavailable|timeout|timed[\s-]?out|reset|refused|aborted|disconnect(?:ed|ion)?)\b/i,
-    /\b(?:request|operation|command|tool|turn)\b.{0,40}\b(?:failed|failure|error|timed[\s-]?out|aborted)\b/i,
-    /\b(?:could not|unable to|cannot)\b.{0,50}\b(?:connect|reach|complete|send|receive|contact)\b/i,
-    /\b(?:http|status)\s*[:=]?\s*[45]\d{2}\b/i,
-    /\b(?:timed[\s-]?out|connection (?:reset|refused|closed)|remote (?:reset|closed))\b/i,
-    /(?:上游|网络|连接|请求|接口|服务器|服务商).{0,30}(?:错误|失败|异常|超时|拒绝|重置|中断)/,
-    /(?:错误|失败|异常|超时|拒绝|重置|中断)\s*[:：]/,
-  ].some((pattern) => pattern.test(text));
-}
-
-function hasFailureValue(value) {
-  return hasToolFailure(value) || isFailureText(value);
-}
-
-function hasFailureSignal(input) {
-  for (const key of [
-    "tool_response",
-    "error",
-    "failure",
-    "failure_reason",
-    "failureReason",
-    "error_message",
-    "errorMessage",
-  ]) {
-    if (hasFailureValue(input[key])) return true;
-  }
-  for (const key of ["status", "outcome", "result", "stop_reason", "stopReason"]) {
-    if (isFailureStatus(input[key]) || isFailureText(input[key])) return true;
-  }
-  return isFailureText(input.last_assistant_message);
+function isTransientStatus(value) {
+  if (typeof value !== "string") return false;
+  return TRANSIENT_STATUS_VALUES.has(value.trim().toLowerCase().replace(/\s+/g, "_"));
 }
 
 function failureReason(input) {
@@ -181,7 +165,108 @@ function failureReason(input) {
     if (isFailureStatus(input[key])) return cleanText(input[key], "", MAX_TEXT_LENGTH);
   }
   const lastMessage = cleanText(input.last_assistant_message, "", MAX_TEXT_LENGTH);
-  return isFailureText(lastMessage) ? lastMessage : "";
+  return lastMessage;
+}
+
+function hasExplicitManualSignal(input) {
+  for (const key of [
+    "requires_manual_action",
+    "requiresManualAction",
+    "needs_user_action",
+    "needsUserAction",
+    "manual_intervention_required",
+    "manualInterventionRequired",
+  ]) {
+    if (input[key] === true) return true;
+  }
+  const text = cleanText(input.last_assistant_message, "", MAX_TEXT_LENGTH);
+  if (!text) return false;
+  return [
+    /\b(?:manual(?:ly)?|you need to|requires? you to|user action|required action)\b.{0,80}\b(?:retry|run|fix|resolve|check|handle|restart|approve|configure|intervene)\b/i,
+    /\b(?:please)\b.{0,80}\b(?:retry|run|fix|resolve|check|handle|restart|approve|configure|intervene)\b/i,
+    /(?:需要你|请你|需手动|手动|人工).{0,36}(?:重试|运行|修复|解决|检查|处理|重启|确认|配置|干预)/,
+  ].some((pattern) => pattern.test(text));
+}
+
+function hasTransientFailureSignal(input) {
+  if (["status", "outcome", "result", "stop_reason", "stopReason"]
+    .some((key) => isTransientStatus(input[key]))) {
+    return true;
+  }
+  const text = [
+    input.last_assistant_message,
+    input.error,
+    input.failure,
+    input.error_message,
+    input.errorMessage,
+    input.stop_reason,
+    input.stopReason,
+  ]
+    .map((value) => failureText(value))
+    .filter(Boolean)
+    .join(" ");
+  if (!text) return false;
+  return [
+    /\b(?:upstream|network|connection|gateway|provider|server)\b.{0,60}\b(?:error|failure|failed|unavailable|timeout|timed[\s-]?out|reset|refused|aborted|disconnect(?:ed|ion)?)\b/i,
+    /\b(?:http|status)\s*[:=]?\s*5\d{2}\b/i,
+    /\b(?:timed[\s-]?out|connection (?:reset|refused|closed)|remote (?:reset|closed))\b/i,
+    /(?:上游|网络|连接|服务器|服务商).{0,30}(?:错误|失败|异常|超时|拒绝|重置|中断)/,
+  ].some((pattern) => pattern.test(text));
+}
+
+function hasTerminalStreamFailureSignal(input) {
+  const text = [
+    input.last_assistant_message,
+    input.error,
+    input.failure,
+    input.error_message,
+    input.errorMessage,
+    input.stop_reason,
+    input.stopReason,
+  ]
+    .map((value) => failureText(value))
+    .filter(Boolean)
+    .join(" ");
+  return [
+    /\bstream\s+disconnected\b.{0,80}\bbefore\s+completion\b/i,
+    /\b(?:upstream|provider|server)\s+request\s+failed\b/i,
+  ].some((pattern) => pattern.test(text));
+}
+
+function hasResolutionSignal(input) {
+  const text = cleanText(input.last_assistant_message, "", MAX_TEXT_LENGTH);
+  if (!text) return false;
+  if (/\b(?:not|never|didn't|did not|couldn't|could not|unable to)\b.{0,30}\b(?:resolve|fix|complete|pass|finish)\b/i.test(text)) {
+    return false;
+  }
+  return [
+    /\b(?:completed successfully|successfully completed|fixed|resolved|tests? passed|passed successfully|done)\b/i,
+    /(?:已完成|已修复|已解决|测试通过|处理好了|完成了)/,
+  ].some((pattern) => pattern.test(text));
+}
+
+function hasUnresolvedFailureSignal(input) {
+  const text = cleanText(input.last_assistant_message, "", MAX_TEXT_LENGTH);
+  const statusFailure = ["failed", "failure", "fatal", "aborted", "cancelled", "canceled"]
+    .some((value) => input.status === value || input.outcome === value);
+  if (statusFailure) return true;
+  if (!text || hasResolutionSignal(input)) return false;
+  return [
+    /\b(?:could not|couldn't|unable to|cannot|can't|failed to|was unable to|did not complete|didn't complete|stopped)\b.{0,100}\b(?:complete|continue|finish|resolve|fix|apply|run|execute|deliver)\b/i,
+    /\b(?:task|turn|command|tool|operation|request|tests?)\b.{0,35}\b(?:failed|failure|error|timed[\s-]?out|aborted|cancelled|canceled)\b/i,
+    /\b(?:not|never)\s+(?:completed|fixed|resolved|applied|passed)\b/i,
+    /(?:无法|未能|没能|不能).{0,40}(?:完成|继续|解决|修复|应用|执行)/,
+    /(?:任务|回合|命令|工具|操作|请求|测试).{0,24}(?:失败|错误|超时|中止|取消)/,
+  ].some((pattern) => pattern.test(text));
+}
+
+function terminalOutcome(input) {
+  if (hasExplicitManualSignal(input)) return "manual_required";
+  if (hasResolutionSignal(input)) return "completed";
+  if (hasTerminalStreamFailureSignal(input)) return "failed_candidate";
+  if (hasUnresolvedFailureSignal(input)) return "failed_candidate";
+  if (hasTransientFailureSignal(input)) return "transient";
+  return "completed";
 }
 
 function eventForHook(input) {
@@ -197,48 +282,43 @@ function eventForHook(input) {
       toolDetails(input),
     );
   }
-  if (hookEvent === "PostToolUse" && hasFailureValue(input.tool_response)) {
-    return baseEvent(
-      input,
-      "task_failed",
-      "failed",
-      "Codex 工具执行失败",
-      `Codex 的 ${toolName(input)} 执行失败，请查看 Codex 输出。`,
-      toolDetails(input),
-    );
-  }
-  if (hookEvent === "Stop" || hookEvent === "SubagentStop") {
-    const isSubagent = hookEvent === "SubagentStop";
-    if (hasFailureSignal(input)) {
-      const reason = failureReason(input);
-      const details = reason ? [{ type: "reason", value: reason }] : [];
-      if (isSubagent && input.agent_id) {
-        details.push({ type: "agent", value: cleanText(input.agent_id, "Codex 子任务", 120) });
-      }
-      return baseEvent(
+  if (hookEvent === "PostToolUse" && hasToolFailure(input.tool_response)) {
+    const reason = failureReason(input);
+    const details = [
+      ...toolDetails(input),
+      ...(reason ? [{ type: "reason", value: reason }] : []),
+    ];
+    return {
+      ...baseEvent(
         input,
-        "task_failed",
-        "failed",
-        isSubagent ? "Codex 子任务失败" : "Codex 工作失败",
-        reason
-          ? `${isSubagent ? "Codex 子任务检测到失败" : "Codex 检测到当前工作失败"}：${reason}`
-          : (isSubagent ? "Codex 子任务未能正常完成。" : "Codex 未能正常完成当前工作。"),
+        "tool_failure_candidate",
+        "observed",
+        "Codex 工具失败候选",
+        `Codex 记录到 ${toolName(input)} 的一次失败，等待当前回合最终结果。`,
         details,
-      );
-    }
-    const lastMessage = cleanText(input.last_assistant_message, "", MAX_TEXT_LENGTH);
-    return baseEvent(
-      input,
-      "task_completed",
-      "completed",
-      isSubagent ? "Codex 子任务完成" : "Codex 工作完成",
-      lastMessage
-        ? `${isSubagent ? "Codex 子任务已完成" : "Codex 已完成当前工作回合"}：${lastMessage}`
-        : (isSubagent ? "Codex 已结束一个子任务。" : "Codex 已结束当前工作回合。"),
-      isSubagent && input.agent_id
-        ? [{ type: "agent", value: cleanText(input.agent_id, "Codex 子任务", 120) }]
-        : [],
-    );
+      ),
+      visibility: "internal",
+      failure_reason: reason,
+    };
+  }
+  if (hookEvent === "Stop") {
+    const outcome = terminalOutcome(input);
+    const reason = outcome === "failed_candidate" || outcome === "manual_required"
+      ? failureReason(input)
+      : "";
+    return {
+      ...baseEvent(
+        input,
+        "turn_stop",
+        "observed",
+        "Codex 回合结束",
+        cleanText(input.last_assistant_message, "Codex 已结束当前工作回合。", MAX_TEXT_LENGTH),
+        reason ? [{ type: "reason", value: reason }] : [],
+      ),
+      visibility: "internal",
+      terminal_outcome: outcome,
+      failure_reason: reason,
+    };
   }
   return null;
 }
@@ -294,5 +374,9 @@ if (require.main === module) {
 module.exports = {
   eventForHook,
   failureReason,
-  hasFailureSignal,
+  hasExplicitManualSignal,
+  hasTerminalStreamFailureSignal,
+  hasTransientFailureSignal,
+  hasUnresolvedFailureSignal,
+  terminalOutcome,
 };

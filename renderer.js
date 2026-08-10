@@ -37,6 +37,7 @@ let reminderMotion = null;
 let appliedReminderMotion = { x: 0, y: 0 };
 let codexNotifications = [];
 const acknowledgedCodexIds = new Set();
+const acknowledgingCodexIds = new Set();
 let hovered = false;
 let lastHoverAt = 0;
 let lastClickAt = 0;
@@ -45,6 +46,10 @@ let lastContentInsetsReport = null;
 let mouseEventsIgnored = null;
 let viewportDirty = true;
 let geometryRefreshAt = 0;
+let hitMaskContext = null;
+let hitMask = null;
+let hitMaskRefreshAt = 0;
+let rasterRenderKey = null;
 let appliedBehaviorEffect = { x: 0, y: 0, rotation: 0, scaleX: 1, scaleY: 1 };
 let appliedModelTransform = { x: 0, y: 0, scaleX: 1, scaleY: 1 };
 
@@ -62,6 +67,9 @@ const CODEX_TRANSIENT_DURATION_MS = 7000;
 const HOVER_COOLDOWN_MS = 1800;
 const DUE_CLICK_GRACE_MS = 220;
 const MAX_CAMERA_MULTIPLIER = 1.7;
+const HIT_MASK_SIZE = 96;
+const HIT_MASK_REFRESH_MS = 50;
+const HIT_ALPHA_THRESHOLD = 12;
 const DEFAULT_SPEECH_FACE_ANCHOR = { x: 0.62, y: 0.76 };
 function isRasterPet(model) {
   return model?.engine === "image" || model?.engine === "sprite" || model?.engine === "codex-webp";
@@ -146,15 +154,10 @@ function initializeRenderer() {
     alpha: true,
     premultipliedAlpha: false,
     antialias: true,
-    // Pixel alpha is used by the transparent-window hit test after a frame
-    // has been presented. Keep the buffer available until hit testing no
-    // longer depends on readPixels.
-    preserveDrawingBuffer: true,
   }) || canvas.getContext("experimental-webgl", {
     alpha: true,
     premultipliedAlpha: false,
     antialias: true,
-    preserveDrawingBuffer: true,
   });
   if (!gl) throw new Error("当前环境没有可用的 WebGL");
   shader = spine.webgl.Shader.newTwoColoredTextured(gl);
@@ -163,6 +166,42 @@ function initializeRenderer() {
   mvp = new spine.webgl.Matrix4();
   imageContext = imageCanvas?.getContext("2d", { alpha: true }) || null;
   gl.enable(gl.BLEND);
+}
+
+function invalidateHitMask() {
+  hitMask = null;
+  hitMaskRefreshAt = 0;
+}
+
+function refreshHitMask(now = performance.now()) {
+  if (!currentModel || now < hitMaskRefreshAt) return;
+  const source = isRasterPet(currentModel) ? imageCanvas : canvas;
+  if (!source?.width || !source?.height) return;
+  if (!hitMaskContext) {
+    const surface = document.createElement("canvas");
+    surface.width = HIT_MASK_SIZE;
+    surface.height = HIT_MASK_SIZE;
+    hitMaskContext = surface.getContext("2d", { willReadFrequently: true });
+  }
+  if (!hitMaskContext) return;
+  try {
+    hitMaskContext.clearRect(0, 0, HIT_MASK_SIZE, HIT_MASK_SIZE);
+    hitMaskContext.imageSmoothingEnabled = false;
+    hitMaskContext.drawImage(source, 0, 0, HIT_MASK_SIZE, HIT_MASK_SIZE);
+    const pixels = hitMaskContext.getImageData(0, 0, HIT_MASK_SIZE, HIT_MASK_SIZE).data;
+    const alpha = new Uint8Array(HIT_MASK_SIZE * HIT_MASK_SIZE);
+    let hasOpaquePixel = false;
+    for (let index = 0; index < alpha.length; index += 1) {
+      const value = pixels[index * 4 + 3];
+      alpha[index] = value;
+      hasOpaquePixel ||= value >= HIT_ALPHA_THRESHOLD;
+    }
+    hitMask = hasOpaquePixel ? { alpha, width: HIT_MASK_SIZE, height: HIT_MASK_SIZE } : null;
+    hitMaskRefreshAt = now + HIT_MASK_REFRESH_MS;
+  } catch {
+    hitMask = null;
+    hitMaskRefreshAt = now + HIT_MASK_REFRESH_MS;
+  }
 }
 
 function clampContentInset(value) {
@@ -222,36 +261,19 @@ function pointInHitPolygons(x, y, polygons) {
 }
 
 function renderedPixelIsOpaque(event, rect) {
-  if (isRasterPet(currentModel) && imageContext && imageCanvas?.width && imageCanvas?.height) {
-    const horizontal = (event.clientX - rect.left) / rect.width;
-    const vertical = (event.clientY - rect.top) / rect.height;
-    if (horizontal < 0 || horizontal > 1 || vertical < 0 || vertical > 1) return false;
-    try {
-      const pixel = imageContext.getImageData(
-        Math.max(0, Math.min(imageCanvas.width - 1, Math.floor(horizontal * imageCanvas.width))),
-        Math.max(0, Math.min(imageCanvas.height - 1, Math.floor(vertical * imageCanvas.height))),
-        1,
-        1,
-      ).data;
-      return pixel[3] >= 12;
-    } catch {
-      return null;
-    }
-  }
-  if (!gl || !canvas.width || !canvas.height) return null;
+  if (!hitMask) return null;
   const horizontal = (event.clientX - rect.left) / rect.width;
   const vertical = (event.clientY - rect.top) / rect.height;
   if (horizontal < 0 || horizontal > 1 || vertical < 0 || vertical > 1) return false;
-  const pixelX = Math.max(0, Math.min(canvas.width - 1, Math.floor(horizontal * canvas.width)));
-  const pixelY = Math.max(0, Math.min(canvas.height - 1, Math.floor((1 - vertical) * canvas.height)));
-  const pixel = new Uint8Array(4);
-  try {
-    gl.readPixels(pixelX, pixelY, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixel);
-    if (gl.getError() !== gl.NO_ERROR) return null;
-    return pixel[3] >= 12;
-  } catch {
-    return null;
-  }
+  const pixelX = Math.max(0, Math.min(
+    hitMask.width - 1,
+    Math.floor(horizontal * hitMask.width),
+  ));
+  const pixelY = Math.max(0, Math.min(
+    hitMask.height - 1,
+    Math.floor(vertical * hitMask.height),
+  ));
+  return hitMask.alpha[pixelY * hitMask.width + pixelX] >= HIT_ALPHA_THRESHOLD;
 }
 
 async function loadInteractionCatalog() {
@@ -1016,6 +1038,9 @@ async function loadModel(modelId, animationName) {
       hoverSuppressedUntil: 0,
       bounds,
       displayBounds: null,
+      displayOffset: new spine.Vector2(),
+      displaySize: new spine.Vector2(),
+      boundsVertices: [],
       contentBounds: hitBounds,
       hitBounds,
       hitPolygons: [],
@@ -1048,6 +1073,8 @@ async function loadModel(modelId, animationName) {
     lastContentInsetsReport = null;
     viewportDirty = true;
     geometryRefreshAt = 0;
+    invalidateHitMask();
+    rasterRenderKey = null;
     appliedModelTransform = { x: 0, y: 0, scaleX: 1, scaleY: 1 };
     window.relaxEyes.setAvailableAnimations(model.id, rawAnimations);
     playAnimation(animationName || currentModel.idleAnimationName || model.initialAnimation, model.initialLoop);
@@ -1081,6 +1108,8 @@ function resizeCanvas() {
   if (sizeChanged) {
     canvas.width = width;
     canvas.height = height;
+    invalidateHitMask();
+    rasterRenderKey = null;
   }
   if (!viewportDirty && !sizeChanged && currentModel.viewport) return;
   const centerX = currentModel.cameraCenter.x;
@@ -1170,11 +1199,15 @@ function renderFrame() {
   applyReminderMotion(performance.now());
   if (isRasterPet(currentModel)) {
     resizeCanvas();
+    const entry = currentModel.state.getCurrent(0);
+    const renderKey = `${currentState?.facing || ""}:${currentModel.adapter.renderKey?.(entry)
+      || `${entry?.animation?.name || ""}:${Math.floor((Number(entry?.time) || 0) * 30)}`}`;
+    const shouldRenderRaster = Boolean(reminderMotion || activeBehavior) || rasterRenderKey !== renderKey;
     // Keep the WebGL canvas as the transparent input layer, but remove the
     // previous Spine frame before revealing the raster canvas underneath it.
     gl.clearColor(0, 0, 0, 0);
     gl.clear(gl.COLOR_BUFFER_BIT);
-    if (imageContext && imageCanvas) {
+    if (shouldRenderRaster && imageContext && imageCanvas) {
       if (imageCanvas.width !== canvas.width || imageCanvas.height !== canvas.height) {
         imageCanvas.width = canvas.width;
         imageCanvas.height = canvas.height;
@@ -1191,14 +1224,16 @@ function renderFrame() {
         currentModel.skeleton.bones[0],
         currentModel.state.getCurrent(0),
       );
+      rasterRenderKey = renderKey;
     }
     updateReminderBubbleAnchor();
+    refreshHitMask(performance.now());
     return;
   }
   currentModel.skeleton.updateWorldTransform();
-  const displayOffset = new spine.Vector2();
-  const displaySize = new spine.Vector2();
-  currentModel.skeleton.getBounds(displayOffset, displaySize, []);
+  const displayOffset = currentModel.displayOffset;
+  const displaySize = currentModel.displaySize;
+  currentModel.skeleton.getBounds(displayOffset, displaySize, currentModel.boundsVertices);
   if (Number.isFinite(displaySize.x) && Number.isFinite(displaySize.y) && displaySize.x > 0 && displaySize.y > 0) {
     currentModel.displayBounds = { offset: displayOffset, size: displaySize };
   }
@@ -1225,6 +1260,7 @@ function renderFrame() {
   skeletonRenderer.draw(batcher, currentModel.skeleton);
   batcher.end();
   shader.unbind();
+  refreshHitMask(performance.now());
 }
 
 function formatRemaining(milliseconds) {
@@ -1380,24 +1416,29 @@ function renderNotificationHud() {
 function acknowledgeCodexNotification(eventId) {
   const index = codexNotifications.findIndex((item) => codexEventId(item) === eventId);
   if (index < 0) return Promise.resolve(false);
+  if (acknowledgingCodexIds.has(eventId)) return Promise.resolve(false);
+  acknowledgingCodexIds.add(eventId);
   const acknowledge = window.relaxEyes?.ackCodexEvent;
   const removeLocally = () => {
+    acknowledgingCodexIds.delete(eventId);
     acknowledgedCodexIds.add(eventId);
     codexNotifications = codexNotifications.filter((item) => codexEventId(item) !== eventId);
     renderNotificationHud();
-    const next = activeCodexNotification();
-    if (next) {
-      startCodexAttention(next);
-    } else {
-      stopReminderMotion();
-      if (hasUnderlyingReminder()) startReminderMotion();
-    }
     return true;
   };
-  if (!acknowledge) return Promise.resolve(removeLocally());
+  if (!acknowledge) {
+    const removed = removeLocally();
+    syncReminderMotion();
+    return Promise.resolve(removed);
+  }
   return acknowledge(eventId)
-    .then(() => removeLocally())
+    .then(() => {
+      const removed = removeLocally();
+      syncReminderMotion();
+      return removed;
+    })
     .catch((error) => {
+      acknowledgingCodexIds.delete(eventId);
       console.error("Could not acknowledge Codex notification:", error);
       return false;
     });
@@ -1460,15 +1501,22 @@ function syncPendingCodexNotifications(events) {
   }
 }
 
+function syncReminderMotion() {
+  const shouldMove = Boolean(currentModel)
+    && hasUnderlyingReminder()
+    && !activeCodexNotification();
+  if (shouldMove) {
+    if (!reminderMotion) void startReminderMotion();
+  } else if (reminderMotion) {
+    stopReminderMotion();
+  }
+}
+
 function updateHud(state) {
   currentState = state;
   syncPendingCodexNotifications(state.codexPendingEvents);
   renderNotificationHud();
-  if (hasUnderlyingReminder() && !activeCodexNotification()) {
-    if (currentModel && !reminderMotion) void startReminderMotion();
-  } else if (!hasUnderlyingReminder() && reminderMotion) {
-    stopReminderMotion();
-  }
+  syncReminderMotion();
 }
 
 function playReminderSound() {
@@ -1503,6 +1551,12 @@ async function startReminderMotion() {
     renderNotificationHud();
     return;
   }
+  if (pointer) {
+    window.setTimeout(() => {
+      if (!pointer && !reminderMotion && hasUnderlyingReminder()) void startReminderMotion();
+    }, 0);
+    return;
+  }
   if (!currentModel || reminderMotion) return;
   const startedAt = performance.now();
   const fallbackPosition = currentState?.position;
@@ -1527,6 +1581,10 @@ async function startReminderMotion() {
     blockedWindowMoves: 0,
   };
   reminderMotion = motion;
+  // A Codex acknowledgement can arrive while the transparent window is still
+  // in passthrough mode. Re-capture it before the reminder starts moving.
+  mouseEventsIgnored = null;
+  setMousePassthrough(false);
   playReminderSound();
   spawnPetEffect("reminder");
   playAnimation(
@@ -1637,7 +1695,7 @@ function handleEvent(event) {
     renderNotificationHud();
     const next = activeCodexNotification();
     if (next) startCodexAttention(next);
-    else if (hasUnderlyingReminder()) startReminderMotion();
+    syncReminderMotion();
   } else if (event.type === "reminder-due" || event.type === "weekly-report-due") {
     if (activeCodexNotification()
       || (currentState?.weeklyReportEnabled !== false && Number(currentState?.weeklyReportDueAt || 0) > 0)) {

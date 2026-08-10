@@ -61,7 +61,9 @@ let availablePets = [];
 let visiblePetsDraft = [];
 let currentModelId = "";
 let previewCatalogPromise = null;
-let previewsStarted = false;
+let previewRenderer = null;
+let previewObserver = null;
+const previewInFlight = new Set();
 const previewImageCache = new Map();
 
 function validAccent(value, fallback) {
@@ -85,8 +87,21 @@ function normalizeVisiblePets(value) {
   return allIds.filter((id) => requested.has(id));
 }
 
+function ensurePreviewObserver() {
+  if (previewObserver || typeof IntersectionObserver !== "function") return;
+  previewObserver = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      const petId = entry.target?.dataset?.petPreview;
+      if (petId) void renderPreviewForPet(petId);
+    }
+  }, { root: null, rootMargin: "160px" });
+}
+
 function renderPetVisibility() {
   if (!petVisibilityList || !petVisibilityStatus) return;
+  ensurePreviewObserver();
+  previewObserver?.disconnect();
   petVisibilityList.replaceChildren();
   if (!availablePets.length) {
     petVisibilityStatus.textContent = "正在加载角色目录...";
@@ -167,6 +182,7 @@ function renderPetVisibility() {
 
     card.append(preview, copy, checkbox);
     list.append(card);
+    previewObserver?.observe(preview);
     });
   }
   petVisibilityStatus.textContent = `已选择 ${selectedCount} / ${availablePets.length} 个角色`;
@@ -175,6 +191,42 @@ function renderPetVisibility() {
 function previewImageFor(id) {
   return [...document.querySelectorAll("img[data-pet-preview]")]
     .find((image) => image.dataset.petPreview === id);
+}
+
+async function loadPreviewModels() {
+  if (!previewCatalogPromise) previewCatalogPromise = window.RelaxEyesPetCatalog.load();
+  const catalog = await previewCatalogPromise;
+  return new Map((catalog.pets || []).map((pet) => [pet.id, pet]));
+}
+
+async function renderPreviewForPet(petId) {
+  if (previewImageCache.has(petId) || previewInFlight.has(petId)) return;
+  previewInFlight.add(petId);
+  try {
+    const models = await loadPreviewModels();
+    const model = models.get(petId);
+    if (!model || !["spine", "codex-webp"].includes(model.engine)) return;
+    if (model.engine === "spine" && !previewRenderer) {
+      previewRenderer = createPreviewRenderer();
+    }
+    if (model.engine === "spine" && !previewRenderer) return;
+    const dataUrl = model.engine === "codex-webp"
+      ? await renderCodexPreview(model)
+      : await renderSpinePreview(model, previewRenderer);
+    previewImageCache.set(petId, dataUrl);
+    const image = previewImageFor(petId);
+    if (image) image.src = dataUrl;
+  } catch (error) {
+    console.warn(`Could not render preview for ${petId}:`, error);
+  } finally {
+    previewInFlight.delete(petId);
+  }
+}
+
+function startVisiblePreviews() {
+  ensurePreviewObserver();
+  if (previewObserver) return;
+  for (const pet of availablePets) void renderPreviewForPet(pet.id);
 }
 
 function createPreviewRenderer() {
@@ -323,37 +375,6 @@ async function renderCodexPreview(model) {
   return canvas.toDataURL("image/png");
 }
 
-async function renderStaticPreviews() {
-  if (previewsStarted || !availablePets.length) return;
-  previewsStarted = true;
-  const renderer = createPreviewRenderer();
-  if (!window.RelaxEyesPetCatalog?.load) return;
-  try {
-    if (!previewCatalogPromise) previewCatalogPromise = window.RelaxEyesPetCatalog.load();
-    const catalog = await previewCatalogPromise;
-    const models = new Map((catalog.pets || []).map((pet) => [pet.id, pet]));
-    for (const pet of availablePets) {
-      const model = models.get(pet.id);
-      if (!model || !["spine", "codex-webp"].includes(model.engine)) continue;
-      if (model.engine === "spine" && !renderer) continue;
-      try {
-        const dataUrl = model.engine === "codex-webp"
-          ? await renderCodexPreview(model)
-          : await renderSpinePreview(model, renderer);
-        previewImageCache.set(pet.id, dataUrl);
-        const image = previewImageFor(pet.id);
-        if (image) image.src = dataUrl;
-      } catch (error) {
-        console.warn(`Could not render preview for ${pet.id}:`, error);
-      }
-    }
-  } catch (error) {
-    console.warn("Could not load preview catalog:", error);
-  } finally {
-    renderer?.canvas.remove();
-  }
-}
-
 function readDraft() {
   return {
     displayScale: Number(range.value) / 100,
@@ -494,6 +515,7 @@ function activateTab(tabName) {
   document.querySelectorAll("[data-panel]").forEach((panel) => {
     panel.hidden = panel.dataset.panel !== tabName;
   });
+  if (tabName === "pets") startVisiblePreviews();
 }
 
 function markDraftChanged() {
@@ -605,7 +627,6 @@ async function initializePetSettings() {
     availablePets = Array.isArray(pets) ? pets : [];
     updateSettings(state);
     renderPetVisibility();
-    void renderStaticPreviews();
   } catch (error) {
     if (petVisibilityStatus) petVisibilityStatus.textContent = "角色目录加载失败，请重试";
     console.error("Could not load pet catalog:", error);

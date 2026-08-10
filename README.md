@@ -78,7 +78,9 @@ Tauri 的前端资源会先生成到项目内的 `web-dist/`，Cargo 缓存和�
 
 保存后重启 Codex CLI，并在会话中执行 `/hooks` 让 CLI 重新读取并信任 Hook。关闭宠物、端点不存在或 Codex 提示开关关闭时，Hook 会静默结束，不会阻塞 Codex。官方行为说明见 [Codex Hooks 文档](https://learn.chatgpt.com/docs/hooks)。
 
-`Stop` 和 `SubagentStop` 会优先识别明确的 upstream、API、网络、连接、超时、错误和失败信号，再发送红色失败提示；没有失败信号的正常停止才会发送绿色完成提示。
+Hook 采用回合级失败判定：`PostToolUse` 遇到 PowerShell/Bash 非零退出时只记录内部失败候选，不会立即发送红色提示；主线程 `Stop` 会结合同一 `session_id + turn_id` 的最终结果再决定是否通知。命令随后被修复、测试通过或正常完成时只发送绿色完成提示。
+
+单独出现 upstream、API、网络、连接重置、HTTP 5xx 或超时等瞬时错误会被静默忽略。只有最终回合明确未完成且需要用户手动重试、修复、处理或确认时，才发送一次红色失败提示。`SubagentStop` 不再直接通知失败，子任务失败只有在主回合最终无法完成时才会影响结果。
 
 开发阶段可使用项目内发送器验证本地链路：
 

@@ -30,8 +30,17 @@ for (const file of files) {
   fs.copyFileSync(path.join(projectRoot, file), path.join(outputRoot, file));
 }
 
-for (const directory of ["assets", "vendor", "pet-packs"]) {
-  fs.cpSync(path.join(projectRoot, directory), path.join(outputRoot, directory), { recursive: true });
+fs.cpSync(path.join(projectRoot, "assets"), path.join(outputRoot, "assets"), { recursive: true });
+
+for (const file of [
+  ["vendor/spine-webgl.js", "vendor/spine-webgl.js"],
+  ["vendor/SPINE-LICENSE.txt", "vendor/SPINE-LICENSE.txt"],
+  ["pet-packs/catalog.json", "pet-packs/catalog.json"],
+]) {
+  const source = path.join(projectRoot, file[0]);
+  const target = path.join(outputRoot, file[1]);
+  fs.mkdirSync(path.dirname(target), { recursive: true });
+  fs.copyFileSync(source, target);
 }
 
 console.log(`Prepared Tauri frontend in ${outputRoot}`);

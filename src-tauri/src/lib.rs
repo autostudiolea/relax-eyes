@@ -15,6 +15,11 @@ use std::{
 #[cfg(windows)]
 use std::{ffi::OsStr, os::windows::ffi::OsStrExt, process::Command};
 
+#[cfg(windows)]
+use windows_sys::Win32::Storage::FileSystem::{
+    MoveFileExW, MOVEFILE_REPLACE_EXISTING, MOVEFILE_WRITE_THROUGH,
+};
+
 use chrono::{Datelike, Duration as ChronoDuration, Local, NaiveTime, TimeZone, Weekday};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
@@ -72,6 +77,12 @@ const CODEX_MAX_QUEUE_LENGTH: usize = 100;
 const CODEX_MAX_SEEN_IDS: usize = 2048;
 const CODEX_MAX_TEXT_LENGTH: usize = 2000;
 const CODEX_MAX_DETAILS_DEPTH: usize = 4;
+const CODEX_MAX_TRACKED_TURNS: usize = 256;
+const CODEX_TURN_TTL_MS: i64 = 30 * 60 * 1000;
+const CODEX_QUEUE_COMPACT_THRESHOLD: usize = 512;
+const WORK_AREA_CACHE_TTL_MS: i64 = 500;
+
+static STATE_WRITE_SEQUENCE: AtomicU64 = AtomicU64::new(0);
 
 #[cfg(windows)]
 fn webview2_runtime_version() -> Option<String> {
@@ -395,6 +406,8 @@ struct CodexQueue {
     pending: Vec<Value>,
     seen: HashSet<String>,
     seen_order: Vec<String>,
+    record_count: usize,
+    last_compaction_count: usize,
 }
 
 impl CodexQueue {
@@ -405,15 +418,23 @@ impl CodexQueue {
             pending: Vec::new(),
             seen: HashSet::new(),
             seen_order: Vec::new(),
+            record_count: 0,
+            last_compaction_count: 0,
         };
         let Ok(text) = fs::read_to_string(&queue.path) else {
             return queue;
         };
         for line in text.lines() {
+            queue.record_count += 1;
             let Ok(record) = serde_json::from_str::<Value>(line) else {
                 continue;
             };
             match record.get("op").and_then(Value::as_str) {
+                Some("seen") => {
+                    if let Some(event_id) = record.get("eventId").and_then(Value::as_str) {
+                        queue.remember(event_id.to_string());
+                    }
+                }
                 Some("enqueue") => {
                     let Some(event) = record.get("event").filter(|value| value.is_object()) else {
                         continue;
@@ -437,6 +458,12 @@ impl CodexQueue {
                 _ => {}
             }
         }
+        queue.last_compaction_count = if queue.record_count >= CODEX_QUEUE_COMPACT_THRESHOLD {
+            0
+        } else {
+            queue.record_count
+        };
+        let _ = queue.compact_if_needed();
         queue
     }
 
@@ -476,8 +503,10 @@ impl CodexQueue {
             return Err("Codex notification queue is full".to_string());
         }
         self.append(json!({ "op": "enqueue", "event": event.clone() }))?;
+        self.record_count += 1;
         self.remember(event_id.to_string());
         self.pending.push(event);
+        let _ = self.compact_if_needed();
         Ok(true)
     }
 
@@ -489,14 +518,108 @@ impl CodexQueue {
     }
 
     fn acknowledge(&mut self, event_id: &str) -> Result<bool, String> {
-        let before = self.pending.len();
-        self.pending
-            .retain(|item| item.get("eventId").and_then(Value::as_str) != Some(event_id));
-        if before == self.pending.len() {
+        if !self
+            .pending
+            .iter()
+            .any(|item| item.get("eventId").and_then(Value::as_str) == Some(event_id))
+        {
             return Ok(false);
         }
         self.append(json!({ "op": "ack", "eventId": event_id }))?;
+        self.record_count += 1;
+        self.pending
+            .retain(|item| item.get("eventId").and_then(Value::as_str) != Some(event_id));
+        let _ = self.compact_if_needed();
         Ok(true)
+    }
+
+    fn compact_if_needed(&mut self) -> Result<(), String> {
+        if self.record_count < self.last_compaction_count + CODEX_QUEUE_COMPACT_THRESHOLD {
+            return Ok(());
+        }
+        let mut records = Vec::with_capacity(self.seen_order.len() + self.pending.len());
+        records.extend(
+            self.seen_order
+                .iter()
+                .map(|event_id| json!({ "op": "seen", "eventId": event_id })),
+        );
+        records.extend(
+            self.pending
+                .iter()
+                .cloned()
+                .map(|event| json!({ "op": "enqueue", "event": event })),
+        );
+        let mut bytes = Vec::new();
+        for record in records {
+            serde_json::to_writer(&mut bytes, &record).map_err(|error| error.to_string())?;
+            bytes.push(b'\n');
+        }
+        write_file_atomically(&self.path, &bytes).map_err(|error| error.to_string())?;
+        self.record_count = self.seen_order.len() + self.pending.len();
+        self.last_compaction_count = self.record_count;
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug)]
+struct CodexTurnState {
+    last_seen_at: i64,
+    failure_reason: Option<String>,
+}
+
+#[derive(Default)]
+struct CodexTurnLedger {
+    turns: HashMap<String, CodexTurnState>,
+}
+
+impl CodexTurnLedger {
+    fn prune(&mut self) {
+        let cutoff = now_ms().saturating_sub(CODEX_TURN_TTL_MS);
+        self.turns
+            .retain(|_, state| state.last_seen_at >= cutoff);
+        while self.turns.len() > CODEX_MAX_TRACKED_TURNS {
+            let Some(oldest_key) = self
+                .turns
+                .iter()
+                .min_by_key(|(_, state)| state.last_seen_at)
+                .map(|(key, _)| key.clone())
+            else {
+                break;
+            };
+            self.turns.remove(&oldest_key);
+        }
+    }
+
+    fn key(event: &Value) -> Option<String> {
+        let session_id = event.get("sessionId").and_then(Value::as_str)?;
+        let turn_id = event.get("turnId").and_then(Value::as_str)?;
+        if session_id.is_empty() || turn_id.is_empty() {
+            return None;
+        }
+        Some(format!("{session_id}\u{0}{turn_id}"))
+    }
+
+    fn observe_failure(&mut self, event: &Value) -> bool {
+        self.prune();
+        let Some(key) = Self::key(event) else {
+            return false;
+        };
+        let state = self.turns.entry(key).or_insert_with(|| CodexTurnState {
+            last_seen_at: now_ms(),
+            failure_reason: None,
+        });
+        state.last_seen_at = now_ms();
+        state.failure_reason = event
+            .get("failureReason")
+            .and_then(Value::as_str)
+            .map(ToOwned::to_owned)
+            .or_else(|| state.failure_reason.clone());
+        true
+    }
+
+    fn finish(&mut self, event: &Value) -> Option<CodexTurnState> {
+        self.prune();
+        Self::key(event).and_then(|key| self.turns.remove(&key))
     }
 }
 
@@ -504,7 +627,11 @@ struct AppState {
     runtime: Mutex<RuntimeState>,
     actions: Mutex<HashMap<String, Vec<String>>>,
     codex_queue: Mutex<CodexQueue>,
+    codex_turns: Mutex<CodexTurnLedger>,
     content_insets: Mutex<ContentInsets>,
+    position_revision: AtomicU64,
+    persisted_position_revision: AtomicU64,
+    work_area_cache: Mutex<Option<CachedWorkArea>>,
     dragging: AtomicBool,
     mouse_ignored: AtomicBool,
     data_root: PathBuf,
@@ -519,6 +646,13 @@ struct WorkArea {
     y: f64,
     width: f64,
     height: f64,
+}
+
+#[derive(Clone, Copy, Debug)]
+struct CachedWorkArea {
+    area: WorkArea,
+    monitor_bounds: WorkArea,
+    expires_at: i64,
 }
 
 #[derive(Clone, Copy, Debug)]
@@ -671,6 +805,18 @@ fn required_codex_text(
     value.ok_or_else(|| format!("Codex event is missing {snake_name}"))
 }
 
+fn optional_codex_text(
+    object: &serde_json::Map<String, Value>,
+    snake_name: &str,
+    camel_name: &str,
+    maximum_length: usize,
+) -> Option<String> {
+    codex_value(object, snake_name, camel_name)
+        .and_then(Value::as_str)
+        .map(|value| redact_sensitive_text(value, maximum_length))
+        .filter(|value| !value.is_empty())
+}
+
 fn is_sensitive_key(key: &str) -> bool {
     let key = key.to_ascii_lowercase();
     [
@@ -764,15 +910,49 @@ fn normalize_codex_event(value: Value) -> Result<Value, String> {
     let event_id = required_codex_text(object, "event_id", "eventId", 160)?;
     let event_type = required_codex_text(object, "event_type", "eventType", 80)?;
     let status = required_codex_text(object, "status", "status", 80)?;
+    let is_internal = matches!(
+        event_type.as_str(),
+        "tool_failure_candidate" | "turn_stop"
+    );
     let valid_status = matches!(
         (event_type.as_str(), status.as_str()),
         ("permission_request", "waiting_confirmation")
             | ("task_started", "started")
             | ("task_completed", "completed")
             | ("task_failed", "failed")
+            | ("tool_failure_candidate", "observed")
+            | ("turn_stop", "observed")
     );
     if !valid_status {
         return Err("Codex event type and status do not match".to_string());
+    }
+    let visibility = optional_codex_text(object, "visibility", "visibility", 40);
+    if is_internal && visibility.as_deref() != Some("internal") {
+        return Err("Internal Codex events must set visibility to internal".to_string());
+    }
+    let session_id = if is_internal {
+        Some(required_codex_text(object, "session_id", "sessionId", 160)?)
+    } else {
+        optional_codex_text(object, "session_id", "sessionId", 160)
+    };
+    let turn_id = if is_internal {
+        Some(required_codex_text(object, "turn_id", "turnId", 160)?)
+    } else {
+        optional_codex_text(object, "turn_id", "turnId", 160)
+    };
+    let terminal_outcome = optional_codex_text(
+        object,
+        "terminal_outcome",
+        "terminalOutcome",
+        40,
+    );
+    if event_type == "turn_stop"
+        && !matches!(
+            terminal_outcome.as_deref(),
+            Some("completed" | "failed_candidate" | "manual_required" | "transient")
+        )
+    {
+        return Err("Codex turn_stop has an invalid terminal outcome".to_string());
     }
     let title = required_codex_text(object, "title", "title", 120)?;
     let summary = required_codex_text(object, "summary", "summary", CODEX_MAX_TEXT_LENGTH)?;
@@ -792,7 +972,9 @@ fn normalize_codex_event(value: Value) -> Result<Value, String> {
         _ => ("#71b7ff", false),
     };
 
-    Ok(json!({
+    let failure_reason = optional_codex_text(object, "failure_reason", "failureReason", 240);
+    let agent_id = optional_codex_text(object, "agent_id", "agentId", 120);
+    let mut normalized = json!({
         "protocol": CODEX_PROTOCOL,
         "eventId": event_id,
         "eventType": event_type,
@@ -807,7 +989,34 @@ fn normalize_codex_event(value: Value) -> Result<Value, String> {
         "notificationType": "codex",
         "accentColor": accent_color,
         "requiresConfirmation": requires_confirmation,
-    }))
+    });
+    if let Value::Object(normalized) = &mut normalized {
+        if let Some(visibility) = visibility {
+            normalized.insert("visibility".to_string(), Value::String(visibility));
+        }
+        if let Some(session_id) = session_id {
+            normalized.insert("sessionId".to_string(), Value::String(session_id));
+        }
+        if let Some(turn_id) = turn_id {
+            normalized.insert("turnId".to_string(), Value::String(turn_id));
+        }
+        if let Some(agent_id) = agent_id {
+            normalized.insert("agentId".to_string(), Value::String(agent_id));
+        }
+        if let Some(terminal_outcome) = terminal_outcome {
+            normalized.insert(
+                "terminalOutcome".to_string(),
+                Value::String(terminal_outcome),
+            );
+        }
+        if let Some(failure_reason) = failure_reason {
+            normalized.insert(
+                "failureReason".to_string(),
+                Value::String(failure_reason),
+            );
+        }
+    }
+    Ok(normalized)
 }
 
 struct CodexHttpRequest {
@@ -956,12 +1165,87 @@ fn codex_agent_log(data_root: &Path, message: &str) {
     let _ = writeln!(file, "{} {message}", now_ms());
 }
 
-fn process_codex_event<R: Runtime>(
+fn codex_terminal_event(
+    event: &Value,
+    turn_state: Option<&CodexTurnState>,
+    failed: bool,
+) -> Value {
+    let mut visible = event.clone();
+    let event_id = event
+        .get("eventId")
+        .and_then(Value::as_str)
+        .unwrap_or("codex-terminal");
+    let reason = event
+        .get("failureReason")
+        .and_then(Value::as_str)
+        .filter(|value| !value.is_empty())
+        .or_else(|| turn_state.and_then(|state| state.failure_reason.as_deref()));
+    if let Value::Object(object) = &mut visible {
+        object.insert(
+            "eventId".to_string(),
+            Value::String(format!("{event_id}:terminal")),
+        );
+        object.insert(
+            "eventType".to_string(),
+            Value::String(if failed {
+                "task_failed".to_string()
+            } else {
+                "task_completed".to_string()
+            }),
+        );
+        object.insert(
+            "status".to_string(),
+            Value::String(if failed {
+                "failed".to_string()
+            } else {
+                "completed".to_string()
+            }),
+        );
+        object.insert(
+            "title".to_string(),
+            Value::String(if failed {
+                "Codex 工作失败".to_string()
+            } else {
+                "Codex 工作完成".to_string()
+            }),
+        );
+        let summary = if failed {
+            reason
+                .map(|reason| format!("Codex 当前回合需要手动处理：{reason}"))
+                .unwrap_or_else(|| "Codex 当前回合未能完成，需要手动处理。".to_string())
+        } else {
+            object
+                .get("summary")
+                .and_then(Value::as_str)
+                .unwrap_or("Codex 已结束当前工作回合。")
+                .to_string()
+        };
+        object.insert("summary".to_string(), Value::String(summary.clone()));
+        object.insert("body".to_string(), Value::String(summary));
+        object.insert(
+            "accentColor".to_string(),
+            Value::String(if failed {
+                "#ff6b6b".to_string()
+            } else {
+                "#45d483".to_string()
+            }),
+        );
+        object.insert("requiresConfirmation".to_string(), Value::Bool(false));
+        object.remove("visibility");
+        object.remove("terminalOutcome");
+    }
+    visible
+}
+
+fn is_failed_terminal_outcome(outcome: &str) -> bool {
+    matches!(outcome, "failed_candidate" | "manual_required")
+}
+
+fn enqueue_codex_event<R: Runtime>(
     app: &AppHandle<R>,
     app_state: &AppState,
-    value: Value,
+    event: Value,
 ) -> Result<Value, String> {
-    let event = normalize_codex_event(value)?;
     let event_id = event
         .get("eventId")
         .and_then(Value::as_str)
@@ -1011,6 +1295,73 @@ fn process_codex_event<R: Runtime>(
         "duplicate": false,
         "eventId": event_id,
     }))
+}
+
+fn process_internal_codex_event<R: Runtime>(
+    app: &AppHandle<R>,
+    app_state: &AppState,
+    event: Value,
+) -> Result<Value, String> {
+    let event_id = event
+        .get("eventId")
+        .and_then(Value::as_str)
+        .unwrap_or_default()
+        .to_string();
+    match event.get("eventType").and_then(Value::as_str) {
+        Some("tool_failure_candidate") => {
+            let accepted = app_state
+                .codex_turns
+                .lock()
+                .expect("Codex turn ledger mutex poisoned")
+                .observe_failure(&event);
+            Ok(json!({
+                "ok": true,
+                "accepted": accepted,
+                "internal": true,
+                "eventId": event_id,
+            }))
+        }
+        Some("turn_stop") => {
+            let outcome = event
+                .get("terminalOutcome")
+                .and_then(Value::as_str)
+                .unwrap_or("completed");
+            let turn_state = app_state
+                .codex_turns
+                .lock()
+                .expect("Codex turn ledger mutex poisoned")
+                .finish(&event);
+            let failed = is_failed_terminal_outcome(outcome);
+            if outcome == "transient" {
+                return Ok(json!({
+                    "ok": true,
+                    "accepted": false,
+                    "internal": true,
+                    "eventId": event_id,
+                    "reason": "transient_failure",
+                }));
+            }
+            enqueue_codex_event(
+                app,
+                app_state,
+                codex_terminal_event(&event, turn_state.as_ref(), failed),
+            )
+        }
+        Some(event_type) => Err(format!("Unsupported internal Codex event: {event_type}")),
+        None => Err("Internal Codex event is missing event type".to_string()),
+    }
+}
+
+fn process_codex_event<R: Runtime>(
+    app: &AppHandle<R>,
+    app_state: &AppState,
+    value: Value,
+) -> Result<Value, String> {
+    let event = normalize_codex_event(value)?;
+    if event.get("visibility").and_then(Value::as_str) == Some("internal") {
+        return process_internal_codex_event(app, app_state, event);
+    }
+    enqueue_codex_event(app, app_state, event)
 }
 
 fn handle_codex_connection<R: Runtime>(app: &AppHandle<R>, mut stream: TcpStream, token: &str) {
@@ -1373,7 +1724,83 @@ fn load_runtime_state(path: &Path, pets: &[PetDefinition]) -> RuntimeState {
     state
 }
 
+#[cfg(windows)]
+fn replace_file_atomically(temp_path: &Path, target_path: &Path) -> std::io::Result<()> {
+    let source: Vec<u16> = temp_path
+        .as_os_str()
+        .encode_wide()
+        .chain(std::iter::once(0))
+        .collect();
+    let target: Vec<u16> = target_path
+        .as_os_str()
+        .encode_wide()
+        .chain(std::iter::once(0))
+        .collect();
+    let result = unsafe {
+        MoveFileExW(
+            source.as_ptr(),
+            target.as_ptr(),
+            MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH,
+        )
+    };
+    if result == 0 {
+        Err(std::io::Error::last_os_error())
+    } else {
+        Ok(())
+    }
+}
+
+#[cfg(not(windows))]
+fn replace_file_atomically(temp_path: &Path, target_path: &Path) -> std::io::Result<()> {
+    fs::rename(temp_path, target_path)
+}
+
+fn write_file_atomically(path: &Path, bytes: &[u8]) -> std::io::Result<()> {
+    let parent = path.parent().unwrap_or_else(|| Path::new("."));
+    fs::create_dir_all(parent)?;
+    let sequence = STATE_WRITE_SEQUENCE.fetch_add(1, Ordering::Relaxed);
+    let file_name = path
+        .file_name()
+        .and_then(|name| name.to_str())
+        .unwrap_or("state");
+    let temp_path = parent.join(format!(".{file_name}.{sequence}.tmp"));
+    let result = (|| {
+        let mut file = OpenOptions::new()
+            .create_new(true)
+            .write(true)
+            .open(&temp_path)?;
+        file.write_all(bytes)?;
+        file.sync_all()?;
+        drop(file);
+        replace_file_atomically(&temp_path, path)
+    })();
+    if result.is_err() {
+        let _ = fs::remove_file(&temp_path);
+    }
+    result
+}
+
+fn update_runtime_position(app_state: &AppState, position: PositionData) {
+    let changed = {
+        let mut state = app_state
+            .runtime
+            .lock()
+            .expect("runtime state mutex poisoned");
+        let changed = state.position.as_ref().map_or(true, |previous| {
+            previous.x != position.x || previous.y != position.y
+        });
+        if changed {
+            state.position = Some(position);
+        }
+        changed
+    };
+    if changed {
+        app_state.position_revision.fetch_add(1, Ordering::Relaxed);
+    }
+}
+
 fn save_runtime_state(app_state: &AppState) {
+    let position_revision = app_state.position_revision.load(Ordering::Acquire);
     let state = app_state
         .runtime
         .lock()
@@ -1420,13 +1847,22 @@ fn save_runtime_state(app_state: &AppState) {
             "codexStartedAccent": state.codex_started_accent,
         },
     });
-    if let Err(error) = fs::create_dir_all(&app_state.data_root).and_then(|_| {
-        fs::write(
-            app_state.data_root.join("state.json"),
-            serde_json::to_vec_pretty(&persisted).unwrap_or_default(),
-        )
-    }) {
+    let bytes = serde_json::to_vec_pretty(&persisted).unwrap_or_default();
+    if let Err(error) = write_file_atomically(&app_state.data_root.join("state.json"), &bytes) {
         eprintln!("Could not persist local state: {error}");
+        return;
+    }
+    if app_state.position_revision.load(Ordering::Acquire) == position_revision {
+        app_state
+            .persisted_position_revision
+            .store(position_revision, Ordering::Release);
+    }
+}
+
+fn save_position_if_needed(app_state: &AppState) {
+    let revision = app_state.position_revision.load(Ordering::Acquire);
+    if revision != app_state.persisted_position_revision.load(Ordering::Acquire) {
+        save_runtime_state(app_state);
     }
 }
 
@@ -1576,15 +2012,21 @@ fn weekly_report_is_due(app_state: &AppState) -> bool {
     state.weekly_report_enabled && state.weekly_report_due_at > 0
 }
 
-fn refresh_reminder_window<R: Runtime>(app: &AppHandle<R>, app_state: &AppState) {
-    if codex_notifications_active(app_state)
-        || (!runtime_is_due(app_state) && !weekly_report_is_due(app_state))
-    {
-        hide_reminder_window(app);
-        return;
-    }
-    if let Err(error) = show_reminder_window(app) {
-        eprintln!("Could not open reminder window: {error}");
+fn refresh_reminder_window<R: Runtime>(app: &AppHandle<R>, _app_state: &AppState) {
+    let callback_app = app.clone();
+    if let Err(error) = app.run_on_main_thread(move || {
+        let state = callback_app.state::<AppState>();
+        if codex_notifications_active(&state)
+            || (!runtime_is_due(&state) && !weekly_report_is_due(&state))
+        {
+            hide_reminder_window_on_main(&callback_app);
+            return;
+        }
+        if let Err(error) = show_reminder_window_on_main(&callback_app) {
+            eprintln!("Could not open reminder window: {error}");
+        }
+    }) {
+        eprintln!("Could not schedule reminder window refresh: {error}");
     }
 }
 
@@ -1598,7 +2040,29 @@ fn inset_pixels(size: f64, value: f64) -> f64 {
     size * value.clamp(0.0, MAX_CONTENT_INSET)
 }
 
-fn monitor_work_area<R: Runtime>(app: &AppHandle<R>, x: f64, y: f64) -> Option<WorkArea> {
+fn monitor_work_area<R: Runtime>(
+    app: &AppHandle<R>,
+    app_state: &AppState,
+    x: f64,
+    y: f64,
+) -> Option<WorkArea> {
+    let now = now_ms();
+    if let Some(cached) = app_state
+        .work_area_cache
+        .lock()
+        .expect("work area cache mutex poisoned")
+        .as_ref()
+        .copied()
+        .filter(|cached| {
+            now < cached.expires_at
+                && x >= cached.monitor_bounds.x
+                && x <= cached.monitor_bounds.x + cached.monitor_bounds.width
+                && y >= cached.monitor_bounds.y
+                && y <= cached.monitor_bounds.y + cached.monitor_bounds.height
+        })
+    {
+        return Some(cached.area);
+    }
     let monitors = app.available_monitors().ok()?;
     let monitor = monitors
         .iter()
@@ -1614,13 +2078,29 @@ fn monitor_work_area<R: Runtime>(app: &AppHandle<R>, x: f64, y: f64) -> Option<W
         })
         .or_else(|| monitors.first())?;
     let scale = monitor.scale_factor().max(0.1);
+    let monitor_position = monitor.position();
+    let monitor_size = monitor.size();
     let work_area = monitor.work_area();
-    Some(WorkArea {
+    let area = WorkArea {
         x: work_area.position.x as f64 / scale,
         y: work_area.position.y as f64 / scale,
         width: work_area.size.width as f64 / scale,
         height: work_area.size.height as f64 / scale,
-    })
+    };
+    *app_state
+        .work_area_cache
+        .lock()
+        .expect("work area cache mutex poisoned") = Some(CachedWorkArea {
+        area,
+        monitor_bounds: WorkArea {
+            x: monitor_position.x as f64 / scale,
+            y: monitor_position.y as f64 / scale,
+            width: monitor_size.width as f64 / scale,
+            height: monitor_size.height as f64 / scale,
+        },
+        expires_at: now + WORK_AREA_CACHE_TTL_MS,
+    });
+    Some(area)
 }
 
 fn primary_work_area<R: Runtime>(app: &AppHandle<R>) -> Option<WorkArea> {
@@ -1703,7 +2183,7 @@ fn clamp_position<R: Runtime>(
     y: f64,
     size: f64,
 ) -> PositionData {
-    let area = monitor_work_area(app, x + size / 2.0, y + size / 2.0)
+    let area = monitor_work_area(app, app_state, x + size / 2.0, y + size / 2.0)
         .or_else(|| primary_work_area(app))
         .unwrap_or(WorkArea {
             x: 0.0,
@@ -1773,7 +2253,7 @@ fn initial_position<R: Runtime>(
     )
 }
 
-fn hide_reminder_window<R: Runtime>(app: &AppHandle<R>) {
+fn hide_reminder_window_on_main<R: Runtime>(app: &AppHandle<R>) {
     app.state::<AppState>()
         .reminder_generation
         .fetch_add(1, Ordering::Relaxed);
@@ -1782,7 +2262,22 @@ fn hide_reminder_window<R: Runtime>(app: &AppHandle<R>) {
     }
 }
 
+fn hide_reminder_window<R: Runtime>(app: &AppHandle<R>) {
+    app.state::<AppState>()
+        .reminder_generation
+        .fetch_add(1, Ordering::Relaxed);
+    let callback_app = app.clone();
+    if let Err(error) = app.run_on_main_thread(move || {
+        if let Some(window) = callback_app.get_webview_window("reminder") {
+            let _ = window.hide();
+        }
+    }) {
+        eprintln!("Could not schedule reminder window hide: {error}");
+    }
+}
+
 fn reminder_position<R: Runtime>(app: &AppHandle<R>) -> PositionData {
+    let app_state = app.state::<AppState>();
     let (pet_x, pet_y, pet_size) = app
         .get_webview_window("main")
         .and_then(|window| {
@@ -1791,7 +2286,12 @@ fn reminder_position<R: Runtime>(app: &AppHandle<R>) -> PositionData {
                 .map(|geometry| (geometry.x, geometry.y, geometry.size))
         })
         .unwrap_or((0.0, 0.0, 0.0));
-    let area = monitor_work_area(app, pet_x + pet_size / 2.0, pet_y + pet_size / 2.0)
+    let area = monitor_work_area(
+        app,
+        &app_state,
+        pet_x + pet_size / 2.0,
+        pet_y + pet_size / 2.0,
+    )
         .or_else(|| primary_work_area(app))
         .unwrap_or(WorkArea {
             x: 0.0,
@@ -1827,7 +2327,7 @@ fn reminder_position<R: Runtime>(app: &AppHandle<R>) -> PositionData {
     }
 }
 
-fn show_reminder_window<R: Runtime>(app: &AppHandle<R>) -> Result<(), String> {
+fn show_reminder_window_on_main<R: Runtime>(app: &AppHandle<R>) -> Result<(), String> {
     let generation = app
         .state::<AppState>()
         .reminder_generation
@@ -1875,6 +2375,7 @@ fn show_reminder_window<R: Runtime>(app: &AppHandle<R>) -> Result<(), String> {
 }
 
 fn open_size_window<R: Runtime>(app: &AppHandle<R>) -> Result<(), String> {
+    let app_state = app.state::<AppState>();
     if let Some(window) = app.get_webview_window("settings") {
         window.show().map_err(|error| error.to_string())?;
         window.set_focus().map_err(|error| error.to_string())?;
@@ -1893,7 +2394,12 @@ fn open_size_window<R: Runtime>(app: &AppHandle<R>) -> Result<(), String> {
         .unwrap_or((0.0, 0.0, 360.0));
     let width = 460.0;
     let height = 720.0;
-    let area = monitor_work_area(app, pet_x + pet_size / 2.0, pet_y + pet_size / 2.0)
+    let area = monitor_work_area(
+        app,
+        &app_state,
+        pet_x + pet_size / 2.0,
+        pet_y + pet_size / 2.0,
+    )
         .or_else(|| primary_work_area(app))
         .unwrap_or(WorkArea {
             x: 0.0,
@@ -2027,6 +2533,7 @@ fn start_timer(app: AppHandle) {
         if eye_due {
             mark_due(&app, &app_state);
         }
+        save_position_if_needed(&app_state);
         thread::sleep(Duration::from_millis(500));
     });
 }
@@ -2039,6 +2546,14 @@ fn start_mouse_hit_test<R: Runtime>(app: AppHandle<R>) {
             break;
         }
         let capture = if app_state.dragging.load(Ordering::Relaxed) {
+            true
+        } else if codex_notifications_active(&app_state)
+            || runtime_is_due(&app_state)
+            || weekly_report_is_due(&app_state)
+        {
+            // Actionable states must remain clickable while the pet window moves.
+            // Otherwise the native hit test can make the window passthrough between
+            // two animation frames and the next click never reaches the renderer.
             true
         } else if let Some(window) = app.get_webview_window("main") {
             let insets = *app_state
@@ -2146,16 +2661,10 @@ fn configure_main_window<R: Runtime>(
                 return;
             };
             let state = app_handle.state::<AppState>();
-            state
-                .runtime
-                .lock()
-                .expect("runtime state mutex poisoned")
-                .position = Some(PositionData {
+            update_runtime_position(&state, PositionData {
                 x: geometry.x,
                 y: geometry.y,
             });
-            save_runtime_state(&state);
-            send_state(&app_handle, &state);
         }
     });
     Ok(())
@@ -2234,11 +2743,7 @@ fn move_window<R: Runtime>(
         )))
         .map_err(|error| error.to_string())?;
     if persist {
-        app_state
-            .runtime
-            .lock()
-            .expect("runtime state mutex poisoned")
-            .position = Some(position.clone());
+        update_runtime_position(app_state, position.clone());
         save_runtime_state(app_state);
         send_state(app, app_state);
     }
@@ -2351,6 +2856,7 @@ fn set_display_scale(app: AppHandle, state: State<'_, AppState>, value: f64) -> 
     let next_size = window_size_for_scale(next_scale);
     let area = monitor_work_area(
         &app,
+        &state,
         old_geometry.x + old_geometry.size / 2.0,
         old_geometry.y + old_geometry.size / 2.0,
     )
@@ -2394,8 +2900,8 @@ fn set_display_scale(app: AppHandle, state: State<'_, AppState>, value: f64) -> 
     {
         let mut runtime = state.runtime.lock().expect("runtime state mutex poisoned");
         runtime.display_scale = next_scale;
-        runtime.position = Some(position);
     }
+    update_runtime_position(&state, position);
     save_runtime_state(&state);
     send_state(&app, &state);
     Ok(())
@@ -2657,11 +3163,7 @@ fn set_content_insets(
             position.x, position.y,
         )))
         .map_err(|error| error.to_string())?;
-    state
-        .runtime
-        .lock()
-        .expect("runtime state mutex poisoned")
-        .position = Some(position);
+    update_runtime_position(&state, position);
     save_runtime_state(&state);
     send_state(&app, &state);
     Ok(())
@@ -2760,7 +3262,7 @@ fn play_animation(app: AppHandle, name: String) {
 fn toggle_pause(app: AppHandle, state: State<'_, AppState>) {
     {
         let mut runtime = state.runtime.lock().expect("runtime state mutex poisoned");
-        if runtime.phase == "due" {
+        if runtime.phase == "due" || !runtime.eye_break_enabled {
             return;
         }
         if runtime.paused {
@@ -2826,7 +3328,11 @@ pub fn run() {
         runtime: Mutex::new(runtime),
         actions: Mutex::new(HashMap::new()),
         codex_queue: Mutex::new(codex_queue),
+        codex_turns: Mutex::new(CodexTurnLedger::default()),
         content_insets: Mutex::new(ContentInsets::default()),
+        position_revision: AtomicU64::new(0),
+        persisted_position_revision: AtomicU64::new(0),
+        work_area_cache: Mutex::new(None),
         dragging: AtomicBool::new(false),
         mouse_ignored: AtomicBool::new(true),
         data_root,
@@ -2920,7 +3426,91 @@ pub fn run() {
                     }
                 }
             }
+            if window.label() == "main" && matches!(event, WindowEvent::Destroyed) {
+                if let Some(state) = window.app_handle().try_state::<AppState>() {
+                    state.quitting.store(true, Ordering::Relaxed);
+                    clear_codex_endpoint(&state.data_root);
+                }
+                window.app_handle().exit(0);
+            }
         })
         .run(tauri::generate_context!())
         .expect("error while running Tauri application");
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn internal_event(event_type: &str, terminal_outcome: Option<&str>) -> Value {
+        let mut event = json!({
+            "protocol": CODEX_PROTOCOL,
+            "event_id": "test-event",
+            "event_type": event_type,
+            "status": "observed",
+            "title": "test",
+            "summary": "test",
+            "details": [],
+            "source": "test",
+            "project": "test",
+            "created_at": "2026-08-10T00:00:00Z",
+            "visibility": "internal",
+            "session_id": "session-test",
+            "turn_id": "turn-test",
+        });
+        if let Some(outcome) = terminal_outcome {
+            event["terminal_outcome"] = Value::String(outcome.to_string());
+        }
+        event
+    }
+
+    #[test]
+    fn internal_events_are_scoped_to_session_and_turn() {
+        let mut ledger = CodexTurnLedger::default();
+        let candidate = normalize_codex_event(internal_event("tool_failure_candidate", None))
+            .expect("tool failure candidate should normalize");
+        assert!(ledger.observe_failure(&candidate));
+
+        let mut other_turn = candidate.clone();
+        other_turn["turnId"] = Value::String("other-turn".to_string());
+        assert!(ledger.finish(&other_turn).is_none());
+
+        let state = ledger.finish(&candidate).expect("candidate should be retained");
+        assert_eq!(state.failure_reason, None);
+        assert!(ledger.finish(&candidate).is_none());
+    }
+
+    #[test]
+    fn internal_turn_stop_requires_valid_outcome() {
+        let event = normalize_codex_event(internal_event("turn_stop", Some("transient")))
+            .expect("turn_stop should normalize");
+        assert_eq!(event["visibility"], "internal");
+        assert_eq!(event["sessionId"], "session-test");
+        assert_eq!(event["turnId"], "turn-test");
+        assert_eq!(event["terminalOutcome"], "transient");
+    }
+
+    #[test]
+    fn terminal_event_is_converted_to_visible_completion() {
+        let internal = normalize_codex_event(internal_event("turn_stop", Some("completed")))
+            .expect("turn_stop should normalize");
+        let visible = codex_terminal_event(&internal, None, false);
+        assert_eq!(visible["eventType"], "task_completed");
+        assert_eq!(visible["status"], "completed");
+        assert_eq!(visible["requiresConfirmation"], false);
+        assert!(visible.get("visibility").is_none());
+    }
+
+    #[test]
+    fn failed_terminal_event_is_visible_without_tool_candidate() {
+        let internal = normalize_codex_event(internal_event("turn_stop", Some("failed_candidate")))
+            .expect("failed turn_stop should normalize");
+        let visible = codex_terminal_event(
+            &internal,
+            None,
+            is_failed_terminal_outcome("failed_candidate"),
+        );
+        assert_eq!(visible["eventType"], "task_failed");
+        assert_eq!(visible["status"], "failed");
+    }
 }

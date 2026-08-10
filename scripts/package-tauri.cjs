@@ -57,6 +57,7 @@ fs.writeFileSync(
     "4. Replace the hook command path with this folder's absolute path:",
     "   node \"<PET_DIR>\\scripts\\codex-pet-hook.cjs\"",
     "5. Run /hooks in Codex CLI and trust the changed hooks.",
+    "PostToolUse command failures are held as internal candidates; only an unresolved main-turn failure that needs manual action becomes a red notification.",
     "The included Node scripts are only needed for Codex CLI hooks; the pet itself does not need npm.",
     "\r\n",
   ].join("\r\n"),
